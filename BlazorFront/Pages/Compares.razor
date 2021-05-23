@@ -43,7 +43,10 @@
                             <img @onclick="()=>RemoveFromCompares(userId,ad.Id)" style="margin-right: -5px;margin-top: -5px;cursor: pointer;" src="xbutton.png" width="20px" height="20px">
                         </div>
                         <div>
-                            <img class="imgFromAd" @onclick="() => GoToAd(ad.Id)" src="data:image/png;base64, @(Convert.ToBase64String(ad.images.FirstOrDefault().ImageFile))" style="cursor:pointer;" width="100%" height="100%">
+                            @if (ad.images.Count() != 0)
+                            {
+                                <img class="imgFromAd" src="data:image/png;base64, @(Convert.ToBase64String(ad.images.FirstOrDefault().ImageFile))" width="100%" height="250px">
+                            }
                         </div>
                         <div>@ad.Price грн</div>
                         <div>@ad.RoomNumber</div>

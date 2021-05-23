@@ -27,6 +27,7 @@ namespace HauseAPI.Controllers
         }
 
         // get all user favoritres by user id
+        [Authorize]
         [HttpGet("{userId}")]
         public async Task<IEnumerable<AdShortInfoDTO>> GetUserFavoritesAds(string userId)
         {

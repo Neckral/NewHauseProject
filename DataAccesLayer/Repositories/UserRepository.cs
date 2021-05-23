@@ -73,13 +73,20 @@ namespace DataAccesLayer.Repositories
 
         public async Task<User> GetByEmail(string email)
         {
-            return await UserManager.FindByEmailAsync(email);
+            //return await UserManager.FindByEmailAsync(email);
+            var users = await context.Users.ToListAsync();
+            var user = users.Where(u => u.Email == email).FirstOrDefault();
+            return user != null ? user : null;
         }
 
         public async Task<User> LogIn(string email, string password)
         {
-            var user = await UserManager.FindByEmailAsync(email);
-            return user.PasswordHash == password ? user : null;
+            ///await UserManager.FindByEmailAsync(email);
+            var users = await context.Users.ToListAsync();
+            var user = users.Where(u => u.Email == email).FirstOrDefault();
+            if (user != null)
+                return user.PasswordHash == password ? user : null;
+            else return null;
         }
     }
 }

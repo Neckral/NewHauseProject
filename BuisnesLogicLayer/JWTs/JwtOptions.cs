@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,10 @@ namespace BuisnesLogicLayer.JWTs
         public const string AUDIENCE = "https://localhost:44328"; // потребитель токена
         public const string KEY = "ThEHouseSeCRetKeyOfJwTtoUseItONReQuEStwiTHaUtHoriZE";   // ключ для шифрации
         public const int LIFETIME = 365;
+
+        public static bool ValidateLifeTime(DateTime? notBefore, DateTime? expires, SecurityToken tokenToValidate, TokenValidationParameters @param)
+        {
+            return (expires != null && expires > DateTime.UtcNow);
+        }
     }
 }

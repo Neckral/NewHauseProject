@@ -104,8 +104,9 @@ namespace HauseAPI
                     ValidateAudience = true,
                     ValidAudience = JwtOptions.AUDIENCE,
                     ValidIssuer = JwtOptions.ISSUER,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtOptions.KEY))
-
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtOptions.KEY)),
+                    ValidateLifetime = true,
+                    LifetimeValidator = JwtOptions.ValidateLifeTime
                 };
             });
             services.AddSwaggerGen(c =>

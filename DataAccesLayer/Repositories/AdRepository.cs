@@ -52,14 +52,23 @@ namespace DataAccesLayer.Repositories
 
         public async Task Delete(Ad entityToDelete)
         {
-                context.Ads.Remove(entityToDelete);
-                await context.SaveChangesAsync();
+            context.Ads.Remove(entityToDelete);
+            await context.SaveChangesAsync();
+
         }
 
         public async Task DeleteById(int id)
         {
-                var entityToDelete = await context.Ads.FindAsync(id);
-                await this.Delete(entityToDelete);
+            var entityToDelete = await context.Ads.FindAsync(id);
+            //var result = context.Ads.Remove(entityToDelete);
+
+            context.Entry(entityToDelete).State = EntityState.Deleted;
+            await context.SaveChangesAsync();
+            //using (SqlConnection connection = new SqlConnection(connectionString))
+            //{
+            //    await connection.OpenAsync();
+            //    connection.Query($"delet from Ads where ID = {id}");
+            //}
         }
 
         public async Task<IEnumerable<Ad>> GetAdsByOptions(AdToCompare adToCompare)

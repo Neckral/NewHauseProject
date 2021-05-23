@@ -26,23 +26,26 @@
     </div>
 </main>
 @code {
-    [Parameter] public string adId { get; set; }
+        [Parameter] public string adId { get; set; }
 
 
-    string currentImageUrl = "";
-    int currentImgIndex = 0;
-    List<string> imagesUrls = new();
+        string currentImageUrl = "";
+        int currentImgIndex = 0;
+        List<string> imagesUrls = new();
 
     protected override async Task OnInitializedAsync()
     {
         IEnumerable<ImageEditInfoDTO> imgDTOs = await imageServices.GetImagesByAdId(int.Parse(adId));
 
         var format = "image/png";
-        foreach (var item in imgDTOs)
+        if (imgDTOs.Count() != 0)
         {
-            imagesUrls.Add($"data:{format};base64,{Convert.ToBase64String(item.ImageFile)}");
+            foreach (var item in imgDTOs)
+            {
+                imagesUrls.Add($"data:{format};base64,{Convert.ToBase64String(item.ImageFile)}");
+            }
+            currentImageUrl = imagesUrls[currentImgIndex];
         }
-        currentImageUrl = imagesUrls[currentImgIndex];
     }
 
     void GoBack()

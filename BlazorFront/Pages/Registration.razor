@@ -2,6 +2,7 @@
 @using BuisnesLogicLayer.DTO
 @using BlazorFront.Services
 @using BlazorFront.Validation
+@using BlazorFront.AuthServices
 @inject NavigationManager NavigationManager
 @inject IUserServices userServices
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
@@ -64,7 +65,7 @@
                                 </div>
                                 <ValidationMessage For="(() => user.PasswordConfirmation)" style="color:red;font-size:8pt;" />
                             </div>
-                            <button type="submit" @onclick="Register" class="btn btn-primary mt-4 signup" style="align-self:center;">Зареєструватися</button>
+                            <button type="submit" class="btn btn-primary mt-4 signup" style="align-self:center;">Зареєструватися</button>
                             <div class="text-center mt-4"> <span>Вже зареєстровані</span> 
                         <NavLink href="LogIn"> <span class="text-decoration-none">Війти</span></NavLink> 
                         </div>
@@ -81,17 +82,17 @@
 
         private async Task Register()
         {
+            user.PasswordHash = PasswordManager.EncodePasswordToBase64(user.PasswordHash);
             var result = await userServices.RegisterUser(user);
             if (result)
             {
-                //await localStorage.SetItemAsync("savedUser", user);
                 NavigationManager.NavigateTo("/LogIn", true);
             }
         }
 
-        void HandleSubmitValidForm()
+        async Task HandleSubmitValidForm()
         {
-            //user = new UserRegisterDTO();
             Console.WriteLine("Validate Succesfull");
+            await Register();
         }
     }

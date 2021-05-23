@@ -13,7 +13,7 @@ namespace BlazorFront.Validation
         {
             RuleFor(u => u.Email)
                 .NotEmpty().WithMessage("Поле не має бути пустим")
-                .Matches(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").WithMessage("Поле Почта заповнено неправильно");
+                .Matches(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,5})+)$").WithMessage("Поле Почта заповнено неправильно");
 
             RuleFor(u => u.PasswordHash)
                 .NotEmpty().WithMessage("Поле не має бути пустим")

@@ -15,14 +15,23 @@
                     <div>@invalidDataMessage</div>
                 </div>
                 <h5 class="mt-3">Вхід</h5> <small class="mt-2 text-muted"></small>
-                <div class="form-input">
-                    <i class="fa fa-envelope"></i>
-                    <input @bind="@user.Email" type="text" class="form-control" placeholder="Почта">
+
+                <div class="form-input" style="margin-top:10px">
+                    <div class="d-flex">
+                        <i class="fa fa-user" style="margin-right:5px;margin-top:5px;"></i>
+                        <input @bind="@user.Email" type="text" class="form-control" placeholder="Почта">
+                    </div>
                 </div>
-                <div class="form-input">
-                    <i class="fa fa-lock"></i>
-                    <input @bind="@user.Password" type="text" class="form-control" placeholder="Пароль">
+
+                <div class="form-input" style="margin-top:10px">
+                    <div class="d-flex">
+
+                        <i class="fa fa-lock" style="margin-right:5px;margin-top:5px;"></i>
+                        <input @bind="@user.Password" type="@fieldType"  class="form-control" placeholder="Пароль">
+                        <img @onclick="HideShowPassword" src="@shpassicon" style="width:30px;height:30px;margin-top:5px;margin-left:5px;cursor:pointer;"/>
+                    </div>
                 </div>
+
                 <button @onclick="LogInUser" class="btn btn-primary mt-4 signup">Ввійти</button>
             </div>
         </div>
@@ -33,12 +42,21 @@
     UserLogInDTO user = new UserLogInDTO();
     UserProfileDTO userProfile = new UserProfileDTO();
 
+    string shpassicon = "hide.png";
+    string fieldType = "password";
+    public void HideShowPassword()
+    {
+        shpassicon = shpassicon == "hide.png" ? "show.png" : "hide.png";
+        fieldType = fieldType == "password" ? "text" : "password";
+
+    }
     string invalidDataMessage = "";
     public async Task LogInUser()
     {
+        user.Password = PasswordManager.EncodePasswordToBase64(user.Password);
         UserTokenDTO token = await userServices.LogIn(user);
 
-        if (token.AccessToken != null)
+        if (token != null)
         {
             await ((CustomAuthStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(token);
             NavigationManager.NavigateTo("/", true);

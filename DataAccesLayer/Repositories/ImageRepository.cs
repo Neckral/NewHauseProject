@@ -28,7 +28,7 @@ namespace DataAccesLayer.Repositories
                 var result = connection.Query<Image>("GetImagesByAdId", new { adid = adId }, commandType: CommandType.StoredProcedure);
                 foreach (var item in result) images.Add(new Image() { ID = item.ID, AdID = item.AdID, ImageFile = item.ImageFile });
             }
-            return images;
+            return images != null ? images : null;
         }
 
         public async Task RemoveImageById(int imageId)

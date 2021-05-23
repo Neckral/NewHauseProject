@@ -53,7 +53,7 @@ namespace DataAccesLayer.EF
                 Surname = "Grilish",
                 PhoneNumber = "0114422545",
                 Email = "mgrislish@gmail.com",
-                PasswordHash = "testPas_word",
+                PasswordHash = "dGVzdFBhc193b3Jk",
                 PhoneNumberConfirmed = false,
                 EmailConfirmed = true,
                 TwoFactorEnabled = true,

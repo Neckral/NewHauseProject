@@ -69,8 +69,7 @@ namespace BlazorFront.Services
             string serializedUser = JsonConvert.SerializeObject(user);
             var requestMessage = new HttpRequestMessage(HttpMethod.Post, "Login");
             requestMessage.Content = new StringContent(serializedUser);
-            requestMessage.Content.Headers.ContentType
-                = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            requestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var response = await httpClient.SendAsync(requestMessage);
             var responseStatusCode = response.StatusCode;
             var responseBody = await response.Content.ReadAsStringAsync();
