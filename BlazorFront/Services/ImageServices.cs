@@ -20,7 +20,8 @@ namespace BlazorFront.Services
 
         public async Task<IEnumerable<ImageEditInfoDTO>> GetImagesByAdId(int adId)
         {
-            return await httpClient.GetJsonAsync<IEnumerable<ImageEditInfoDTO>>("GetByAdId/" + adId);
+            var result = await httpClient.GetJsonAsync<IEnumerable<ImageEditInfoDTO>>("GetByAdId/" + adId);
+            return result;
         }
     }
 }

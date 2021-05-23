@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BuisnesLogicLayer.Interfaces;
 using BuisnesLogicLayer.Services;
 using BuisnesLogicLayer.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HauseAPI.Controllers
 {
@@ -23,6 +24,7 @@ namespace HauseAPI.Controllers
             return await imageServices.GetImagesByAdId(adId);
         }
 
+        [Authorize]
         [HttpDelete("DeleteById/{id}")]
         public async Task DeleteImageById(int id)
         {

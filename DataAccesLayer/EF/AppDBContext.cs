@@ -22,8 +22,8 @@ namespace DataAccesLayer.EF
         // a data base with the name from connection string, and if not create this DB
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
-            Database.EnsureDeleted(); // delete DB with old diagram
-            Database.EnsureCreated(); // create DB with new diagram   
+            //Database.EnsureDeleted(); // delete DB with old diagram
+            //Database.EnsureCreated(); // create DB with new diagram   
         }
 
         // Make connection to DB using method UseSqlServer
@@ -62,7 +62,7 @@ namespace DataAccesLayer.EF
                 AccessFailedCount = 0,
                 UserName = "MikeGrislish"
             };
-
+            
             modelBuilder.Entity<User>().HasData(user);
 
             var ad = new Ad()
@@ -93,6 +93,23 @@ namespace DataAccesLayer.EF
                 new Tag("tag1"),
                 new Tag("tag2"),
                 new Tag("tag3"));
+
+            modelBuilder.Entity<Comment>().HasData(
+                new Comment()
+                {
+                    ID = 1,
+                    AdId = ad.ID,
+                    UserID = user.Id,
+                    DateOfComment = DateTime.Now,
+                    Text = "It is a new comment"
+                });
+
+            modelBuilder.Entity<Favorite>().HasData(
+                new Favorite() { AdID = ad.ID, UserID = user.Id });
+
+            modelBuilder.Entity<ForCompare>().HasData(
+                new ForCompare() { AdID = ad.ID, UserID = user.Id });
+
         }
     }
 }

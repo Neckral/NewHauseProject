@@ -205,7 +205,7 @@
 
 </main>
 
-<Comments adId="@int.Parse(adId)" userId="@userId"></Comments>
+<Comments adId="@int.Parse(adId)" UserId="@userId"></Comments>
 
 @code {
     [Parameter] public string adId { get; set; }
@@ -217,8 +217,12 @@
     public string goEditAdPageLink = "";
     protected override async Task OnInitializedAsync()
     {
-        var user = await localStorage.GetItemAsync<UserProfileDTO>("savedUser");
-        userId = user.Id;
+        var accessToken = await localStorage.GetItemAsync<string>("accessToken");
+        if (accessToken != null)
+        {
+            var user = await userServices.GetUserByAccessToken(accessToken);
+            userId = user != null ? user.Id : "";
+        }
         ad = await adServices.GetAdById(int.Parse(adId));
         goEditAdPageLink = $"/AdEdit/{adId}";
         foreach (var item in ad.tags)

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BuisnesLogicLayer.Interfaces;
 using BuisnesLogicLayer.Services;
 using BuisnesLogicLayer.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HauseAPI.Controllers
 {
@@ -37,6 +38,7 @@ namespace HauseAPI.Controllers
         }
 
         // Add new comment
+        [Authorize]
         [HttpPost]
         public async Task AddNewComment([FromBody] CommentCreateDTO commentDTO)
         {
@@ -44,6 +46,7 @@ namespace HauseAPI.Controllers
         }
 
         // Delete comment by ID
+        [Authorize]
         [HttpDelete("/Comment/{id}")]
         public async Task RemoveCommentById(int id)
         {
@@ -51,13 +54,15 @@ namespace HauseAPI.Controllers
         }
 
         // Delete comment by userId and adId
+        [Authorize]
         [HttpDelete("/Comment/{userId}/{adId}")]
         public async Task RemoveCommentByUserIdAndAdId(string userId, int adId)
         {
             await commentServices.RemoveCommentByUserIdAndAdId(userId, adId);
         }
-        
+
         // Edit comment
+        [Authorize]
         [HttpPut]
         public async Task UpdateComment([FromBody] CommentInfoAndEditIDTO commentEditDTO)
         {

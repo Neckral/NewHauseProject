@@ -112,7 +112,7 @@ namespace BuisnesLogicLayer.Services
                     ValidateAudience = false
                 };
 
-                var principle = tokenHandler.ValidateToken(token.Token, tokenVakidationParameters, out SecurityToken securityToken);
+                var principle = tokenHandler.ValidateToken(token.AccessToken, tokenVakidationParameters, out SecurityToken securityToken);
 
                 if(securityToken is JwtSecurityToken jwtSecurityToken && jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,StringComparison.InvariantCultureIgnoreCase))
                 {

@@ -13,11 +13,13 @@ namespace BlazorFront.Services
 
         public Task<bool> UpdateUser(UserEditDTO user);
 
-        public Task<UserProfileDTO> LogIn(UserLogInDTO user);
+        public Task<UserTokenDTO> LogIn(UserLogInDTO user);
 
         public Task<UserProfileDTO> GetUserById(string Id);
 
-        public Task<UserProfileDTO> GetUserByAccessToken(string accesToken);
+        public Task<UserProfileDTO> GetUserByAccessToken(string accessToken);
+
+        public Task<UserTokenDTO> RefreshToken(UserTokenDTO token);
 
     }
 }

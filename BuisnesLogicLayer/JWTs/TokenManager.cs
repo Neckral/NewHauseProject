@@ -27,7 +27,7 @@ namespace BuisnesLogicLayer.JWTs
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtOptions.KEY));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expiration = DateTime.UtcNow.AddMinutes(JwtOptions.LIFETIME);
+            var expiration = DateTime.UtcNow.AddDays(JwtOptions.LIFETIME);
 
             JwtSecurityToken token = new JwtSecurityToken(
                 issuer: JwtOptions.ISSUER,
@@ -36,7 +36,7 @@ namespace BuisnesLogicLayer.JWTs
                 expires: expiration,
                 signingCredentials: creds);
 
-            return new UserTokenDTO() { Token = new JwtSecurityTokenHandler().WriteToken(token) };
+            return new UserTokenDTO() { AccessToken = new JwtSecurityTokenHandler().WriteToken(token) };
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿@page "/"
 @using BlazorFront.Services
+@using System.Security.Claims
 @inject NavigationManager NavigationManager
 @inject IUserServices userServices
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <main>
     <div style="margin-top: 20px; margin-bottom: 20px;" class="d-flex justify-content-center">
         <div class="d-flex justify-content-between">
@@ -106,17 +109,22 @@
                     <!--Grid column-->
                     <div>
                         <!-- Submit button -->
-                        <NavLink href="Registration">
-                            <span class="btn btn-outline-light mb-4">
-                                Реєстрація
-                            </span>
-                        </NavLink>
+                        <AuthorizeView>
+                            <NotAuthorized>
+                                <NavLink href="Registration">
+                                    <span class="btn btn-outline-light mb-4">
+                                        Реєстрація
+                                    </span>
+                                </NavLink>
 
-                        <NavLink href="LogIn">
-                            <span class="btn btn-outline-light mb-4">
-                                Вхід
-                            </span>
-                        </NavLink>
+                                <NavLink href="LogIn">
+                                    <span class="btn btn-outline-light mb-4">
+                                        Вхід
+                                    </span>
+                                </NavLink>
+                            </NotAuthorized>
+                        </AuthorizeView>
+
                     </div>
                     <!--Grid column-->
                 </div>
@@ -207,5 +215,6 @@
 <!-- Footer -->
 
 @code{
-
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 }

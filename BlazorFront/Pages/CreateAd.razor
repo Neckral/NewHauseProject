@@ -3,6 +3,7 @@
 @using BlazorFront.Services
 @inject NavigationManager NavigationManager
 @inject IAdServices adServices
+@inject IUserServices userServices
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 <main id="mainContainer" class="d-grid">
@@ -90,7 +91,7 @@
                             <input @bind="ad.AreaOfHouse" type="number" class="form-control" placeholder="">
                             <ValidationMessage For="(() => ad.AreaOfHouse)" style="color:red;font-size:8pt;position:absolute;" />
                         </div>
-                    </div>                   
+                    </div>
                 </div>
             </div>
 
@@ -222,7 +223,7 @@
             <button type="submit" class="btn btn-success" style="margin-top: 10px;">Опублікувати</button>
         </div>
     </EditForm>
-</main> 
+</main>
 @code {
 
         AdCreateDTO ad = new AdCreateDTO();
@@ -250,7 +251,8 @@
             tempTagList.Add(new TagDTO() { Tag_ = tag });
         }
         ad.tags = tempTagList;
-        var owner = await localStorage.GetItemAsync<UserProfileDTO>("savedUser");
+        var accessToken = await localStorage.GetItemAsync<string>("accessToken");
+        var owner = await userServices.GetUserByAccessToken(accessToken);
         ad.OwnerId = owner.Id;
         await adServices.AddNewAd(ad);
         NavigationManager.NavigateTo($"MyAds/{ad.OwnerId}");
@@ -263,16 +265,19 @@
 
     async Task OnInputFileChange(InputFileChangeEventArgs e)
     {
-        var imageFiles = e.GetMultipleFiles();
-        var format = "image/png";
-        foreach (var imageFile in imageFiles)
+        if (imageDataUrls.Count() < 3)
         {
-            var resizedImageFile = await imageFile.RequestImageFileAsync(format, 500, 500);
-            byte[] buffer = new byte[resizedImageFile.Size];
-            images.Add(buffer);
-            await resizedImageFile.OpenReadStream().ReadAsync(buffer);
-            var imageDataUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
-            imageDataUrls.Add(imageDataUrl);
+            var imageFiles = e.GetMultipleFiles();
+            var format = "image/png";
+            foreach (var imageFile in imageFiles)
+            {
+                var resizedImageFile = await imageFile.RequestImageFileAsync(format, 500, 500);
+                byte[] buffer = new byte[resizedImageFile.Size];
+                images.Add(buffer);
+                await resizedImageFile.OpenReadStream().ReadAsync(buffer);
+                var imageDataUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+                imageDataUrls.Add(imageDataUrl);
+            }
         }
     }
 

@@ -5,6 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Pages\AdEdit.razor" />
+    <None Include="Pages\AdInfo.razor" />
+    <None Include="Pages\AdsImagesView.razor" />
+    <None Include="Pages\Compares.razor" />
+    <None Include="Pages\CreateAd.razor" />
+    <None Include="Pages\Error.cshtml" />
+    <None Include="Pages\Favorites.razor" />
+    <None Include="Pages\FindAds.razor" />
+    <None Include="Pages\Index.razor" />
+    <None Include="Pages\LogIn.razor" />
+    <None Include="Pages\MyAds.razor" />
+    <None Include="Pages\ProfileInfo.razor" />
+    <None Include="Pages\Registration.razor" />
+    <None Include="Pages\_Host.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazored.FluentValidation" Version="2.0.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.2.0-preview1.20073.1" />

@@ -1,8 +1,10 @@
 ﻿@using BuisnesLogicLayer.DTO
 @using BlazorFront.Services
+@using BlazorFront.AuthServices
 @inject NavigationManager NavigationManager
 @inject IUserServices userServices
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <nav class="navbar navbar-dark bg-dark">
     <NavLink href="/">
         <span class="navbar-brand" style="margin-left: 1%;">
@@ -16,33 +18,31 @@
         </form>
     </div>
     <div class="nav-item dropdown">
-
-        @if (user.Id != null)
-        {
-            <a style="color: white;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <span style="margin-right:5px">@user.Name</span><span>@user.Surname</span>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li> <NavLink class="hrefstyle" href="@goMyProfileLink"><span class="dropdown-item">Профіль</span></NavLink></li>
-                <li> <NavLink class="hrefstyle" href="@goMyAdsLink"><span class="dropdown-item">Мої оголошення</span></NavLink></li>
-                <li> <NavLink class="hrefstyle" href="@goFavoritesLink"><span class="dropdown-item">Обрані</span></NavLink></li>
-                <li> <NavLink class="hrefstyle" href="@goForComparesLink"><span class="dropdown-item">Порівняння</span></NavLink></li>
-                <li @onclick="LogOut"> <NavLink class="hrefstyle" href="/"><span class="dropdown-item">Вийти</span></NavLink></li>
-            </ul>
-        }
-        else
-        {
-            <NavLink href="Registration" class="hrefstyle"><span style="margin-right:5px">Зареєструватись</span></NavLink>
-            <NavLink href="LogIn" class="hrefstyle"><span>Ввійти</span></NavLink>
-        }
-
+        <AuthorizeView>
+            <Authorized>
+                <a style="color: white;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span style="margin-right:5px">@user.Name</span><span>@user.Surname</span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li> <NavLink class="hrefstyle" href="@goMyProfileLink"><span class="dropdown-item">Профіль</span></NavLink></li>
+                    <li> <NavLink class="hrefstyle" href="@goMyAdsLink"><span class="dropdown-item">Мої оголошення</span></NavLink></li>
+                    <li> <NavLink class="hrefstyle" href="@goFavoritesLink"><span class="dropdown-item">Обрані</span></NavLink></li>
+                    <li> <NavLink class="hrefstyle" href="@goForComparesLink"><span class="dropdown-item">Порівняння</span></NavLink></li>
+                    <li @onclick="LogOut"> <NavLink class="hrefstyle" href="/"><span class="dropdown-item">Вийти</span></NavLink></li>
+                </ul>
+            </Authorized>
+            <NotAuthorized>
+                <NavLink href="Registration" class="hrefstyle"><span style="margin-right:5px">Зареєструватись</span></NavLink>
+                <NavLink href="LogIn" class="hrefstyle"><span>Ввійти</span></NavLink>
+            </NotAuthorized>
+        </AuthorizeView>
     </div>
 </nav>
 
 <nav class="navbar navbar-dark bg-dark" style="margin-top: 5px; padding: 0px;">
     <div class="nav-item dropdown" style="margin:0px 0px 0px 0px;">
 
-        <NavLink class="hrefstyle" href="@gofindAdsLink">
+        <NavLink class="hrefstyle" href="FindAds">
             <div style="margin-bottom:5px; margin-top:5px">
                 <img src="menu.png" style="width: 20px;margin-right:5px;margin-left:5px">Каталог
             </div>
@@ -65,21 +65,23 @@
 </nav>
 
 @code
-{       
+{
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
     UserProfileDTO user = new UserProfileDTO();
     string goMyAdsLink = "";
     string goFavoritesLink = "";
-    string gofindAdsLink = "";
     string goForComparesLink = "";
     string goMyProfileLink = "";
     protected override async Task OnInitializedAsync()
     {
-        if (await localStorage.ContainKeyAsync("savedUser"))
+        if (await localStorage.ContainKeyAsync("accessToken"))
         {
-            user = await localStorage.GetItemAsync<UserProfileDTO>("savedUser");
+            var token = await localStorage.GetItemAsync<string>("accessToken");
+            user = await userServices.GetUserByAccessToken(token);
             goMyAdsLink = $"MyAds/{user.Id}";
             goFavoritesLink = $"Favorites/{user.Id}";
-            gofindAdsLink = $"FindAds/{user.Id}";
             goForComparesLink = $"Compares/{user.Id}";
             goMyProfileLink = $"ProfileInfo/{user.Id}";
         }
@@ -87,7 +89,7 @@
 
     private async Task LogOut()
     {
-        await localStorage.ClearAsync();
+        await ((CustomAuthStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOut();
         NavigationManager.NavigateTo("/", true);
     }
 }

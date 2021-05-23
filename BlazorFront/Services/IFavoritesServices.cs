@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using BuisnesLogicLayer.DTO;
 using DataAccesLayer.Enteties;
+using Microsoft.AspNetCore.Components;
+using Blazored.LocalStorage;
+using System.Net.Http.Headers;
 
 namespace BlazorFront.Services
 {

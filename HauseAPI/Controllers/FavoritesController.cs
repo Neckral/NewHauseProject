@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 using BuisnesLogicLayer.Interfaces;
 using BuisnesLogicLayer.Services;
 using BuisnesLogicLayer.DTO;
+using Microsoft.AspNetCore.Authorization;
+
 namespace HauseAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class FavoritesController : Controller

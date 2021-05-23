@@ -18,7 +18,7 @@
 
                 @foreach (var comment in comments)
                 {
-                    if (comment.UserID == userId)
+                    if (comment.UserID == UserId)
                     {
                         <!-- Comment Row -->
                         <div class="d-flex flex-row comment-row m-t-0">
@@ -47,24 +47,34 @@
                         </div> <!-- Comment Row -->
                     }
                 }
-            <EditForm Model="@commentCreate" OnValidSubmit="SubmitValidForm">
-                <FluentValidationValidator />
-                <div class="card p-3">
-                    <h5>Додати коментар</h5>
-                    <textarea id="textarea" class="form-control" @bind="@commentCreate.Text"></textarea>
-                    <ValidationMessage For="(() => commentCreate.Text)" style="color:red;font-size:8pt;" />
-                    <div class="mt-3 d-flex justify-content-between align-items-center">
-                        <span id="count"></span> <button class="btn btn-sm btn-info" type="submit">Відправити</button>
+
+            @if (UserId != "")
+            {
+                <EditForm Model="@commentCreate" OnValidSubmit="SubmitValidForm">
+                    <FluentValidationValidator />
+                    <div class="card p-3">
+                        <h5>Додати коментар</h5>
+                        <textarea id="textarea" class="form-control" @bind="@commentCreate.Text"></textarea>
+                        <ValidationMessage For="(() => commentCreate.Text)" style="color:red;font-size:8pt;" />
+                        <div class="mt-3 d-flex justify-content-between align-items-center">
+                            <span id="count"></span> <button class="btn btn-sm btn-info" type="submit">Відправити</button>
+                        </div>
                     </div>
-                </div>
-            </EditForm>
+                </EditForm>
+            }
+            else
+            {
+            <div class="alert alert-primary" role="alert">
+                Якщо ви бажаєте додати коментар ви маєте бути Авторизовні
+            </div>
+            }
             </div> <!-- Card -->
         </div>
     </div>
 </div>
 @code {
     [Parameter] public int adId { get; set; }
-    [Parameter] public string userId { get; set; }
+    [Parameter] public string UserId { get; set; }
     CommentCreateDTO commentCreate = new CommentCreateDTO();
     IEnumerable<CommentInfoAndEditIDTO> comments = new List<CommentInfoAndEditIDTO>();
 
@@ -75,7 +85,7 @@
 
     async Task CreateComment()
     {
-        commentCreate.UserID = userId;
+        commentCreate.UserID = UserId;
         commentCreate.AdId = adId;
         commentCreate.DateOfComment = DateTime.Now;
         await commentServices.CreateComment(commentCreate);
@@ -89,5 +99,5 @@
     }
 
     async Task SubmitValidForm() => await this.CreateComment();
-        
+
 }

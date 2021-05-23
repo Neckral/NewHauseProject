@@ -9,79 +9,87 @@
 @inject IJSRuntime JS
 <div class="d-flex justify-content-center" id="liveNew">Порівняння</div>
 
-<div class="d-flex justify-content-start">
-    <div id="adCategoryInfo" style="border-width: 0px;">
-        <div>
-            <div style="margin-top: 60px; margin-left: 20px; width: 190px; border-width: 0px;">
-                <div style="border-width: 0px;">Сортувати за:</div>
-                <select class="form-select" aria-label="Default select example" width="100px">
-                    <option value="1">Ціна</option>
-                    <option value="2">Площа</option>
-                </select>
+<AuthorizeView>
+    <Authorized>
+        <div class="d-flex justify-content-start">
+            <div id="adCategoryInfo" style="border-width: 0px;">
+                <div>
+                    <div style="margin-top: 60px; margin-left: 20px; width: 190px; border-width: 0px;">
+                        <div style="border-width: 0px;">Сортувати за:</div>
+                        <select class="form-select" aria-label="Default select example" width="100px">
+                            <option value="1">Ціна</option>
+                            <option value="2">Площа</option>
+                        </select>
+                    </div>
+                </div>
+                <div>Ціна</div>
+                <div>Кількість кімнат</div>
+                <div>КількістьПоверхів</div>
+                <div>Басейн</div>
+                <div>Балкон</div>
+                <div>Рік будинку</div>
+                <div>Вид угоди</div>
+                <div>Область</div>
+                <div>Район</div>
+                <div>Місто</div>
+                <div>Площа</div>
             </div>
+            @if (ads.Count() != 0)
+            {
+                @foreach (var ad in ads)
+                {
+                    <div class="adInfoContainer" id="@ad.Id">
+                        <div class="d-flex justify-content-end" id="imgDelete">
+                            <img @onclick="()=>RemoveFromCompares(userId,ad.Id)" style="margin-right: -5px;margin-top: -5px;cursor: pointer;" src="xbutton.png" width="20px" height="20px">
+                        </div>
+                        <div>
+                            <img class="imgFromAd" @onclick="() => GoToAd(ad.Id)" src="data:image/png;base64, @(Convert.ToBase64String(ad.images.FirstOrDefault().ImageFile))" style="cursor:pointer;" width="100%" height="100%">
+                        </div>
+                        <div>@ad.Price грн</div>
+                        <div>@ad.RoomNumber</div>
+                        <div>@ad.FloorAmount</div>
+
+                        @if (ad.Pool)
+                        {<div>Є</div> }
+                        else
+                        { <div>Нема</div>}
+
+                        @if (ad.Balkon)
+                        {<div>Є</div> }
+                        else
+                        { <div>Нема</div>}
+
+                        <div>@ad.HouseYear</div>
+
+                        @if (ad.PurchaseOportunity)
+                        {<div>Продажа</div> }
+                        else
+                        { <div>Оренда</div>}
+
+                        <div>@ad.Region</div>
+                        <div>@ad.District</div>
+                        <div>@ad.City</div>
+
+                        <div>@ad.AreaOfHouse кв.м</div>
+                    </div>
+                }
+            }
         </div>
-        <div>Ціна</div>
-        <div>Кількість кімнат</div>
-        <div>КількістьПоверхів</div>
-        <div>Басейн</div>
-        <div>Балкон</div>
-        <div>Рік будинку</div>
-        <div>Вид угоди</div>
-        <div>Область</div>
-        <div>Район</div>
-        <div>Місто</div>
-        <div>Площа</div>
-    </div>
-    @if (ads.Count() != 0)
-    {
-        @foreach (var ad in ads)
-        {
-<div class="adInfoContainer" id="@ad.Id">
-    <div class="d-flex justify-content-end" id="imgDelete">
-        <img @onclick="()=>RemoveFromCompares(userId,ad.Id)" style="margin-right: -5px;margin-top: -5px;cursor: pointer;" src="xbutton.png" width="20px" height="20px">
-    </div>
-    <div>
-        <img class="imgFromAd" @onclick="() => GoToAd(ad.Id)" src="data:image/png;base64, @(Convert.ToBase64String(ad.images.FirstOrDefault().ImageFile))" style="cursor:pointer;" width="100%" height="100%">
-    </div>
-    <div>@ad.Price грн</div>
-    <div>@ad.RoomNumber</div>
-    <div>@ad.FloorAmount</div>
-
-    @if (ad.Pool)
-    {<div>Є</div> }
-    else
-    { <div>Нема</div>}
-
-    @if (ad.Balkon)
-    {<div>Є</div> }
-    else
-    { <div>Нема</div>}
-
-    <div>@ad.HouseYear</div>
-
-    @if (ad.PurchaseOportunity)
-    {<div>Продажа</div> }
-    else
-    { <div>Оренда</div>}
-
-    <div>@ad.Region</div>
-    <div>@ad.District</div>
-    <div>@ad.City</div>
-
-    <div>@ad.AreaOfHouse кв.м</div>
-</div>
-        }
-    }
+        <div class="d-flex justify-content-center" style="margin-top: 10px;">
+            <img src="back.png" width="3%" height="3%" style="margin-right: 5px;cursor: pointer;">
+            <img src="next.png" width="3%" height="3%" style="margin-left: 5px;cursor: pointer;">
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="alert alert-danger" role="alert" style="text-align:center;">
+        Якщо ви бажаєте скористатись функцією порівняння ви маєте бути Авторизовані
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
 
 
-</div>
-<div class="d-flex justify-content-center" style="margin-top: 10px;">
-    <img src="back.png" width="3%" height="3%" style="margin-right: 5px;cursor: pointer;">
-    <img src="next.png" width="3%" height="3%" style="margin-left: 5px;cursor: pointer;">
-</div>
 
 @code {
-    public int iterator = 0;
     [Parameter] public string userId { get; set; }
     List<bool> isVisible = new List<bool>();
     public IEnumerable<ForCompareDTO> ads = new List<ForCompareDTO>();

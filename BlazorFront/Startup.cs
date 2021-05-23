@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using Blazored.LocalStorage;
 using BlazorFront.Validation;
+using BlazorFront.AuthServices;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorFront
 {
@@ -34,6 +36,9 @@ namespace BlazorFront
             services.AddServerSideBlazor();
             services.AddBlazoredLocalStorage();
 
+            services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+            services.AddTransient<ITokenServices, TokenServices>();
+
             #region ValidationServices
             services.AddScoped<UserValidator>();
             services.AddScoped<AdValidator>();
@@ -43,7 +48,7 @@ namespace BlazorFront
 
             #region HttpClients
             services.AddHttpClient<IUserServices, UserServices>(client => {
-                client.BaseAddress = new Uri("https://localhost:44365/User/"); 
+                client.BaseAddress = new Uri("https://localhost:44365/User/");
             });
 
             services.AddHttpClient<IAdServices, AdServices>(client => {

@@ -1,16 +1,27 @@
 ﻿@page "/MyAds/{userId}"
 @using BlazorFront.Services
 @using BuisnesLogicLayer.DTO
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
 @inject IAdServices adServices
 @inject IUserServices userServices
 @inject IFavoritesServices favoriteServices
 @inject IForCompareServices forCompareServices
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 <div class="d-flex justify-content-center" id="liveNew">Мої оголошення</div>
 
 <div class="d-flex justify-content-center">
-    <NavLink class="hrefstyle" href="CreateAd"><a class="btn btn-success">Додати оголошення</a></NavLink>
+
+    <AuthorizeView>
+        <Authorized>
+            <NavLink class="hrefstyle" href="CreateAd"><a class="btn btn-success">Додати оголошення</a></NavLink>
+        </Authorized>
+        <NotAuthorized>
+            <div class="alert alert-danger" role="alert">Якщо ви бажаєте подивитись на ваші оголошення або хочете створити влесне ви маєте бути Авторизовані</div>
+        </NotAuthorized>
+    </AuthorizeView>
 </div>
 
 <br>
@@ -22,7 +33,10 @@
     {
         <div class="ad" style="border: rgb(104, 104, 104) 3px solid;">
             <div id="forImg" class="d-flex justify-content-center" style="margin: 0px 0px 0px 0px; border-right:rgb(104, 104, 104) 3px solid;">
-                <img class="imgFromAd" src="data:image/png;base64, @(Convert.ToBase64String(ad.value.images.FirstOrDefault().ImageFile))" width="100%" height="100%">
+                @if (ad.value.images.Count() != 0)
+                {
+                    <img class="imgFromAd" src="data:image/png;base64, @(Convert.ToBase64String(ad.value.images.FirstOrDefault().ImageFile))" width="100%" height="250px">
+                }
             </div>
 
             <div class="favInfo">
@@ -70,16 +84,18 @@
                     <div style="margin-left: 10px;"><font color="gray">Ціна:</font> <b>@ad.value.Price</b></div>
                 </div>
 
-                <button @onclick="() => GoToAd(ad.value.Id)">Перейти</button>
+                <button class="myButton" @onclick="() => GoToAd(ad.value.Id)">Перейти</button>
             </div>
 
         </div>
-        iterator++;
     }
 
 </div>
 @code {
-    int iterator = 0;
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+
     [Parameter] public string userId { get; set; }
 
     public IEnumerable<AdInfoDTO> ads = new List<AdInfoDTO>();
@@ -92,6 +108,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+
         ads = await adServices.GetAdsByUserId(userId);
 
         adsFavorites = await favoriteServices.GetAllFavoritesByUserId(userId);
@@ -120,7 +137,6 @@
 
     void GoToAd(int adId)
     {
-        iterator = 0;
         NavigationManager.NavigateTo($"/AdInfo/{adId}");
     }
 
@@ -135,19 +151,16 @@
                 if (IsOrNotFavorites[i].src == "star1.png") // if is not favorite
                 {
                     IsOrNotFavorites[i].src = "star2.png";
-                    iterator = 0;
                     await favoriteServices.SetFavorite(userId, adId); // ser favorite
                 }
                 else if (IsOrNotFavorites[i].src == "star2.png")
                 {
                     IsOrNotFavorites[i].src = "star1.png";
-                    iterator = 0;
                     await favoriteServices.RemoveFavoriteByUserIdAndAdId(userId, adId);
                 }
                 break;
             }
         }
-        iterator = 0;
     }
 
     async Task ChangeCompareState(string userId, int adId)
@@ -159,19 +172,16 @@
                 if (IsOrNotCompares[i].src == "compare1.png") // if is not comparasion
                 {
                     IsOrNotCompares[i].src = "compare2.png";
-                    iterator = 0;
                     await forCompareServices.SetForCompare(userId, adId); // set comparasion
                 }
                 else if (IsOrNotCompares[i].src == "compare2.png")
                 {
                     IsOrNotCompares[i].src = "compare1.png";
-                    iterator = 0;
                     await forCompareServices.RemoveCopareByUserIdAndAdId(userId, adId);
                 }
                 break;
             }
         }
-        iterator = 0;
     }
 
 
