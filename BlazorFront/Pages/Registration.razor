@@ -1,0 +1,97 @@
+﻿@page "/Registration"
+@using BuisnesLogicLayer.DTO
+@using BlazorFront.Services
+@using BlazorFront.Validation
+@inject NavigationManager NavigationManager
+@inject IUserServices userServices
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+    
+    <div class="container mt-5 mb-5">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="col-md-6">
+                <div class="card px-5 py-5">
+                    <EditForm Model="@user" OnValidSubmit="HandleSubmitValidForm">
+                        <FluentValidationValidator />
+
+                        <span class="circle"><i class="fa fa-check"></i></span>
+                        <h5 class="mt-3">Реєстрація</h5> <small class="mt-2 text-muted"></small>
+
+                        <div class="form-input">
+                            <div class="d-flex">
+                            <i class="fa fa-envelope" style="margin-right:5px;margin-top:5px;"></i>
+                            <input @bind="@user.Email" type="text" class="form-control" placeholder="Почта">
+                            </div>
+                            <ValidationMessage For="@(() => user.Email)" style="color:red;font-size:8pt;" />
+                        </div>
+
+                        <div class="form-input" style="margin-top:10px">
+                            <div class="d-flex">
+                                <i class="fa fa-user" style="margin-right:5px;margin-top:5px;"></i>
+                                <input @bind="@user.Name" type="text" class="form-control" placeholder="Ім'я">
+                            </div>
+                            <ValidationMessage For="@(() => user.Name)" style="color:red;font-size:8pt;" />
+                        </div>
+
+                        <div class="form-input" style="margin-top:10px">
+                            <div class="d-flex">
+                                <i class="fa fa-user" style="margin-right:5px;margin-top:5px;"></i>
+                                <input @bind="@user.Surname" type="text" class="form-control" placeholder="Прізвище">
+                                </div>
+                                <ValidationMessage For="@(() => user.Surname)" style="color:red;font-size:8pt;" />
+                            </div>
+
+                        <div class="form-input" style="margin-top:10px">
+                            <div class="d-flex">
+                                <i class="fa fa-phone" style="margin-right:5px;margin-top:5px;"></i>
+                                <input @bind="@user.PhoneNumber" type="text" class="form-control" placeholder="+380">
+                            </div>
+                                <ValidationMessage For="@(() => user.PhoneNumber)" style="color:red;font-size:8pt;" />
+                            </div>
+
+                        <div class="form-input" style="margin-top:10px">
+                            <span style="font-size:8pt;" align="center">Довжина пароля не меньше 5 символів і хоча б одна велика літера одна цифра та знак</span>
+                            <div class="d-flex">
+                                <i class="fa fa-lock" style="margin-right:5px;margin-top:5px;"></i>
+                                <input asp-for="Password" @bind="@user.PasswordHash" type="text" class="form-control" placeholder="Пароль">
+                            </div>
+                            <ValidationMessage For="(() => user.PasswordHash)" style="color:red;font-size:8pt;" />
+                        </div>
+
+                            <div class="form-input" style="margin-top:10px">
+                                <div class="d-flex">
+                                    <i class="fa fa-lock" style="margin-right:5px;margin-top:5px;"></i>
+                                    <input @bind="@user.PasswordConfirmation" type="text" class="form-control" placeholder="Пароль">
+                                </div>
+                                <ValidationMessage For="(() => user.PasswordConfirmation)" style="color:red;font-size:8pt;" />
+                            </div>
+                            <button type="submit" @onclick="Register" class="btn btn-primary mt-4 signup" style="align-self:center;">Зареєструватися</button>
+                            <div class="text-center mt-4"> <span>Вже зареєстровані</span> 
+                        <NavLink href="LogIn"> <span class="text-decoration-none">Війти</span></NavLink> 
+                        </div>
+                            </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div></div>
+    @code {
+
+        private UserRegisterDTO user = new UserRegisterDTO();
+
+        private async Task Register()
+        {
+            var result = await userServices.RegisterUser(user);
+            if (result)
+            {
+                //await localStorage.SetItemAsync("savedUser", user);
+                NavigationManager.NavigateTo("/LogIn", true);
+            }
+        }
+
+        void HandleSubmitValidForm()
+        {
+            //user = new UserRegisterDTO();
+            Console.WriteLine("Validate Succesfull");
+        }
+    }

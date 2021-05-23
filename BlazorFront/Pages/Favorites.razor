@@ -1,0 +1,195 @@
+﻿@page "/Favorites/{userId}"
+@using BlazorFront.Services
+@using BuisnesLogicLayer.DTO
+@using DataAccesLayer.Enteties
+@inject IAdServices adServices
+@inject IUserServices userServices
+@inject IFavoritesServices favoriteServices
+@inject IForCompareServices forCompareServices
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+<div class="d-flex justify-content-center" id="liveNew">Обрані оголошення</div>
+
+<br>
+<br>
+
+<div class="favAds" style="margin: 0px 300px 0px 300px;">
+
+    @foreach (var ad in ads.Select((value, index) => new { value, index }))
+    {
+        <div class="ad" style="border: rgb(104, 104, 104) 3px solid;">
+            <div id="forImg" class="d-flex justify-content-center" style="margin: 0px 0px 0px 0px; border-right:rgb(104, 104, 104) 3px solid;">
+                <img class="imgFromAd" src="data:image/png;base64, @(Convert.ToBase64String(ad.value.images.FirstOrDefault().ImageFile))" width="100%" height="100%">
+            </div>
+
+            <div class="favInfo">
+                <div class="d-flex justify-content-end" style="border-bottom: #1C6EA4 1px solid;">
+                    <img @bind-src="@IsOrNotFavorites[ad.index].src" @bind-src:event="onchange" @onclick="() => ChangeFavState(userId, ad.value.Id)" class="favicons">
+                    <img @bind-src="@IsOrNotCompares[ad.index].src" @bind-src:event="onchange" @onclick="() => ChangeCompareState(userId, ad.value.Id)" class="favicons">
+                </div>
+
+                <div class="favInfoTxt">
+                    <div style="margin-left: 10px;"><font color="gray">Площа:</font> @ad.value.AreaOfHouse</div>
+                </div>
+
+                <div class="favInfoTxt">
+                    <div style="margin-left: 10px;"><font color="gray">Кількість кімнат:</font>@ad.value.RoomNumber</div>
+                </div>
+
+                <div class="favInfoTxt">
+                    <div style="margin-left: 10px;"><font color="gray">Рік будинку:</font> @ad.value.HouseYear</div>
+                </div>
+
+
+                <div class="favInfoTxt">
+                    @if (ad.value.PurchaseOportunity)
+                    {
+                        <div style="margin-left: 10px;"><font color="gray">Вид угоди:</font>Купівля</div>
+                    }
+                    else
+                    {
+                        <div style="margin-left: 10px;"><font color="gray">Вид угоди:</font>Оренда</div>
+                    }
+                </div>
+
+                <div class="favInfoTxt">
+                    @if (ad.value.Balkon)
+                    {
+                        <div style="margin-left: 10px;"><font color="gray">Балкон:</font>Є</div>
+                    }
+                    else
+                    {
+                        <div style="margin-left: 10px;"><font color="gray">Балкон:</font>Нема</div>
+                    }
+                </div>
+
+                <div class="favInfoTxt">
+                    <div style="margin-left: 10px;"><font color="gray">Ціна:</font> <b>@ad.value.Price</b></div>
+                </div>
+
+                <button @onclick="() => GoToAd(ad.value.Id)">Перейти</button>
+            </div>
+
+
+        </div>
+    }
+
+</div>
+@code {
+
+    [Parameter] public string userId { get; set; }
+    public IEnumerable<AdShortInfoDTO> ads = new List<AdShortInfoDTO>();
+    public AdToCompare adToCompare = new();
+
+    public IEnumerable<AdShortInfoDTO> adsFavorites = new List<AdShortInfoDTO>();
+    List<FavStarIcon> IsOrNotFavorites = new();
+
+    public IEnumerable<ForCompareDTO> adsCompares = new List<ForCompareDTO>();
+    List<CompareIcon> IsOrNotCompares = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        ads = await favoriteServices.GetAllFavoritesByUserId(userId);
+
+        adsFavorites = await favoriteServices.GetAllFavoritesByUserId(userId);
+        adsCompares = await forCompareServices.GetAllComparesByUserId(userId);
+        foreach (var ad in ads)
+        {
+            if (adsFavorites.Any(adfav => adfav.Id == ad.Id))
+            {
+                IsOrNotFavorites.Add(new FavStarIcon("star2.png", ad.Id));
+            }
+            else
+            {
+                IsOrNotFavorites.Add(new FavStarIcon("star1.png", ad.Id));
+            }
+
+            if (adsCompares.Any(adcomp => adcomp.Id == ad.Id))
+            {
+                IsOrNotCompares.Add(new CompareIcon("compare2.png", ad.Id));
+            }
+            else
+            {
+                IsOrNotCompares.Add(new CompareIcon("compare1.png", ad.Id));
+            }
+        }
+    }
+
+    void GoToAd(int adId)
+    {
+        NavigationManager.NavigateTo($"/AdInfo/{adId}");
+    }
+
+    /*========================== Set/Unset favorite/compare ==========================*/
+
+    async Task ChangeFavState(string userId, int adId)
+    {
+        for (int i = 0; i < IsOrNotFavorites.Count(); i++)
+        {
+            if (IsOrNotFavorites[i].adId == adId)
+            {
+                if (IsOrNotFavorites[i].src == "star1.png") // if is not favorite
+                {
+                    IsOrNotFavorites[i].src = "star2.png";
+                    await favoriteServices.SetFavorite(userId, adId); // ser favorite
+                }
+                else if (IsOrNotFavorites[i].src == "star2.png")
+                {
+                    IsOrNotFavorites[i].src = "star1.png";
+                    await favoriteServices.RemoveFavoriteByUserIdAndAdId(userId, adId);
+                }
+                break;
+            }
+        }
+    }
+
+    async Task ChangeCompareState(string userId, int adId)
+    {
+        for (int i = 0; i < IsOrNotCompares.Count(); i++)
+        {
+            if (IsOrNotCompares[i].adId == adId)
+            {
+                if (IsOrNotCompares[i].src == "compare1.png") // if is not comparasion
+                {
+                    IsOrNotCompares[i].src = "compare2.png";
+                    await forCompareServices.SetForCompare(userId, adId); // set comparasion
+                }
+                else if (IsOrNotCompares[i].src == "compare2.png")
+                {
+                    IsOrNotCompares[i].src = "compare1.png";
+                    await forCompareServices.RemoveCopareByUserIdAndAdId(userId, adId);
+                }
+                break;
+            }
+        }
+    }
+
+
+    public class FavStarIcon
+    {
+        public string src { get; set; }
+        public int adId { get; set; }
+
+        public FavStarIcon(string src, int adId)
+        {
+            this.src = src;
+            this.adId = adId;
+        }
+        public FavStarIcon() { }
+    }
+
+    public class CompareIcon
+    {
+        public string src { get; set; }
+        public int adId { get; set; }
+
+        public CompareIcon(string src, int adId)
+        {
+            this.src = src;
+            this.adId = adId;
+        }
+        public CompareIcon() { }
+    }
+}
+
+}

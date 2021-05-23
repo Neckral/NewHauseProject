@@ -1,0 +1,125 @@
+﻿@page "/ProfileInfo/{userId}"
+@using BlazorFront.Services
+@using BuisnesLogicLayer.DTO
+@using BuisnesLogicLayer.Converters
+@inject IUserServices userServices
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Профіль</h4>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form>
+
+                                <div class="form-group row">
+                                    <label for="first_name" class="col-4 col-form-label">Ім'я</label>
+                                    <div class="col-8">
+                                        <input @bind="@user.Name" id="first_name" name="first_name" placeholder="Ім'я" class="form-control here" required="required" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="last_name" class="col-4 col-form-label">Прізвище</label>
+                                    <div class="col-8">
+                                        <input @bind="@user.Surname" id="last_name" name="last_name" placeholder="Прізвище" class="form-control here" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="email" class="col-4 col-form-label">Почта</label>
+                                    <div class="col-8">
+                                        <input @bind="@user.Email" id="email" name="email" placeholder="Почта" class="form-control here" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="phone" class="col-4 col-form-label">Телефон</label>
+                                    <div class="col-8">
+                                        <input @bind="@user.PhoneNumber" id="phone" name="phone" placeholder="Телефон" class="form-control here" required="required" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="ads_amount" class="col-4 col-form-label">Кількість оголошень</label>
+                                    <div class="col-8">
+                                        <input @bind="@user.AdsAmount" readonly id="ads_amount" name="ads_amount" placeholder="Кількість оголошень" class="form-control here" required="required" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="comments_amount" class="col-4 col-form-label">Кількість коментарів</label>
+                                    <div class="col-8">
+                                        <input @bind="@user.ComentsAmount" readonly id="comments_amount" name="comments_amount" placeholder="Кількість коментарів" class="form-control here" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="newpass" class="col-4 col-form-label">Пароль</label>
+                                    <div class="col-8">
+                                        <input @bind="@user.PasswordHash" id="newpass" name="newpass" placeholder="Новий пароль" class="form-control here" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <button name="submit" @onclick="UpdateUser" class="btn btn-primary">Оновити</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string userId { get; set; }
+    public UserProfileDTO user = new UserProfileDTO();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var temp = await localStorage.GetItemAsync<UserProfileDTO>("savedUser");
+        user = await userServices.GetUserById(userId);
+    }
+
+    public async Task<bool> UpdateUser()
+    {
+        var result = await userServices.UpdateUser(new UserEditDTO()
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Surname = user.Surname,
+            Email = user.Email,
+            PasswordHash = user.PasswordHash,
+            PhoneNumber = user.PhoneNumber
+        });
+        if (!result) return false;
+        await localStorage.ClearAsync();
+        NavigationManager.NavigateTo("/LogIn", true);
+        return result;
+
+    }
+
+    public async Task Update()
+    {
+        bool result = await UpdateUser();
+        if (result)
+        {
+            await OnInitializedAsync();
+        }
+    }
+}
+

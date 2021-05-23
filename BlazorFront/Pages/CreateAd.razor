@@ -1,0 +1,307 @@
+﻿@page "/CreateAd"
+@using BuisnesLogicLayer.DTO
+@using BlazorFront.Services
+@inject NavigationManager NavigationManager
+@inject IAdServices adServices
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<main id="mainContainer" class="d-grid">
+
+    <EditForm Model="@ad" OnValidSubmit="SubmitValidForm">
+        <FluentValidationValidator />
+        <div id="container-1" class="d-flex justify-content-between">
+
+            <div id="boxToAddPhoto" class="d-flex justify-content-center">
+                <InputFile OnChange="OnInputFileChange" multiple style="margin-top:100px; margin-bottom:100px;" class="btn btn-light" />
+            </div>
+
+            <div id="boxAddedPhoto">
+                @foreach (var imageDataUrl in imageDataUrls)
+                {
+                    <div class="boxesAddedPhoto"> <img src="@imageDataUrl" style="width:80%" /></div>
+                }
+
+            </div>
+
+        </div>
+
+        <div id="container-2" class="d-flex justify-content-between" style="background-color: #d1c52200;margin-top:50px;">
+
+            <!-----------------------------------First column--------------------------------------------------->
+            <div id="contParams1" style="background-color: #70000000;width: 400px;height: 400px;">
+                <div class="d-grid">
+
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Ціна:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <input @bind="ad.Price" type="number" class="form-control" placeholder="">
+                            <ValidationMessage For="(() => ad.Price)" style="color:red;font-size:8pt;position:absolute;" />
+                        </div>
+                    </div>
+                    <!-------------------------------------------->
+                    <hr style="height:1px;background-color:white; width: 100%;">
+                    <!-------------------------------------------->
+                    <div class="textParam">Місцзнаходження</div>
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Область:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <input @bind="ad.Region" type="text" class="form-control" placeholder="">
+                            <ValidationMessage For="(() => ad.Region)" style="color:red;font-size:8pt;position:absolute;" />
+                        </div>
+                    </div>
+                    <br>
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Район:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <input @bind="ad.District" type="text" class="form-control" placeholder="">
+                            <ValidationMessage For="(() => ad.District)" style="color:red;font-size:8pt;position:absolute;" />
+                        </div>
+                    </div>
+                    <br>
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Місто:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <input @bind="ad.City" type="text" class="form-control" placeholder="">
+                            <ValidationMessage For="(() => ad.City)" style="color:red;font-size:8pt;position:absolute;" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Вулиця:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <input @bind="ad.Street" type="text" class="form-control" placeholder="">
+                            <ValidationMessage For="(() => ad.Street)" style="color:red;font-size:8pt;position:absolute;" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Номер Будинку:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <input @bind="ad.HouseNumber" type="text" class="form-control" placeholder="">
+                            <ValidationMessage For="(() => ad.HouseNumber)" style="color:red;font-size:8pt;position:absolute;" />
+                        </div>
+                    </div>
+                    <!-------------------------------------------->
+                    <hr style="height:1px;background-color:white; width: 100%;">
+                    <!-------------------------------------------->
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Площа:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <input @bind="ad.AreaOfHouse" type="number" class="form-control" placeholder="">
+                            <ValidationMessage For="(() => ad.AreaOfHouse)" style="color:red;font-size:8pt;position:absolute;" />
+                        </div>
+                    </div>                   
+                </div>
+            </div>
+
+            <!-----------------------------------Second column--------------------------------------------------->
+
+            <div id="contParams2" style="background-color: rgba(0, 255, 255, 0); width: 400px;height: 400px;">
+
+                <div class="d-grid">
+
+
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Кількість поверхів:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <input @bind="ad.FloorAmount" type="number" class="form-control" placeholder="">
+                            <ValidationMessage For="(() => ad.FloorAmount)" style="color:red;font-size:8pt;position:absolute;" />
+                        </div>
+                    </div>
+
+                    <!-------------------------------------------->
+                    <hr style="height:1px;background-color:white; width: 100%;">
+                    <!-------------------------------------------->
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Кількість кімнат:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <input @bind="ad.RoomNumber" type="number" class="form-control" placeholder="">
+                            <ValidationMessage For="(() => ad.RoomNumber)" style="color:red;font-size:8pt;position:absolute;" />
+                        </div>
+                    </div>
+                    <!-------------------------------------------->
+                    <hr style="height:1px;background-color:white; width: 100%;">
+                    <!-------------------------------------------->
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Рік будинку:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <input @bind="ad.HouseYear" type="number" class="form-control" placeholder="">
+                            <ValidationMessage For="(() => ad.HouseYear)" style="color:red;font-size:8pt;position:absolute;" />
+                        </div>
+                    </div>
+                    <!-------------------------------------------->
+                    <hr style="height:1px;background-color:white; width: 100%;">
+                    <!-------------------------------------------->
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Вид Будинку:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <select class="form-control" @bind="ad.HouseType">
+                                <option>Дім</option> <!--Flase-->
+                                <option>Квартира</option><!--True-->
+                            </select>
+                        </div>
+                    </div>
+                    <!-------------------------------------------->
+                    <hr style="height:1px;background-color:white; width: 100%;">
+                    <!-------------------------------------------->
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Басейнн:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <select class="form-control" @onchange="@(() => ad.Pool = !ad.Pool)">
+                                <option>Нема</option> <!--Flase-->
+                                <option>Є</option><!--True-->
+                            </select>
+                        </div>
+                    </div>
+                    <!-------------------------------------------->
+                    <hr style="height:1px;background-color:white; width: 100%;">
+                    <!-------------------------------------------->
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Балкон:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <select class="form-control" @onchange="@(() => ad.Balkon = !ad.Balkon)">
+                                <option>Нема</option> <!--Flase-->
+                                <option>Є</option> <!--True-->
+                            </select>
+                        </div>
+                    </div>
+                    <!-------------------------------------------->
+                    <hr style="height:1px;background-color:white; width: 100%;">
+                    <!-------------------------------------------->
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Вид угоди:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <select class="form-control" @onchange="@(() => ad.PurchaseOportunity = !ad.PurchaseOportunity)">
+                                <option>Оренда</option> <!--Flase-->
+                                <option>Покупка</option> <!--True-->
+                            </select>
+                        </div>
+                    </div>
+                    <!-------------------------------------------->
+                    <hr style="height:1px;background-color:white; width: 100%;">
+                    <!-------------------------------------------->
+                    <div class="d-flex justify-content-between">
+                        <div class="textParam">Вид угоди:</div>
+                        <div class="paramOfAd" style="margin-left: 20px;">
+                            <select class="form-control" @onchange="@(() => ad.Status = !ad.Status)">
+                                <option>Зайнято</option> <!--Flase-->
+                                <option>Вільно</option> <!--True-->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br /> <br /> <br /> <br /> <br /> <br />
+        <div id="container-3" class="d-grid">
+            <!-------------------------------------------->
+            <hr style="height:1px;background-color:white; width: 100%;">
+            <!-------------------------------------------->
+            <div class="d-flex justify-content-start">
+                <div class="textParam">Тег:</div>
+                <div class="textParam" style="margin-left: 20px;margin-right: 5px;color: rgb(194, 194, 194);">#</div>
+                <div class="paramOfAd" style="margin-left: 0px;">
+                    <input @bind="tag" type="text" class="form-control" placeholder="">
+                </div>
+                <div @onclick="AddTagToAd" class="btn btn-success" style="margin-left: 5px;"><b>+</b></div>
+            </div>
+            <div class="d-flex justify-content-start" style="color: rgb(0, 184, 190);flex-wrap:wrap;">
+                @foreach (var tag in tagList)
+                {
+                    if (tag.Length != 0)
+                    {
+                        <p class="tagIngerval">#@tag</p>
+                    }
+                }
+            </div>
+            <div class="textParam">Опис</div>
+            <textarea @bind="ad.Description" class="form-control" id="OutputText" rows="5"></textarea>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-success" style="margin-top: 10px;">Опублікувати</button>
+        </div>
+    </EditForm>
+</main> 
+@code {
+
+        AdCreateDTO ad = new AdCreateDTO();
+        string tag;
+        List<string> tagList = new();
+        List<byte[]> images = new();
+    private RenderFragment DynamicRenderedTags;
+
+    protected override void OnInitialized()
+    {
+        this.ad.HouseType = "Дім";
+    }
+    async Task AddAd()
+    {
+
+        List<ImageCreateDTO> tempImgList = new();
+        List<TagDTO> tempTagList = new();
+        foreach (var img in images)
+        {
+            tempImgList.Add(new ImageCreateDTO() { ImageFile = img });
+        }
+        ad.images = tempImgList;
+        foreach (var tag in tagList)
+        {
+            tempTagList.Add(new TagDTO() { Tag_ = tag });
+        }
+        ad.tags = tempTagList;
+        var owner = await localStorage.GetItemAsync<UserProfileDTO>("savedUser");
+        ad.OwnerId = owner.Id;
+        await adServices.AddNewAd(ad);
+        NavigationManager.NavigateTo($"MyAds/{ad.OwnerId}");
+    }
+
+
+    /*================ Image Methods ================*/
+
+    IList<string> imageDataUrls = new List<string>();
+
+    async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var imageFiles = e.GetMultipleFiles();
+        var format = "image/png";
+        foreach (var imageFile in imageFiles)
+        {
+            var resizedImageFile = await imageFile.RequestImageFileAsync(format, 500, 500);
+            byte[] buffer = new byte[resizedImageFile.Size];
+            images.Add(buffer);
+            await resizedImageFile.OpenReadStream().ReadAsync(buffer);
+            var imageDataUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+            imageDataUrls.Add(imageDataUrl);
+        }
+    }
+
+    /*================ Tags Methods ================*/
+    void AddTagToAd()
+    {
+        tagList.Add(tag);
+        //RenderTags();
+    }
+
+    RenderFragment CreateRenderedTags() => builder =>
+    {
+
+        foreach (var tag in tagList)
+        {
+            builder.OpenElement(1, "p");
+            builder.AddAttribute(1, "class", "tagIngerval");
+            builder.AddContent(1, $"#{tag}");
+            builder.CloseElement();
+        }
+    };
+
+    void RenderTags()
+    {
+        DynamicRenderedTags = CreateRenderedTags();
+    }
+
+    async Task SubmitValidForm()
+    {
+        await this.AddAd();
+    }
+}

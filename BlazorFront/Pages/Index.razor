@@ -1,0 +1,211 @@
+﻿@page "/"
+@using BlazorFront.Services
+@inject NavigationManager NavigationManager
+@inject IUserServices userServices
+<main>
+    <div style="margin-top: 20px; margin-bottom: 20px;" class="d-flex justify-content-center">
+        <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-center" id="tagline">Знайди своє<br />гніздо</div>
+            <img src="dreamhouse.png" width="500">
+        </div>
+    </div>
+
+    <div style="background-color: #212529; grid-template-columns: 1fr; height: 30px;"></div>
+    <br><br>
+</main>
+<section class="page-section" id="services">
+    <div class="container">
+        <h2 class="text-center mt-0">Основне про сайт</h2>
+        <hr class="divider my-4" />
+        <div class="row">
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="mt-5">
+                    <img src="conversation.png" width="50">
+                    <h3 class="h4 mb-2">Співпраця</h3>
+                    <p class="text-muted mb-0">Ми завжди будемо дуже раді покращити роботу нашого сайта, тому залишайте відгуки.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="mt-5">
+                    <img src="house.png" width="50">
+                    <h3 class="h4 mb-2">Великий вибір</h3>
+                    <p class="text-muted mb-0">UAHause - це платформа  на якій представлений великий вибір нерухомості.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="mt-5">
+                    <img src="pidbir.png" width="50">
+                    <h3 class="h4 mb-2">Зручний підбір</h3>
+                    <p class="text-muted mb-0">Робіть пошук потрібної вам нерухомості керуючи доступними характеристтикамина сайті.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="mt-5">
+                    <img src="doc.png" width="50">
+                    <h3 class="h4 mb-2">Перевірка Документів</h3>
+                    <p class="text-muted mb-0">Завантажуйте разом з фотографіями і документи на нерухомість для надійності.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin: 50px 70px 40px 70px;" class="col-lg-11 col-md-6 text-center">
+        UAHause - це платформа яка була створена з метою полегшення пошуку, купівлі та оренди нерухомості. Оскільки сайт претендує на сервіс з високим асортимнтом, то на ньому присутній широкий підбір за всіми потрібними для нерухомості параметрами. Сайт дозволяє просувати свої оголошення завдяки грошовим донатам. Для того щоб оголошення набрало більшої популярності та пдвищити попит завантажуйте разом з фотографіями нерухомості і фотографії документів. Наш сайта завжди радий об'єктивній критиці та порадам щоб підвищити ефективність працездатності платформи. UAHouse завжди готовий до співпраці, як продати рекламу так і купити, за всіми умовами співпраці звертайтесь до адміністратора за контактами в низу сайта.
+    </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="bg-dark text-center text-white">
+    <!-- Grid container -->
+    <div class="container p-4">
+        <!-- Section: Social media -->
+        <section class="mb-4">
+            <!-- Facebook -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+
+            <!-- Twitter -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+                <i class="fab fa-twitter"></i>
+            </a>
+
+            <!-- Google -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+                <i class="fab fa-google"></i>
+            </a>
+
+            <!-- Instagram -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+                <i class="fab fa-instagram"></i>
+            </a>
+
+            <!-- Linkedin -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+
+            <!-- Github -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+                <i class="fab fa-github"></i>
+            </a>
+        </section>
+        <!-- Section: Social media -->
+        <!-- Section: Form -->
+        <section class="">
+            <form action="">
+                <!--Grid row-->
+                <div class="row d-flex justify-content-center">
+                    <!--Grid column-->
+                    <div class="col-auto">
+                        <p class="pt-2">
+                            <strong></strong>
+                        </p>
+                    </div>
+                    <!--Grid column-->
+                    <!--Grid column-->
+                    <div>
+                        <!-- Submit button -->
+                        <NavLink href="Registration">
+                            <span class="btn btn-outline-light mb-4">
+                                Реєстрація
+                            </span>
+                        </NavLink>
+
+                        <NavLink href="LogIn">
+                            <span class="btn btn-outline-light mb-4">
+                                Вхід
+                            </span>
+                        </NavLink>
+                    </div>
+                    <!--Grid column-->
+                </div>
+                <!--Grid row-->
+            </form>
+        </section>
+        <!-- Section: Form -->
+        <!-- Section: Text -->
+        <section class="mb-4">
+            <p>
+                Контактні дані та співпраця
+            </p>
+        </section>
+        <!-- Section: Text -->
+        <!-- Section: Links -->
+        <section class="">
+            <!--Grid row-->
+            <div class="row">
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Підтримка</h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <h6 href="#!" class="text-white">Приват Банк:</h6>
+                        </li>
+                        <li>
+                            <a href="#!" class="text-white">2123 2184 9874 7756</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Співпраця</h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a href="#!" class="text-white">Реклама</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="text-white">Партнерство</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Гаряча лінія</h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <h6 href="#!" class="text-white">+38 (095) 625-98-23</h6>
+                        </li>
+                        <li>
+                            <h6 href="#!" class="text-white">+38 (050) 600-90-30</h6>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Авторські права</h5>
+
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a href="#!" class="text-white">Автор</a>
+                        </li>
+                        <li>
+                            <a href="#!" class="text-white">Права</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
+        </section>
+        <!-- Section: Links -->
+    </div>
+    <!-- Grid container -->
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2021:
+        <a class="text-white" href="#">UAHause.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+<!-- Footer -->
+
+@code{
+
+}

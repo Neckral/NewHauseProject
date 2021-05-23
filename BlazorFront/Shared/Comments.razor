@@ -1,0 +1,93 @@
+﻿@using BlazorFront.Services
+@using BuisnesLogicLayer.DTO
+@using BlazorFront.Validation
+@inject IAdServices adServices
+@inject IUserServices userServices
+@inject ICommentServices commentServices
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<div class="row d-flex justify-content-center mt-100 mb-100">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4 class="card-title">Коментарії</h4>
+            </div>
+            <div class="comment-widgets">
+
+
+                @foreach (var comment in comments)
+                {
+                    if (comment.UserID == userId)
+                    {
+                        <!-- Comment Row -->
+                        <div class="d-flex flex-row comment-row m-t-0">
+                            <div class="comment-text w-100">
+                                <h6 class="font-medium"><b>@comment.UserNameSurname</b></h6> <span class="m-b-15 d-block">
+                                    @comment.Text
+                                </span>
+                                <div class="comment-footer">
+                                    <span class="text-muted float-right">@comment.DateOfComment</span>
+                                    <button type="button" class="btn btn-danger btn-sm" @onclick="(()=> DeleteComment(comment.Id))">Видалити</button>
+                                </div>
+                            </div>
+                        </div> <!-- Comment Row -->
+                    }
+                    else
+                    {
+                        <div class="d-flex flex-row comment-row m-t-0">
+                            <div class="comment-text w-100">
+                                <h6 class="font-medium"><b>@comment.UserNameSurname</b></h6> <span class="m-b-15 d-block">
+                                    @comment.Text
+                                </span>
+                                <div class="comment-footer">
+                                    <span class="text-muted float-right">@comment.DateOfComment</span>
+                                </div>
+                            </div>
+                        </div> <!-- Comment Row -->
+                    }
+                }
+            <EditForm Model="@commentCreate" OnValidSubmit="SubmitValidForm">
+                <FluentValidationValidator />
+                <div class="card p-3">
+                    <h5>Додати коментар</h5>
+                    <textarea id="textarea" class="form-control" @bind="@commentCreate.Text"></textarea>
+                    <ValidationMessage For="(() => commentCreate.Text)" style="color:red;font-size:8pt;" />
+                    <div class="mt-3 d-flex justify-content-between align-items-center">
+                        <span id="count"></span> <button class="btn btn-sm btn-info" type="submit">Відправити</button>
+                    </div>
+                </div>
+            </EditForm>
+            </div> <!-- Card -->
+        </div>
+    </div>
+</div>
+@code {
+    [Parameter] public int adId { get; set; }
+    [Parameter] public string userId { get; set; }
+    CommentCreateDTO commentCreate = new CommentCreateDTO();
+    IEnumerable<CommentInfoAndEditIDTO> comments = new List<CommentInfoAndEditIDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        comments = await commentServices.GetCommentsByAdId(adId);
+    }
+
+    async Task CreateComment()
+    {
+        commentCreate.UserID = userId;
+        commentCreate.AdId = adId;
+        commentCreate.DateOfComment = DateTime.Now;
+        await commentServices.CreateComment(commentCreate);
+        await this.OnInitializedAsync();
+    }
+
+    async Task DeleteComment(int id)
+    {
+        await commentServices.DeleteCommentById(id);
+        await this.OnInitializedAsync();
+    }
+
+    async Task SubmitValidForm() => await this.CreateComment();
+        
+}

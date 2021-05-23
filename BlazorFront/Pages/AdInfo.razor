@@ -1,0 +1,247 @@
+﻿@page "/AdInfo/{adId}"
+@using BlazorFront.Services
+@using BuisnesLogicLayer.DTO
+@using BlazorFront.Validation
+@inject IAdServices adServices
+@inject IUserServices userServices
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+<main id="mainContainer" class="d-grid">
+
+    <div id="container-1" class="d-flex justify-content-between">
+
+        <div id="boxFoto" class="d-flex justify-content-center">
+            <img @onclick="OpenImagesWindow" src="@imagesUrls.FirstOrDefault()" style="cursor:pointer;" width="400px" />
+        </div>
+
+        <div id="primaryAdInfo">
+
+            <div class="primInfo">
+                <div class="d-flex justify-content-between">
+                    <div class="primInfoTxtPrice">@ad.Price грн</div>
+                    <div class="d-flex justify-content-end" style="margin-top: 5px;">
+                        @if (ad.OwnerId == userId)
+                        {
+                            <NavLink href="@goEditAdPageLink">
+                                <img src="edit.png" style="width: 30px; height: 30px; cursor: pointer; margin-right: 10px;">
+                            </NavLink>
+                            <img src="delete.png" @onclick="(() => DeleteAd(ad.Id))" style="width: 30px; height: 30px; cursor: pointer; margin-right: 10px;">
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="primInfo">
+                <div class="d-flex">
+                    <img src="telephone.png" width="40px" style="margin-left: 10px;"><div class="primInfoTxt">@ad.OwnerPhone</div>
+                </div>
+            </div>
+
+            <div class="primInfo">
+                <div class="d-flex">
+                    <img src="gmail.png" width="40px" style="margin-left: 10px;"><div class="primInfoTxt">@ad.OwnerEmail</div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <a style="color: rgb(212, 212, 212);" href="#">Дивитись на карті</a>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div id="container-2" class="d-flex justify-content-between" style="background-color: #d1c52200;">
+
+        <!-----------------------------------First column--------------------------------------------------->
+        <div id="contParams1" style="background-color: #70000000;width: 400px;height: 400px;">
+            <div class="d-grid">
+                <div class="textParam">Місцзнаходження</div>
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Область:</div>
+                    <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">@ad.Region</div></div>
+                </div>
+                <br>
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Район:</div>
+                    <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">@ad.District</div></div>
+                </div>
+                <br>
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Місто:</div>
+                    <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">@ad.City</div></div>
+                </div>
+                <br>
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Вулиця:</div>
+                    <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">@ad.Street</div></div>
+                </div>
+                <br>
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Номер Будинку:</div>
+                    <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">@ad.HouseNumber</div></div>
+                </div>
+                <!-------------------------------------------->
+                <hr style="height:1px;background-color:white; width: 100%;">
+                <!-------------------------------------------->
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Площа:</div>
+                    <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">@ad.AreaOfHouse квм</div></div>
+                </div>
+                <!-------------------------------------------->
+                <hr style="height:1px;background-color:white; width: 100%;">
+                <!-------------------------------------------->
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Статус:</div>
+                    @if (ad.Status)
+                    {
+                        <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">Вільно</div></div>
+                    }
+                    else
+                    {
+                        <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">Зайнято</div></div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-----------------------------------Second column--------------------------------------------------->
+
+        <div id="contParams2" style="background-color: rgba(0, 255, 255, 0); width: 400px;height: 400px;">
+
+            <div class="d-grid">
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Кількість поверхів:</div>
+                    <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">@ad.FloorAmount</div></div>
+                </div>
+
+                <!-------------------------------------------->
+                <hr style="height:1px;background-color:white; width: 100%;">
+                <!-------------------------------------------->
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Кількість кімнат:</div>
+                    <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">@ad.RoomNumber</div></div>
+                </div>
+                <!-------------------------------------------->
+                <hr style="height:1px;background-color:white; width: 100%;">
+                <!-------------------------------------------->
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Тип будинку:</div>
+                    <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">@ad.HouseType</div></div>
+                </div>
+                <!-------------------------------------------->
+                <hr style="height:1px;background-color:white; width: 100%;">
+                <!-------------------------------------------->
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Басейнн:</div>
+                    @if (ad.Pool)
+                    {
+                        <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">Є</div></div>
+                    }
+                    else
+                    {
+                        <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">Нема</div></div>
+                    }
+                </div>
+                <!-------------------------------------------->
+                <hr style="height:1px;background-color:white; width: 100%;">
+                <!-------------------------------------------->
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Балкон:</div>
+                    @if (ad.Balkon)
+                    {
+                        <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">Нема</div></div>
+                    }
+                    else
+                    {
+                        <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">Нема</div></div>
+                    }
+                </div>
+                <!-------------------------------------------->
+                <hr style="height:1px;background-color:white; width: 100%;">
+                <!-------------------------------------------->
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Рік будинку:</div>
+                    <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">@ad.HouseYear</div></div>
+                </div>
+                <!-------------------------------------------->
+                <hr style="height:1px;background-color:white; width: 100%;">
+                <!-------------------------------------------->
+                <div class="d-flex justify-content-between">
+                    <div class="textParamAI">Вид угоди:</div>
+                    @if (ad.PurchaseOportunity)
+                    {
+                        <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">Купівля</div></div> }
+                    else
+                    {
+                        <div class="paramOfAd" style="margin-left: 20px;"><div class="adInfoTxt">Оренда</div></div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <br /><br />
+    <!-------------------------------------------->
+    <hr style="height:1px;background-color:white; width: 100%;">
+    <!-------------------------------------------->
+    <div class="d-flex justify-content-start">
+        <div class="textParam">Теги:</div>
+    </div>
+    <div class="d-flex justify-content-start" style="color: rgb(0, 184, 190);flex-wrap:wrap;">
+        @foreach (var tag in tags)
+        {
+            <p class="tagIngerval">#@tag</p>
+        }
+    </div>
+    <div id="container-3" class="d-grid">
+        <!-------------------------------------------->
+        <hr style="height:1px;background-color:white; width: 100%;">
+        <!-------------------------------------------->
+        <div class="textParamAI">Опис</div>
+        <div style="border: white 1px solid; color: white; padding: 5px 5px 5px 5px;" rows="5">@ad.Description</div>
+    </div>
+
+</main>
+
+<Comments adId="@int.Parse(adId)" userId="@userId"></Comments>
+
+@code {
+    [Parameter] public string adId { get; set; }
+    public string userId = "";
+    AdInfoDTO ad = new AdInfoDTO();
+    List<string> tags = new List<string>();
+    List<string> imagesUrls = new();
+
+    public string goEditAdPageLink = "";
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await localStorage.GetItemAsync<UserProfileDTO>("savedUser");
+        userId = user.Id;
+        ad = await adServices.GetAdById(int.Parse(adId));
+        goEditAdPageLink = $"/AdEdit/{adId}";
+        foreach (var item in ad.tags)
+        {
+            tags.Add(item.Tag_);
+        }
+        var format = "image/png";
+        foreach (var item in ad.images)
+        {
+            imagesUrls.Add($"data:{format};base64,{Convert.ToBase64String(item.ImageFile)}");
+        }
+
+
+    }
+
+    void OpenImagesWindow()
+    {
+        NavigationManager.NavigateTo($"/AdsImagesView/{ad.Id}");
+    }
+
+    public async Task DeleteAd(int adId)
+    {
+        await adServices.DeleteAdById(adId);
+        NavigationManager.NavigateTo($"MyAds/{ad.OwnerId}");
+    }
+}

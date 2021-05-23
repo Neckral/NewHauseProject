@@ -1,0 +1,70 @@
+﻿@page "/AdsImagesView/{adId}"
+@using BuisnesLogicLayer.DTO
+@using BlazorFront.Services
+@inject NavigationManager NavigationManager
+@inject IImageServices imageServices
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+<main class="d-flex justify-content-center">
+    <div id="photosContainer">
+        
+            <img @onclick="GoToAd" src="cancel.png" style="position: absolute; right: 20px;top: 20px;cursor: pointer;width:30px;">
+        
+        <div class="d-flex justify-content-center">
+            <img @onclick="GoBack" class="align-self-center" src="back.png" style="cursor:pointer">
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div style="margin-top: 100px;">
+                <img @bind-src="@currentImageUrl" @bind-src:event="onchange" width="500px">
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <img @onclick="GoNext" class="align-self-center" src="next.png" style="cursor:pointer">
+        </div>
+
+    </div>
+</main>
+@code {
+    [Parameter] public string adId { get; set; }
+
+
+    string currentImageUrl = "";
+    int currentImgIndex = 0;
+    List<string> imagesUrls = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        IEnumerable<ImageEditInfoDTO> imgDTOs = await imageServices.GetImagesByAdId(int.Parse(adId));
+
+        var format = "image/png";
+        foreach (var item in imgDTOs)
+        {
+            imagesUrls.Add($"data:{format};base64,{Convert.ToBase64String(item.ImageFile)}");
+        }
+        currentImageUrl = imagesUrls[currentImgIndex];
+    }
+
+    void GoBack()
+    {
+        if (currentImgIndex > 0)
+        {
+            currentImgIndex--;
+            currentImageUrl = imagesUrls[currentImgIndex];
+        }
+    }
+
+    void GoNext()
+    {
+        if (currentImgIndex < imagesUrls.Count-1)
+        {
+            currentImgIndex++;
+            currentImageUrl = imagesUrls[currentImgIndex];
+        }
+    }
+
+    void GoToAd()
+    {
+        NavigationManager.NavigateTo($"/AdInfo/{adId}");
+    }
+}

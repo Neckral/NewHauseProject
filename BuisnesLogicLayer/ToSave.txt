@@ -1,0 +1,54 @@
+﻿        public IEnumerable<UserProfileDTO> GetAllUsersProfiles()
+        {
+            var users = Database.UserRepository.GetAll();
+
+            foreach (var user in users)
+            {
+                var comments = Database.CommentRepository.GetAll().Where(comment => comment.UserID == user.Id).Count();
+                var ads = Database.AdRepository.GetAll().Where(ad => ad.OwnerId == user.Id).Count();
+                yield return new UserProfileDTO
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    Phone = user.PhoneNumber,
+                    Email = user.Email,
+                    AdsAmount = ads,
+                    ComentsAmount = comments,
+                    Password = user.PasswordHash,
+                };
+            }
+        }
+
+        public UserProfileDTO GetUserProfileById(string id)
+        {
+            var user = Database.UserRepository.GetById(id);
+            var comments = Database.CommentRepository.GetAll().Where(comment => comment.UserID == id).Count();
+            var ads = Database.AdRepository.GetAll().Where(ad => ad.OwnerId == id).Count();
+            return new UserProfileDTO()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Surname = user.Surname,
+                Phone = user.PhoneNumber,
+                Email = user.Email,
+                AdsAmount = ads,
+                ComentsAmount = comments,
+                Password = user.PasswordHash
+            };
+        }
+
+        public void RegisterUser(UserRegisterDTO userRegisterDTO)
+        {
+            Database.UserRepository.Add(ConvertToUser.FromRgisterDTO(userRegisterDTO));
+        }
+
+        public void DeleteUserById(string id)
+        {
+            Database.UserRepository.DeleteById(id);
+        }
+
+        public void UpdateUser(UserEditDTO userEditDTO)
+        {
+            Database.UserRepository.Update(ConvertToUser.FromUserEditDTO(userEditDTO));
+        }
