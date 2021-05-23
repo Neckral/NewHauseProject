@@ -11,8 +11,8 @@
 
 <AuthorizeView>
     <Authorized>
-        <div class="d-flex justify-content-start">
-            <div id="adCategoryInfo" style="border-width: 0px;">
+        <div class="d-flex justify-content-start" style="overflow:scroll;">
+            <div id="adCategoryInfo" style="border-width: 0px;margin-top:32px;">
                 <div>
                     <div style="margin-top: 60px; margin-left: 20px; width: 190px; border-width: 0px;">
                         <div style="border-width: 0px;">Сортувати за:</div>
@@ -39,8 +39,8 @@
                 @foreach (var ad in ads)
                 {
                     <div class="adInfoContainer" id="@ad.Id">
-                        <div class="d-flex justify-content-end" id="imgDelete">
-                            <img @onclick="()=>RemoveFromCompares(userId,ad.Id)" style="margin-right: -5px;margin-top: -5px;cursor: pointer;" src="xbutton.png" width="20px" height="20px">
+                        <div class="d-flex justify-content-center" id="imgDelete">
+                            <img @onclick="()=>RemoveFromCompares(userId,ad.Id)" style="margin-top:10px; cursor: pointer;" src="xbutton.png" width="25px" height="25px">
                         </div>
                         <div>
                             @if (ad.images.Count() != 0)
@@ -77,10 +77,6 @@
                     </div>
                 }
             }
-        </div>
-        <div class="d-flex justify-content-center" style="margin-top: 10px;">
-            <img src="back.png" width="3%" height="3%" style="margin-right: 5px;cursor: pointer;">
-            <img src="next.png" width="3%" height="3%" style="margin-left: 5px;cursor: pointer;">
         </div>
     </Authorized>
     <NotAuthorized>

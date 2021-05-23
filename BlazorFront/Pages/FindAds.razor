@@ -95,11 +95,11 @@
             грн
         </div>
         <!--<div class="paramHeader">
-            Місцезнаходження
-        </div>
-        <div class="paramBody">
-            <input type="text" class="col-sm-10 col-form-label">
-        </div>-->
+        Місцезнаходження
+    </div>
+    <div class="paramBody">
+        <input type="text" class="col-sm-10 col-form-label">
+    </div>-->
         <!-------------------------------------------->
         <div style="height: 1px; background-color:#bb7b27; width: 80%; margin-top: 25px;margin-left: 40px;"></div>
         <!-------------------------------------------->
@@ -213,10 +213,10 @@
             <input @bind="adToCompare.MaxHouseYear" type="number" class="col-sm-4 col-form-label">
         </div>
         <!--
-        <div class="form-check" style="margin-left: 5px;">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault"><b>Без різниці</b></label>
-        </div>-->
+    <div class="form-check" style="margin-left: 5px;">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault"><b>Без різниці</b></label>
+    </div>-->
         <!-------------------------------------------->
         <div style="height: 1px; background-color:#bb7b27; width: 80%; margin-top: 25px;margin-left: 40px;"></div>
         <!-------------------------------------------->
@@ -275,6 +275,10 @@
         <!-------------------------------------------->
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-secondary" style="margin-top: 10px;margin-bottom:10px" @onclick="FindAdsByParams">Шукати</button>
+        </div>
+        <!-------------------------------------------->
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-secondary" style="margin-top: 10px;margin-bottom:10px" @onclick="GetAllAccessableAds">Вивести всі оголошення</button>
         </div>
     </div>
 </main>
@@ -343,6 +347,39 @@
         }
     }
 
+    async Task GetAllAccessableAds()
+    {
+        ads = new List<AdInfoDTO>();
+        IsOrNotCompares = new();
+        IsOrNotFavorites = new();
+
+        ads = await adServices.GetAllAds();
+        if (userId != "")
+        {
+            adsFavorites = await favoriteServices.GetAllFavoritesByUserId(userId);
+            adsCompares = await forCompareServices.GetAllComparesByUserId(userId);
+            foreach (var ad in ads)
+            {
+                if (adsFavorites.Any(adfav => adfav.Id == ad.Id))
+                {
+                    IsOrNotFavorites.Add(new FavStarIcon("star2.png", ad.Id));
+                }
+                else
+                {
+                    IsOrNotFavorites.Add(new FavStarIcon("star1.png", ad.Id));
+                }
+
+                if (adsCompares.Any(adcomp => adcomp.Id == ad.Id))
+                {
+                    IsOrNotCompares.Add(new CompareIcon("compare2.png", ad.Id));
+                }
+                else
+                {
+                    IsOrNotCompares.Add(new CompareIcon("compare1.png", ad.Id));
+                }
+            }
+        }
+    }
 
     async Task GoToAd(int adId)
     {

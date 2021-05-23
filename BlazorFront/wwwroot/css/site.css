@@ -3,6 +3,15 @@
     color: red;
 }
 
+div.scroll {
+    margin: 4px, 4px;
+    padding: 4px;
+    width: 1000px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
 .tagIngerval {
     margin-left: 3px;
 }
@@ -92,7 +101,7 @@
 /*========================= Compares Page Styles =========================*/
 .adInfoContainer {
     display: grid;
-    grid-template-rows: 8fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 8fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 .adInfoContainer div {
@@ -117,11 +126,12 @@
     }
 
 #imgDelete {
-    position: absolute;
+   /* position: inherit;*/
     background-color: rgba(255, 0, 0, 0);
     border-width: 0px;
-    width: 20px;
-    margin-left: 215px;
+    text-align:center;
+/*    width: 30px;
+    margin-left: 215px;*/
 }
 
 /*========================= FindAds Page Styles =========================*/
