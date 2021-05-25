@@ -12,6 +12,8 @@ using DataAccesLayer.Enteties;
 using BuisnesLogicLayer.Converters;
 using DataAccesLayer.Repositories;
 using AutoMapper;
+using DataAccesLayer.Helpers;
+using DataAccesLayer.Models;
 
 namespace BuisnesLogicLayer.Services
 {
@@ -26,7 +28,7 @@ namespace BuisnesLogicLayer.Services
         }
 
         /*--------------------Common Methods from Generic repository--------------------*/
-        public async Task<IEnumerable<AdShortInfoDTO>> GetAllAds()
+        public async Task<PagedList<AdShortInfoDTO>> GetAllAds(QueryStringParameters parameters)
         {
             var allAds = await Database.AdRepository.GetAll();
             List<AdShortInfoDTO> adShortInfoDTOs = new();
@@ -36,7 +38,8 @@ namespace BuisnesLogicLayer.Services
                 mappedAd.images = mapper.Map<IEnumerable<Image>, List<ImageEditInfoDTO>>(ad.images);
                 adShortInfoDTOs.Add(mappedAd);
             }
-            return adShortInfoDTOs;
+            var result = PagedList<AdShortInfoDTO>.ToPagedList(adShortInfoDTOs, parameters.PageNumber, parameters.PageSize);
+            return result;
         }
 
         public async Task<AdInfoDTO> GetAdById(int id)

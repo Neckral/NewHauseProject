@@ -11,6 +11,8 @@ using Blazored.LocalStorage;
 using System.Net.Http.Headers;
 using BlazorFront.AuthServices;
 using System.Text.RegularExpressions;
+using DataAccesLayer.Models;
+using BlazorFront.Models;
 
 namespace BlazorFront.Services
 {
@@ -69,8 +71,7 @@ namespace BlazorFront.Services
             string serializedAd = JsonConvert.SerializeObject("");
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, "UserId/" + userId);
             requestMessage.Content = new StringContent(serializedAd);
-            requestMessage.Content.Headers.ContentType
-                = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            requestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             string accessToken = await localStorageService.GetItemAsync<string>("accessToken");
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
@@ -82,9 +83,17 @@ namespace BlazorFront.Services
 
         }
 
-        public async Task<IEnumerable<AdShortInfoDTO>> GetAllAds()
+        public async Task<PagedList<AdShortInfoDTO>> GetAllAds(QueryStringParameters parameters)
         {
-            return await httpClient.GetJsonAsync<IEnumerable<AdShortInfoDTO>>("GetAll");
+            var requestMessage = await httpClient.GetAsync($"GetAll?PageNumber={parameters.PageNumber}&PageSize={parameters.PageSize}");
+            using var responseContent = await requestMessage.Content.ReadAsStreamAsync();
+
+            var resp = requestMessage.Headers.TryGetValues("X-Pagination", out var pag);
+            var pagg = JsonConvert.DeserializeObject<PagedList>(pag.First());
+
+            List<AdShortInfoDTO> ads = await System.Text.Json.JsonSerializer.DeserializeAsync<List<AdShortInfoDTO>>(responseContent);
+            var result = new PagedList<AdShortInfoDTO>(ads, pagg.TotalCount, pagg.CurrentPage, pagg.PageSize, pagg.HasNext, pagg.HasPrevious);
+            return result;
         }
 
         public async Task UpdateAd(AdEditDTO editAdDTO) // Authorized

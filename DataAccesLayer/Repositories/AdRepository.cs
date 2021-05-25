@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Dapper;
 using System.Data.SqlClient;
+using DataAccesLayer.Models;
+using DataAccesLayer.Helpers;
 
 namespace DataAccesLayer.Repositories
 {
@@ -152,9 +154,18 @@ namespace DataAccesLayer.Repositories
             
         }
 
+        public async Task<PagedList<Ad>> GetAll(QueryStringParameters parameters)
+        {
+                var ads = await context.Ads.Include(c => c.comments)
+                            .Include(i => i.images)
+                            .Include(t => t.tags)
+                            .ToListAsync();
+            return PagedList<Ad>.ToPagedList(ads,parameters.PageNumber,parameters.PageSize);
+        }
+
         public async Task<IEnumerable<Ad>> GetAll()
         {
-                return await context.Ads.Include(c => c.comments)
+            return await context.Ads.Include(c => c.comments)
                             .Include(i => i.images)
                             .Include(t => t.tags)
                             .ToListAsync();

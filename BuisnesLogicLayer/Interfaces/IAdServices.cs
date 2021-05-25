@@ -5,13 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using BuisnesLogicLayer.DTO;
 using DataAccesLayer.Enteties;
+using DataAccesLayer.Helpers;
+using DataAccesLayer.Models;
 
 namespace BuisnesLogicLayer.Interfaces
 {
     public interface IAdServices
     {
         /*--------------------Common Methods from Generic repository--------------------*/
-        public Task<IEnumerable<AdShortInfoDTO>> GetAllAds();
+        public Task<PagedList<AdShortInfoDTO>> GetAllAds(QueryStringParameters parameters);
 
         public Task<AdInfoDTO> GetAdById(int id);
 

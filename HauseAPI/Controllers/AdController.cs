@@ -8,6 +8,9 @@ using BuisnesLogicLayer.Services;
 using BuisnesLogicLayer.DTO;
 using DataAccesLayer.Enteties;
 using Microsoft.AspNetCore.Authorization;
+using DataAccesLayer.Helpers;
+using DataAccesLayer.Models;
+using Newtonsoft.Json;
 
 namespace HauseAPI.Controllers
 {
@@ -21,9 +24,21 @@ namespace HauseAPI.Controllers
 
         // get all ads
         [HttpGet("GetAll")]
-        public async Task<IEnumerable<AdShortInfoDTO>> GetAllAds()
+        public async Task<IActionResult> GetAllAds([FromQuery] QueryStringParameters parameters)
         {
-            return await adServices.GetAllAds();
+            var ads = await adServices.GetAllAds(parameters);
+            var metadata = new
+            {
+                ads.TotalCount,
+                ads.PageSize,
+                ads.CurrentPage,
+                ads.TotalPages,
+                ads.HasNext,
+                ads.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(ads);
         }
 
         // get by option ads

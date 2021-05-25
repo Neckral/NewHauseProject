@@ -4,11 +4,15 @@ using System.Linq;
 using System.Text;
 using DataAccesLayer.Enteties;
 using System.Threading.Tasks;
+using DataAccesLayer.Helpers;
+using DataAccesLayer.Models;
 
 namespace DataAccesLayer.Interfaces
 {
     public interface IAdRepository //: IGenericRepository<Ad>
     {
+        Task<PagedList<Ad>> GetAll(QueryStringParameters parameters);
+
         Task<IEnumerable<Ad>> GetAll();
 
         Task<Ad> GetById(int id);

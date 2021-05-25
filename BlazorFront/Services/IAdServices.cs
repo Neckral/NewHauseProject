@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using BuisnesLogicLayer.DTO;
 using DataAccesLayer.Enteties;
+using DataAccesLayer.Models;
+using BlazorFront.Models;
 
 namespace BlazorFront.Services
 {
     public interface IAdServices
     {
-        public Task<IEnumerable<AdShortInfoDTO>> GetAllAds();
+        public Task<PagedList<AdShortInfoDTO>> GetAllAds(QueryStringParameters parameters);
 
         public Task<AdInfoDTO> GetAdById(int id);
 
