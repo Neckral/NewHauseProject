@@ -26,10 +26,17 @@ namespace BuisnesLogicLayer.Services
         }
 
         /*--------------------Common Methods from Generic repository--------------------*/
-        public async Task<IEnumerable<AdInfoDTO>> GetAllAds()
+        public async Task<IEnumerable<AdShortInfoDTO>> GetAllAds()
         {
             var allAds = await Database.AdRepository.GetAll();
-            return await GetAdDTOs(allAds);
+            List<AdShortInfoDTO> adShortInfoDTOs = new();
+            foreach (var ad in allAds)
+            {
+                var mappedAd = mapper.Map<Ad, AdShortInfoDTO>(ad);
+                mappedAd.images = mapper.Map<IEnumerable<Image>, List<ImageEditInfoDTO>>(ad.images);
+                adShortInfoDTOs.Add(mappedAd);
+            }
+            return adShortInfoDTOs;
         }
 
         public async Task<AdInfoDTO> GetAdById(int id)
@@ -72,16 +79,30 @@ namespace BuisnesLogicLayer.Services
             await Database.AdRepository.Update(mappedAd);
         }
 
-        public async Task<IEnumerable<AdInfoDTO>> GetAdsByUserId(string userId)
+        public async Task<IEnumerable<AdShortInfoDTO>> GetAdsByUserId(string userId)
         {
             var allAds = await Database.AdRepository.GetAdsByUserId(userId);
-            return await GetAdDTOs(allAds);
+            List<AdShortInfoDTO> adShortInfoDTOs = new();
+            foreach (var ad in allAds)
+            {
+                var mappedAd = mapper.Map<Ad, AdShortInfoDTO>(ad);
+                mappedAd.images = mapper.Map<IEnumerable<Image>, List<ImageEditInfoDTO>>(ad.images);
+                adShortInfoDTOs.Add(mappedAd);
+            }
+            return adShortInfoDTOs;
         }
 
-        public async Task<IEnumerable<AdInfoDTO>> GetAdsByOptions(AdToCompare adToCompare)
+        public async Task<IEnumerable<AdShortInfoDTO>> GetAdsByOptions(AdToCompare adToCompare)
         {
             var allAds = await Database.AdRepository.GetAdsByOptions(adToCompare);
-            return await GetAdDTOs(allAds);
+            List<AdShortInfoDTO> adShortInfoDTOs = new();
+            foreach (var ad in allAds)
+            {
+                var mappedAd = mapper.Map<Ad, AdShortInfoDTO>(ad);
+                mappedAd.images = mapper.Map<IEnumerable<Image>, List<ImageEditInfoDTO>>(ad.images);
+                adShortInfoDTOs.Add(mappedAd);
+            }
+            return adShortInfoDTOs;
         }
 
         /*------------------------------Individual methods------------------------------*/

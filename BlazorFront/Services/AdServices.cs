@@ -64,7 +64,7 @@ namespace BlazorFront.Services
             return await httpClient.GetJsonAsync<AdInfoDTO>("GetById/" + id);
         }
 
-        public async Task<IEnumerable<AdInfoDTO>> GetAdsByUserId(string userId) // Authorized
+        public async Task<IEnumerable<AdShortInfoDTO>> GetAdsByUserId(string userId) // Authorized
         {
             string serializedAd = JsonConvert.SerializeObject("");
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, "UserId/" + userId);
@@ -78,13 +78,13 @@ namespace BlazorFront.Services
             var response = await httpClient.SendAsync(requestMessage);
 
                 var responseBody = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<IEnumerable<AdInfoDTO>>(responseBody);
+                return JsonConvert.DeserializeObject<IEnumerable<AdShortInfoDTO>>(responseBody);
 
         }
 
-        public async Task<IEnumerable<AdInfoDTO>> GetAllAds()
+        public async Task<IEnumerable<AdShortInfoDTO>> GetAllAds()
         {
-            return await httpClient.GetJsonAsync<IEnumerable<AdInfoDTO>>("GetAll");
+            return await httpClient.GetJsonAsync<IEnumerable<AdShortInfoDTO>>("GetAll");
         }
 
         public async Task UpdateAd(AdEditDTO editAdDTO) // Authorized
@@ -102,7 +102,7 @@ namespace BlazorFront.Services
 
         }
 
-        public async Task<IEnumerable<AdInfoDTO>> GetAdsByOptions(AdToCompare adToCompare)
+        public async Task<IEnumerable<AdShortInfoDTO>> GetAdsByOptions(AdToCompare adToCompare)
         {
             string serializedUser = JsonConvert.SerializeObject(adToCompare);
             var requestMessage = new HttpRequestMessage(HttpMethod.Post, "GetByOptions");
@@ -113,7 +113,7 @@ namespace BlazorFront.Services
             var responseStatusCode = response.StatusCode;
 
                 var responseBody = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<IEnumerable<AdInfoDTO>>(responseBody);
+                return JsonConvert.DeserializeObject<IEnumerable<AdShortInfoDTO>>(responseBody);
 
         }
 

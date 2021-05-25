@@ -286,7 +286,7 @@
 @code {
     public string userId = "";
 
-    public IEnumerable<AdInfoDTO> ads = new List<AdInfoDTO>();
+    public IEnumerable<AdShortInfoDTO> ads = new List<AdShortInfoDTO>();
     public AdToCompare adToCompare = new();
 
     public IEnumerable<AdShortInfoDTO> adsFavorites = new List<AdShortInfoDTO>();
@@ -315,7 +315,7 @@
     }
     async Task FindAdsByParams()
     {
-        ads = new List<AdInfoDTO>();
+        ads = new List<AdShortInfoDTO>();
         IsOrNotCompares = new();
         IsOrNotFavorites = new();
 
@@ -349,7 +349,7 @@
 
     async Task GetAllAccessableAds()
     {
-        ads = new List<AdInfoDTO>();
+        ads = new List<AdShortInfoDTO>();
         IsOrNotCompares = new();
         IsOrNotFavorites = new();
 

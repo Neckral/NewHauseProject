@@ -11,7 +11,7 @@ namespace BuisnesLogicLayer.Interfaces
     public interface IAdServices
     {
         /*--------------------Common Methods from Generic repository--------------------*/
-        public Task<IEnumerable<AdInfoDTO>> GetAllAds();
+        public Task<IEnumerable<AdShortInfoDTO>> GetAllAds();
 
         public Task<AdInfoDTO> GetAdById(int id);
 
@@ -23,9 +23,9 @@ namespace BuisnesLogicLayer.Interfaces
 
         public Task UpdateAd(AdEditDTO editAdDTO);
 
-        public Task<IEnumerable<AdInfoDTO>> GetAdsByUserId(string userId);
+        public Task<IEnumerable<AdShortInfoDTO>> GetAdsByUserId(string userId);
 
-        public Task<IEnumerable<AdInfoDTO>> GetAdsByOptions(AdToCompare adToCompare);
+        public Task<IEnumerable<AdShortInfoDTO>> GetAdsByOptions(AdToCompare adToCompare);
 
         /*------------------------------Individual methods------------------------------*/
        

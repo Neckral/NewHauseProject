@@ -21,14 +21,14 @@ namespace HauseAPI.Controllers
 
         // get all ads
         [HttpGet("GetAll")]
-        public async Task<IEnumerable<AdInfoDTO>> GetAllAds()
+        public async Task<IEnumerable<AdShortInfoDTO>> GetAllAds()
         {
             return await adServices.GetAllAds();
         }
 
         // get by option ads
         [HttpPost("GetByOptions")]
-        public async Task<IEnumerable<AdInfoDTO>> GetAdsByOptions([FromBody] AdToCompare adToCompare)
+        public async Task<IEnumerable<AdShortInfoDTO>> GetAdsByOptions([FromBody] AdToCompare adToCompare)
         {
             return await adServices.GetAdsByOptions(adToCompare);
         }
@@ -36,7 +36,7 @@ namespace HauseAPI.Controllers
         // get all ads by user id
         [Authorize]
         [HttpGet("UserId/{userId}")]
-        public async Task<IEnumerable<AdInfoDTO>> GetAllAdsByUserId(string userId)
+        public async Task<IEnumerable<AdShortInfoDTO>> GetAllAdsByUserId(string userId)
         {
             return await adServices.GetAdsByUserId(userId);
         }
