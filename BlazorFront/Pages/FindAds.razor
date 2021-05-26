@@ -17,72 +17,79 @@
     <div id="ads">
         @if (ads != null)
         {
-        @foreach (var ad in ads.Select((value, index) => new { value, index }))
-        {
-            <div class="ad" style="border: rgb(104, 104, 104) 3px solid;">
-                <div id="forImg" class="d-flex justify-content-center" style="margin: 0px 0px 0px 0px; border-right:rgb(104, 104, 104) 3px solid;">
-                    @if (ad.value.images.Count() != 0)
-                    {
-                        <img class="imgFromAd" src="data:image/png;base64, @(Convert.ToBase64String(ad.value.images.FirstOrDefault().ImageFile))" width="100%" height="250px">
-                    }
+            @foreach (var ad in ads.Select((value, index) => new { value, index }))
+            {
+                <div class="ad" style="border: rgb(104, 104, 104) 3px solid;">
+                    <div id="forImg" class="d-flex justify-content-center" style="margin: 0px 0px 0px 0px; border-right:rgb(104, 104, 104) 3px solid;">
+                        @if (ad.value.images.Count() != 0)
+                        {
+                            <img class="imgFromAd" src="data:image/png;base64, @(Convert.ToBase64String(ad.value.images.FirstOrDefault().ImageFile))" width="100%" height="250px">
+                        }
+                    </div>
+
+                    <div class="favInfo">
+                        <div class="d-flex justify-content-end" style="border-bottom: #1C6EA4 1px solid;">
+                            <AuthorizeView>
+                                <Authorized>
+                                    <img @bind-src="@IsOrNotFavorites[ad.index].src" @bind-src:event="onchange" @onclick="() => ChangeFavState(userId, ad.value.Id)" class="favicons">
+                                    <img @bind-src="@IsOrNotCompares[ad.index].src" @bind-src:event="onchange" @onclick="() => ChangeCompareState(userId, ad.value.Id)" class="favicons">
+                                </Authorized>
+                            </AuthorizeView>
+                        </div>
+
+                        <div class="favInfoTxt">
+                            <div style="margin-left: 10px;"><font color="gray">Площа:</font> @ad.value.AreaOfHouse</div>
+                        </div>
+
+                        <div class="favInfoTxt">
+                            <div style="margin-left: 10px;"><font color="gray">Кількість кімнат:</font>@ad.value.RoomNumber</div>
+                        </div>
+
+                        <div class="favInfoTxt">
+                            <div style="margin-left: 10px;"><font color="gray">Рік будинку:</font> @ad.value.HouseYear</div>
+                        </div>
+
+
+                        <div class="favInfoTxt">
+                            @if (ad.value.PurchaseOportunity)
+                            {
+                                <div style="margin-left: 10px;"><font color="gray">Вид угоди:</font>Купівля</div>
+                            }
+                            else
+                            {
+                                <div style="margin-left: 10px;"><font color="gray">Вид угоди:</font>Оренда</div>
+                            }
+                        </div>
+
+                        <div class="favInfoTxt">
+                            @if (ad.value.Balkon)
+                            {
+                                <div style="margin-left: 10px;"><font color="gray">Балкон:</font>Є</div>
+                            }
+                            else
+                            {
+                                <div style="margin-left: 10px;"><font color="gray">Балкон:</font>Нема</div>
+                            }
+                        </div>
+
+                        <div class="favInfoTxt">
+                            <div style="margin-left: 10px;"><font color="gray">Ціна:</font> <b>@ad.value.Price</b></div>
+                        </div>
+
+                        <button class="myButton" @onclick="() => GoToAd(ad.value.Id)">Перейти</button>
+                    </div>
+
+
                 </div>
-
-                <div class="favInfo">
-                    <div class="d-flex justify-content-end" style="border-bottom: #1C6EA4 1px solid;">
-                        <AuthorizeView>
-                            <Authorized>
-                                <img @bind-src="@IsOrNotFavorites[ad.index].src" @bind-src:event="onchange" @onclick="() => ChangeFavState(userId, ad.value.Id)" class="favicons">
-                                <img @bind-src="@IsOrNotCompares[ad.index].src" @bind-src:event="onchange" @onclick="() => ChangeCompareState(userId, ad.value.Id)" class="favicons">
-                            </Authorized>
-                        </AuthorizeView>
-                    </div>
-
-                    <div class="favInfoTxt">
-                        <div style="margin-left: 10px;"><font color="gray">Площа:</font> @ad.value.AreaOfHouse</div>
-                    </div>
-
-                    <div class="favInfoTxt">
-                        <div style="margin-left: 10px;"><font color="gray">Кількість кімнат:</font>@ad.value.RoomNumber</div>
-                    </div>
-
-                    <div class="favInfoTxt">
-                        <div style="margin-left: 10px;"><font color="gray">Рік будинку:</font> @ad.value.HouseYear</div>
-                    </div>
-
-
-                    <div class="favInfoTxt">
-                        @if (ad.value.PurchaseOportunity)
-                        {
-                            <div style="margin-left: 10px;"><font color="gray">Вид угоди:</font>Купівля</div>
-                        }
-                        else
-                        {
-                            <div style="margin-left: 10px;"><font color="gray">Вид угоди:</font>Оренда</div>
-                        }
-                    </div>
-
-                    <div class="favInfoTxt">
-                        @if (ad.value.Balkon)
-                        {
-                            <div style="margin-left: 10px;"><font color="gray">Балкон:</font>Є</div>
-                        }
-                        else
-                        {
-                            <div style="margin-left: 10px;"><font color="gray">Балкон:</font>Нема</div>
-                        }
-                    </div>
-
-                    <div class="favInfoTxt">
-                        <div style="margin-left: 10px;"><font color="gray">Ціна:</font> <b>@ad.value.Price</b></div>
-                    </div>
-
-                    <button class="myButton" @onclick="() => GoToAd(ad.value.Id)">Перейти</button>
-                </div>
-
-
-            </div>
+            }
         }
-    }
+
+        @if (ads != null)
+        {
+                <GridViewPages PageIndex=@ads.CurrentPage TotalPages=@ads.TotalPages OnClick="PageIndexChanged"
+                               HasNextPage=@ads.HasNext HasPreviousPage=@ads.HasPrevious>
+                </GridViewPages>
+        }
     </div>
 
     <div id="paramSelect">
@@ -286,13 +293,6 @@
             <button type="submit" class="btn btn-secondary" style="margin-top: 10px;margin-bottom:10px" @onclick="GetAllAccessableAds">Вивести всі оголошення</button>
         </div>
     </div>
-
-    @if (ads != null)
-    {
-        <GridViewPages PageIndex=@ads.CurrentPage TotalPages=@ads.TotalPages OnClick="PageIndexChanged"
-                       HasNextPage=@ads.HasNext HasPreviousPage=@ads.HasPrevious>
-        </GridViewPages>
-    }
 </main>
 
 @code {
@@ -303,7 +303,7 @@
 
     /// <summary>
     /// REALIZATED PAGGINATION FOR LIST EVENTS
-    /// DEFAULT 10 ITEM IN PAGE
+    /// DEFAULT 5 ITEM IN PAGE
     /// </summary>
     /// <param name="newPageNumber"></param>
     public async void PageIndexChanged(int newPageNumber)
@@ -381,7 +381,9 @@
     {
         IsOrNotCompares = new();
         IsOrNotFavorites = new();
-
+        adsFavorites = new List<AdShortInfoDTO>();
+        adsCompares = new List<ForCompareDTO>();
+        ads = null;
         ads = await adServices.GetAllAds(parameters);
         if (userId != "")
         {

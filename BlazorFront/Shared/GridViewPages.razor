@@ -1,10 +1,10 @@
 ﻿@if (TotalPages > 0)
 {
-    <div class="float-left pager">
+    <div class="d-flex justify-content-center" style="">
         <button type="button" class="btn btn-primary btn-sm" disabled="@((PageIndex == 1) ? "disabled" : null)" @onclick="@(() => OnClick.InvokeAsync(1))">@("<<")</button>
-        <button type="button" class="btn btn-primary btn-sm" disabled="@(HasPreviousPage ? null : "disabled")" @onclick="@(() => OnClick.InvokeAsync(PageIndex - 1))">@("<")</button>
+        <button style="margin:0px 5px 0px 5px" type="button" class="btn btn-primary btn-sm" disabled="@(HasPreviousPage ? null : "disabled")" @onclick="@(() => OnClick.InvokeAsync(PageIndex - 1))">@("<")</button>
         <span>@PageIndex</span>
-        <button type="button" class="btn btn-primary btn-sm" disabled="@(HasNextPage ? null : "disabled")" @onclick="@(() => OnClick.InvokeAsync(PageIndex + 1))">@(">")</button>
+        <button style="margin:0px 5px 0px 5px" type="button" class="btn btn-primary btn-sm" disabled="@(HasNextPage ? null : "disabled")" @onclick="@(() => OnClick.InvokeAsync(PageIndex + 1))">@(">")</button>
         <button type="button" class="btn btn-primary btn-sm" disabled="@((PageIndex == TotalPages) ? "disabled" : null)" @onclick="@(() => OnClick.InvokeAsync(TotalPages))">@(">>")</button>
     </div>
 }

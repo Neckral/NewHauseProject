@@ -86,12 +86,12 @@ namespace BlazorFront.Services
         public async Task<PagedList<AdShortInfoDTO>> GetAllAds(QueryStringParameters parameters)
         {
             var requestMessage = await httpClient.GetAsync($"GetAll?PageNumber={parameters.PageNumber}&PageSize={parameters.PageSize}");
-            using var responseContent = await requestMessage.Content.ReadAsStreamAsync();
+            var responseContent = await requestMessage.Content.ReadAsStringAsync();
 
             var resp = requestMessage.Headers.TryGetValues("X-Pagination", out var pag);
             var pagg = JsonConvert.DeserializeObject<PagedList>(pag.First());
 
-            List<AdShortInfoDTO> ads = await System.Text.Json.JsonSerializer.DeserializeAsync<List<AdShortInfoDTO>>(responseContent);
+            List<AdShortInfoDTO> ads = JsonConvert.DeserializeObject<List<AdShortInfoDTO>>(responseContent);
             var result = new PagedList<AdShortInfoDTO>(ads, pagg.TotalCount, pagg.CurrentPage, pagg.PageSize, pagg.HasNext, pagg.HasPrevious);
             return result;
         }
