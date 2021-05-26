@@ -19,7 +19,7 @@
                 <div class="form-input" style="margin-top:10px">
                     <div class="d-flex">
                         <i class="fa fa-user" style="margin-right:5px;margin-top:5px;"></i>
-                        <input @bind="@user.Email" type="text" class="form-control" placeholder="Почта">
+                        <input @bind="@user.Email" type="text" class="form-control" placeholder="Почта"><span style="width:35px"></span>
                     </div>
                 </div>
 
@@ -53,8 +53,9 @@
     string invalidDataMessage = "";
     public async Task LogInUser()
     {
-        user.Password = PasswordManager.EncodePasswordToBase64(user.Password);
-        UserTokenDTO token = await userServices.LogIn(user);
+        var userToLogin = new UserLogInDTO() { Email = user.Email, Password = user.Password };
+        userToLogin.Password = PasswordManager.EncodePasswordToBase64(user.Password);
+        UserTokenDTO token = await userServices.LogIn(userToLogin);
 
         if (token != null)
         {

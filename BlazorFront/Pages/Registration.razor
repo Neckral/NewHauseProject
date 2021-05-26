@@ -50,7 +50,7 @@
                             </div>
 
                         <div class="form-input" style="margin-top:10px">
-                            <span style="font-size:8pt;" align="center">Довжина пароля не меньше 5 символів і хоча б одна велика літера одна цифра та знак</span>
+                            <span style="font-size:8pt;" align="center">Довжина пароля не меньше 8 символів і хоча б одна велика літера одна цифра та знак</span>
                             <div class="d-flex">
                                 <i class="fa fa-lock" style="margin-right:5px;margin-top:5px;"></i>
                                 <input asp-for="Password" @bind="@user.PasswordHash" type="text" class="form-control" placeholder="Пароль">
@@ -80,9 +80,8 @@
 
         private UserRegisterDTO user = new UserRegisterDTO();
 
-        private async Task Register()
+        private async Task Register(UserRegisterDTO user)
         {
-            user.PasswordHash = PasswordManager.EncodePasswordToBase64(user.PasswordHash);
             var result = await userServices.RegisterUser(user);
             if (result)
             {
@@ -93,6 +92,18 @@
         async Task HandleSubmitValidForm()
         {
             Console.WriteLine("Validate Succesfull");
-            await Register();
+            var userToRegister = new UserRegisterDTO()
+            {
+                Email = user.Email,
+                Name = user.Name,
+                Surname = user.Surname,
+                PhoneNumber = user.PhoneNumber,
+                PasswordHash = user.PasswordHash,
+                PasswordConfirmation = user.PasswordConfirmation
+            };
+
+            userToRegister.PasswordHash = PasswordManager.EncodePasswordToBase64(user.PasswordHash);
+            userToRegister.PasswordConfirmation = PasswordManager.EncodePasswordToBase64(user.PasswordConfirmation);
+            await Register(userToRegister);
         }
     }

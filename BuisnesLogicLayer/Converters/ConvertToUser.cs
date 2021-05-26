@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using DataAccesLayer.Enteties;
 using BuisnesLogicLayer.DTO;
+using System.Text.RegularExpressions;
 
 namespace BuisnesLogicLayer.Converters
 {
@@ -23,7 +24,7 @@ namespace BuisnesLogicLayer.Converters
                 LockoutEnabled = true,
                 LockoutEnd = DateTime.Now,
                 AccessFailedCount = 0,
-                UserName = String.Concat(DTO.Name, DTO.Surname)
+                UserName = String.Concat(DTO.Name, DTO.Surname) + DTO.Email
             };
         }
 

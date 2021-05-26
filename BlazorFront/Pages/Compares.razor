@@ -11,12 +11,12 @@
 
 <AuthorizeView>
     <Authorized>
-        <div class="d-flex justify-content-start" style="overflow:scroll;">
-            <div id="adCategoryInfo" style="border-width: 0px;margin-top:32px;">
+        <div class="d-flex">
+            <div id="adCategoryInfo" style="border-width: 0px;margin:35px 5px 20px 5px;">
                 <div>
                     <div style="margin-top: 60px; margin-left: 20px; width: 190px; border-width: 0px;">
                         <div style="border-width: 0px;">Сортувати за:</div>
-                        <select class="form-select" aria-label="Default select example" width="100px">
+                        <select class="form-select" aria-label="Default select example" width="100px" @onchange="SortItems">
                             <option value="1">Ціна</option>
                             <option value="2">Площа</option>
                         </select>
@@ -24,59 +24,61 @@
                 </div>
                 <div>Ціна</div>
                 <div>Кількість кімнат</div>
-                <div>КількістьПоверхів</div>
+                <div>Кількість Поверхів</div>
                 <div>Басейн</div>
                 <div>Балкон</div>
                 <div>Рік будинку</div>
-                <div>Вид угоди</div>
+                <div >Вид угоди</div>
                 <div>Область</div>
                 <div>Район</div>
                 <div>Місто</div>
                 <div>Площа</div>
             </div>
-            @if (ads.Count() != 0)
-            {
-                @foreach (var ad in ads)
+            <div class="d-flex justify-content-start" style="overflow:scroll;">
+                @if (ads.Count() != 0)
                 {
-                    <div class="adInfoContainer" id="@ad.Id">
-                        <div class="d-flex justify-content-center" id="imgDelete">
-                            <img @onclick="()=>RemoveFromCompares(userId,ad.Id)" style="margin-top:10px; cursor: pointer;" src="xbutton.png" width="25px" height="25px">
+                    @foreach (var ad in ads)
+                    {
+                        <div class="adInfoContainer" id="@ad.Id">
+                            <div class="d-flex justify-content-center" id="imgDelete">
+                                <img @onclick="()=>RemoveFromCompares(userId,ad.Id)" style="margin-top:10px; cursor: pointer;" src="xbutton.png" width="25px" height="25px">
+                            </div>
+                            <div>
+                                @if (ad.images.Count() != 0)
+                                {
+                                    <img class="imgFromAd" src="data:image/png;base64, @(Convert.ToBase64String(ad.images.FirstOrDefault().ImageFile))" style="width:100%;height:250px;vertical-align:middle;">
+                                }
+                            </div>
+                            <div>@ad.Price грн</div>
+                            <div>@ad.RoomNumber</div>
+                            <div>@ad.FloorAmount</div>
+
+                            @if (ad.Pool)
+                            {<div>Є</div> }
+                            else
+                            { <div>Нема</div>}
+
+                            @if (ad.Balkon)
+                            {<div>Є</div> }
+                            else
+                            { <div>Нема</div>}
+
+                            <div>@ad.HouseYear</div>
+
+                            @if (ad.PurchaseOportunity)
+                            {<div>Продажа</div> }
+                            else
+                            { <div>Оренда</div>}
+
+                            <div>@ad.Region</div>
+                            <div>@ad.District</div>
+                            <div>@ad.City</div>
+
+                            <div>@ad.AreaOfHouse кв.м</div>
                         </div>
-                        <div>
-                            @if (ad.images.Count() != 0)
-                            {
-                                <img class="imgFromAd" src="data:image/png;base64, @(Convert.ToBase64String(ad.images.FirstOrDefault().ImageFile))" width="100%" height="250px">
-                            }
-                        </div>
-                        <div>@ad.Price грн</div>
-                        <div>@ad.RoomNumber</div>
-                        <div>@ad.FloorAmount</div>
-
-                        @if (ad.Pool)
-                        {<div>Є</div> }
-                        else
-                        { <div>Нема</div>}
-
-                        @if (ad.Balkon)
-                        {<div>Є</div> }
-                        else
-                        { <div>Нема</div>}
-
-                        <div>@ad.HouseYear</div>
-
-                        @if (ad.PurchaseOportunity)
-                        {<div>Продажа</div> }
-                        else
-                        { <div>Оренда</div>}
-
-                        <div>@ad.Region</div>
-                        <div>@ad.District</div>
-                        <div>@ad.City</div>
-
-                        <div>@ad.AreaOfHouse кв.м</div>
-                    </div>
+                    }
                 }
-            }
+            </div>
         </div>
     </Authorized>
     <NotAuthorized>
@@ -90,11 +92,12 @@
 
 @code {
     [Parameter] public string userId { get; set; }
-    List<bool> isVisible = new List<bool>();
+    bool sortByPrice = true;
     public IEnumerable<ForCompareDTO> ads = new List<ForCompareDTO>();
     protected override async Task OnInitializedAsync()
     {
         ads = await forCompareServices.GetAllComparesByUserId(userId);
+        SortItems();
     }
 
     void GoToAd(int adId)
@@ -106,5 +109,19 @@
     {
         await JS.InvokeVoidAsync("HideDeletedElement", adId);
         await forCompareServices.RemoveCopareByUserIdAndAdId(userId, adId);
+    }
+
+    void SortItems()
+    {
+        if(sortByPrice)
+        {
+            ads = ads.OrderBy(a => a.Price);
+            sortByPrice = false;
+        }
+        else
+        {
+            ads = ads.OrderBy(a => a.AreaOfHouse);
+            sortByPrice = true;
+        }
     }
 }

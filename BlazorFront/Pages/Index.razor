@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using BlazorFront.Services
 @using System.Security.Claims
+@inject IStringLocalizer<App> Localizer
 @inject NavigationManager NavigationManager
 @inject IUserServices userServices
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
@@ -8,7 +9,7 @@
 <main>
     <div style="margin-top: 20px; margin-bottom: 20px;" class="d-flex justify-content-center">
         <div class="d-flex justify-content-between">
-            <div class="d-flex justify-content-center" id="tagline">Знайди своє<br />гніздо</div>
+            <div class="d-flex justify-content-center" id="tagline"><span style="width:70%;">@Localizer["findnest"]</span></div>
             <img src="dreamhouse.png" width="500">
         </div>
     </div>
@@ -18,41 +19,41 @@
 </main>
 <section class="page-section" id="services">
     <div class="container">
-        <h2 class="text-center mt-0">Основне про сайт</h2>
+        <h2 class="text-center mt-0">@Localizer["aboutSite"]</h2>
         <hr class="divider my-4" />
         <div class="row">
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="mt-5">
                     <img src="conversation.png" width="50">
-                    <h3 class="h4 mb-2">Співпраця</h3>
-                    <p class="text-muted mb-0">Ми завжди будемо дуже раді покращити роботу нашого сайта, тому залишайте відгуки.</p>
+                    <h3 class="h4 mb-2">@Localizer["cooperation"]</h3>
+                    <p class="text-muted mb-0">@Localizer["cooperationTxt"]</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="mt-5">
                     <img src="house.png" width="50">
-                    <h3 class="h4 mb-2">Великий вибір</h3>
-                    <p class="text-muted mb-0">UAHause - це платформа  на якій представлений великий вибір нерухомості.</p>
+                    <h3 class="h4 mb-2">@Localizer["largeAsort"]</h3>
+                    <p class="text-muted mb-0">@Localizer["largeAsortTxt"]</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="mt-5">
                     <img src="pidbir.png" width="50">
-                    <h3 class="h4 mb-2">Зручний підбір</h3>
-                    <p class="text-muted mb-0">Робіть пошук потрібної вам нерухомості керуючи доступними характеристтикамина сайті.</p>
+                    <h3 class="h4 mb-2">@Localizer["comfortSearch"]</h3>
+                    <p class="text-muted mb-0">@Localizer["comfortSearchTxt"]</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="mt-5">
                     <img src="doc.png" width="50">
-                    <h3 class="h4 mb-2">Перевірка Документів</h3>
-                    <p class="text-muted mb-0">Завантажуйте разом з фотографіями і документи на нерухомість для надійності.</p>
+                    <h3 class="h4 mb-2">@Localizer["docCheck"]</h3>
+                    <p class="text-muted mb-0">@Localizer["docCheckTxt"]</p>
                 </div>
             </div>
         </div>
     </div>
     <div style="margin: 50px 70px 40px 70px;" class="col-lg-11 col-md-6 text-center">
-        UAHause - це платформа яка була створена з метою полегшення пошуку, купівлі та оренди нерухомості. Оскільки сайт претендує на сервіс з високим асортимнтом, то на ньому присутній широкий підбір за всіми потрібними для нерухомості параметрами. Сайт дозволяє просувати свої оголошення завдяки грошовим донатам. Для того щоб оголошення набрало більшої популярності та пдвищити попит завантажуйте разом з фотографіями нерухомості і фотографії документів. Наш сайта завжди радий об'єктивній критиці та порадам щоб підвищити ефективність працездатності платформи. UAHouse завжди готовий до співпраці, як продати рекламу так і купити, за всіми умовами співпраці звертайтесь до адміністратора за контактами в низу сайта.
+        @Localizer["bottomText"]
     </div>
 </section>
 
@@ -62,7 +63,7 @@
     <!-- Grid container -->
     <div class="container p-4">
         <!-- Section: Social media -->
-        <section class="mb-4">
+        <section class="mb-4" style="display:none;">
             <!-- Facebook -->
             <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button">
                 <i class="fab fa-facebook-f"></i>
@@ -113,13 +114,13 @@
                             <NotAuthorized>
                                 <NavLink href="Registration">
                                     <span class="btn btn-outline-light mb-4">
-                                        Реєстрація
+                                        @Localizer["registeration"]
                                     </span>
                                 </NavLink>
 
                                 <NavLink href="LogIn">
                                     <span class="btn btn-outline-light mb-4">
-                                        Вхід
+                                        @Localizer["login"]
                                     </span>
                                 </NavLink>
                             </NotAuthorized>
@@ -134,9 +135,9 @@
         <!-- Section: Form -->
         <!-- Section: Text -->
         <section class="mb-4">
-            <p>
-                Контактні дані та співпраця
-            </p>
+            <h3>
+                @Localizer["contactsAndComercion"]
+            </h3>
         </section>
         <!-- Section: Text -->
         <!-- Section: Links -->
@@ -145,11 +146,11 @@
             <div class="row">
                 <!--Grid column-->
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Підтримка</h5>
+                    <h5 class="text-uppercase">@Localizer["support"]</h5>
 
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <h6 href="#!" class="text-white">Приват Банк:</h6>
+                            <h6 href="#!" class="text-white">@Localizer["privatbank"]</h6>
                         </li>
                         <li>
                             <a href="#!" class="text-white">2123 2184 9874 7756</a>
@@ -159,21 +160,21 @@
                 <!--Grid column-->
                 <!--Grid column-->
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Співпраця</h5>
+                    <h5 class="text-uppercase">@Localizer["cooperation"]</h5>
 
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <a href="#!" class="text-white">Реклама</a>
+                            <a href="#!" class="text-white">@Localizer["advertisment"]</a>
                         </li>
                         <li>
-                            <a href="#!" class="text-white">Партнерство</a>
+                            <a href="#!" class="text-white">@Localizer["partnership"]</a>
                         </li>
                     </ul>
                 </div>
                 <!--Grid column-->
                 <!--Grid column-->
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Гаряча лінія</h5>
+                    <h5 class="text-uppercase">@Localizer["hotLine"]</h5>
 
                     <ul class="list-unstyled mb-0">
                         <li>
@@ -187,14 +188,14 @@
                 <!--Grid column-->
                 <!--Grid column-->
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Авторські права</h5>
+                    <h5 class="text-uppercase">@Localizer["copyright"]</h5>
 
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <a href="#!" class="text-white">Автор</a>
+                            <a href="#!" class="text-white">@Localizer["author"]</a>
                         </li>
                         <li>
-                            <a href="#!" class="text-white">Права</a>
+                            <a href="#!" class="text-white">@Localizer["rights"]</a>
                         </li>
                     </ul>
                 </div>

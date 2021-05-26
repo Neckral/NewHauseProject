@@ -1,17 +1,18 @@
 ﻿@inject NavigationManager NavigationManager
 @inject IConfiguration Configuration
-
+@inject IStringLocalizer<App> Localizer
 @if (cultures != null)
 {
-    <form class="form-inline">
-        <select class="form-control mr-2" @bind="selectedCulture">
-            <option>Select...</option>
+    <form class="form-inline" >
+        <select style="background:rgba(255, 255, 255, 0);border-width:0px;color:white;" class="form-control mr-2" @bind="selectedCulture">
             @foreach (var culture in cultures.OrderByDescending(key => key.Value))
             {
-                <option value="@culture.Key">@culture.Value</option>
+                <option value="@culture.Key" style="background:rgba(255, 255, 255, 0);border-width:0px;color:black;" >@culture.Value</option>
             }
         </select>
-        <button class="btn btn-outline-primary" @onclick="RequestCultureChange">Change</button>
+        <button class="btn btn-outline-info" style="border-width:0px;" @onclick="RequestCultureChange">
+            @Localizer["changelanguage"]
+        </button>
     </form>
 }
 
