@@ -24,7 +24,7 @@ namespace HauseAPI.Controllers
 
         // get all ads
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllAds([FromQuery] QueryStringParameters parameters)
+        public async Task<PagedList<AdShortInfoDTO>> GetAllAds([FromQuery] QueryStringParameters parameters)
         {
             var ads = await adServices.GetAllAds(parameters);
             var metadata = new
@@ -38,14 +38,26 @@ namespace HauseAPI.Controllers
             };
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-            return Ok(ads);
+            return ads;
         }
 
         // get by option ads
         [HttpPost("GetByOptions")]
-        public async Task<IEnumerable<AdShortInfoDTO>> GetAdsByOptions([FromBody] AdToCompare adToCompare)
+        public async Task<PagedList<AdShortInfoDTO>> GetAdsByOptions([FromBody] AdToCompare adToCompare,[FromQuery]QueryStringParameters parameters)
         {
-            return await adServices.GetAdsByOptions(adToCompare);
+            var ads = await adServices.GetAdsByOptions(adToCompare, parameters);
+            var metadata = new
+            {
+                ads.TotalCount,
+                ads.PageSize,
+                ads.CurrentPage,
+                ads.TotalPages,
+                ads.HasNext,
+                ads.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return ads;
         }
 
         // get all ads by user id

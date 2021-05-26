@@ -98,9 +98,9 @@ namespace BlazorFront.Services
 
         public async Task UpdateAd(AdEditDTO editAdDTO) // Authorized
         {
-            string serializedUser = JsonConvert.SerializeObject(editAdDTO);
+            string serializedAd = JsonConvert.SerializeObject(editAdDTO);
             var requestMessage = new HttpRequestMessage(HttpMethod.Put, "");
-            requestMessage.Content = new StringContent(serializedUser);
+            requestMessage.Content = new StringContent(serializedAd);
             requestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             string accessToken = await localStorageService.GetItemAsync<string>("accessToken");
@@ -111,18 +111,22 @@ namespace BlazorFront.Services
 
         }
 
-        public async Task<IEnumerable<AdShortInfoDTO>> GetAdsByOptions(AdToCompare adToCompare)
+        public async Task<PagedList<AdShortInfoDTO>> GetAdsByOptions(AdToCompare adToCompare, QueryStringParameters parameters)
         {
-            string serializedUser = JsonConvert.SerializeObject(adToCompare);
-            var requestMessage = new HttpRequestMessage(HttpMethod.Post, "GetByOptions");
-            requestMessage.Content = new StringContent(serializedUser);
+            string serializedAd = JsonConvert.SerializeObject(adToCompare);
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"GetByOptions?PageNumber={parameters.PageNumber}&PageSize={parameters.PageSize}");
+            requestMessage.Content = new StringContent(serializedAd);
             requestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             var response = await httpClient.SendAsync(requestMessage);
-            var responseStatusCode = response.StatusCode;
+            var responseContent = await response.Content.ReadAsStringAsync();
 
-                var responseBody = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<IEnumerable<AdShortInfoDTO>>(responseBody);
+            var resp = response.Headers.TryGetValues("X-Pagination", out var pag);
+            var pagg = JsonConvert.DeserializeObject<PagedList>(pag.First());
+
+            List<AdShortInfoDTO> ads = JsonConvert.DeserializeObject<List<AdShortInfoDTO>>(responseContent);
+            var result = new PagedList<AdShortInfoDTO>(ads, pagg.TotalCount, pagg.CurrentPage, pagg.PageSize, pagg.HasNext, pagg.HasPrevious);
+            return result;
 
         }
 

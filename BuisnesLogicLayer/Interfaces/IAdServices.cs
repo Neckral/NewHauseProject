@@ -27,7 +27,7 @@ namespace BuisnesLogicLayer.Interfaces
 
         public Task<IEnumerable<AdShortInfoDTO>> GetAdsByUserId(string userId);
 
-        public Task<IEnumerable<AdShortInfoDTO>> GetAdsByOptions(AdToCompare adToCompare);
+        public Task<PagedList<AdShortInfoDTO>> GetAdsByOptions(AdToCompare adToCompare,QueryStringParameters parameters);
 
         /*------------------------------Individual methods------------------------------*/
        

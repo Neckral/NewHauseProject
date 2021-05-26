@@ -284,9 +284,9 @@
                 </label>
             </div>
         </div>
-        <!-------------------------------onclick="FindAdsByParams"------------->
+        <!-------------------------------------------->
         <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-secondary" style="margin-top: 10px;margin-bottom:10px">Шукати</button>
+            <button type="submit" class="btn btn-secondary" style="margin-top: 10px;margin-bottom:10px" @onclick="FindAdsByParams">Шукати</button>
         </div>
         <!-------------------------------------------->
         <div class="d-flex justify-content-center">
@@ -301,6 +301,7 @@
     public PagedList<AdShortInfoDTO> ads;
     public QueryStringParameters parameters = new() { PageNumber = 1, PageSize = 5 };
 
+    private bool GetAll = false;
     /// <summary>
     /// REALIZATED PAGGINATION FOR LIST EVENTS
     /// DEFAULT 5 ITEM IN PAGE
@@ -313,7 +314,10 @@
             return;
         }
         parameters.PageNumber = newPageNumber;
-        await GetAllAccessableAds();
+        if (GetAll)
+            await GetAllAccessableAds();
+        else
+            await FindAdsByParams();
         StateHasChanged();
     }
     #endregion
@@ -343,42 +347,47 @@
         adToCompare.PurchaseOportunityNoMatter = true;
         adToCompare.StatusNoMatter = true;
     }
-    //async Task FindAdsByParams()
-    //{
-    //    ads = new List<AdShortInfoDTO>();
-    //    IsOrNotCompares = new();
-    //    IsOrNotFavorites = new();
 
-    //    ads = await adServices.GetAdsByOptions(adToCompare);
-    //    if (userId != "")
-    //    {
-    //        adsFavorites = await favoriteServices.GetAllFavoritesByUserId(userId);
-    //        adsCompares = await forCompareServices.GetAllComparesByUserId(userId);
-    //        foreach (var ad in ads)
-    //        {
-    //            if (adsFavorites.Any(adfav => adfav.Id == ad.Id))
-    //            {
-    //                IsOrNotFavorites.Add(new FavStarIcon("star2.png", ad.Id));
-    //            }
-    //            else
-    //            {
-    //                IsOrNotFavorites.Add(new FavStarIcon("star1.png", ad.Id));
-    //            }
+    async Task FindAdsByParams()
+    {
+        GetAll = false;
+        IsOrNotCompares = new();
+        IsOrNotFavorites = new();
+        adsFavorites = new List<AdShortInfoDTO>();
+        adsCompares = new List<ForCompareDTO>();
+        ads = null;
 
-    //            if (adsCompares.Any(adcomp => adcomp.Id == ad.Id))
-    //            {
-    //                IsOrNotCompares.Add(new CompareIcon("compare2.png", ad.Id));
-    //            }
-    //            else
-    //            {
-    //                IsOrNotCompares.Add(new CompareIcon("compare1.png", ad.Id));
-    //            }
-    //        }
-    //    }
-    //}
+        ads = await adServices.GetAdsByOptions(adToCompare,parameters);
+        if (userId != "")
+        {
+            adsFavorites = await favoriteServices.GetAllFavoritesByUserId(userId);
+            adsCompares = await forCompareServices.GetAllComparesByUserId(userId);
+            foreach (var ad in ads)
+            {
+                if (adsFavorites.Any(adfav => adfav.Id == ad.Id))
+                {
+                    IsOrNotFavorites.Add(new FavStarIcon("star2.png", ad.Id));
+                }
+                else
+                {
+                    IsOrNotFavorites.Add(new FavStarIcon("star1.png", ad.Id));
+                }
+
+                if (adsCompares.Any(adcomp => adcomp.Id == ad.Id))
+                {
+                    IsOrNotCompares.Add(new CompareIcon("compare2.png", ad.Id));
+                }
+                else
+                {
+                    IsOrNotCompares.Add(new CompareIcon("compare1.png", ad.Id));
+                }
+            }
+        }
+    }
 
     async Task GetAllAccessableAds()
     {
+        GetAll = true;
         IsOrNotCompares = new();
         IsOrNotFavorites = new();
         adsFavorites = new List<AdShortInfoDTO>();
