@@ -16,6 +16,7 @@ using Blazored.LocalStorage;
 using BlazorFront.Validation;
 using BlazorFront.AuthServices;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Server.IISIntegration;
 
 namespace BlazorFront
 {
@@ -34,7 +35,6 @@ namespace BlazorFront
         {
             services.AddControllers();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddBlazoredLocalStorage();

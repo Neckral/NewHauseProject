@@ -2,6 +2,7 @@
 @using BlazorFront.Services
 @using BuisnesLogicLayer.DTO
 @using DataAccesLayer.Enteties
+@inject IJSRuntime JS
 @inject IAdServices adServices
 @inject IUserServices userServices
 @inject IFavoritesServices favoriteServices
@@ -17,7 +18,7 @@
 
             @foreach (var ad in ads.Select((value, index) => new { value, index }))
             {
-                <div class="ad" style="border: rgb(104, 104, 104) 3px solid;">
+                <div class="ad" style="border: rgb(104, 104, 104) 3px solid;" id="@ad.value.Id">
                     <div id="forImg" class="d-flex justify-content-center" style="margin: 0px 0px 0px 0px; border-right:rgb(104, 104, 104) 3px solid;">
                         @if (ad.value.images.Count() != 0)
                         {
@@ -148,6 +149,7 @@
                 {
                     IsOrNotFavorites[i].src = "star1.png";
                     await favoriteServices.RemoveFavoriteByUserIdAndAdId(userId, adId);
+                    await JS.InvokeVoidAsync("HideDeletedElement", adId);
                 }
                 break;
             }
