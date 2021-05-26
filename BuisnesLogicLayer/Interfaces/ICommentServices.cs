@@ -21,10 +21,7 @@ namespace BuisnesLogicLayer.Interfaces
         public Task DeleteCommentById(int id);
 
         /*------------------------------Individual methods------------------------------*/
-        public Task<IEnumerable<CommentInfoAndEditIDTO>> GetCommentsByAdId(int adId);
-
-        public Task RemoveCommentByUserIdAndAdId(string userId, int adId);
-        
+        public Task<IEnumerable<CommentInfoAndEditIDTO>> GetCommentsByAdId(int adId);      
         
     }
 }

@@ -53,14 +53,6 @@ namespace HauseAPI.Controllers
             await commentServices .DeleteCommentById(id);
         }
 
-        // Delete comment by userId and adId
-        [Authorize]
-        [HttpDelete("/Comment/{userId}/{adId}")]
-        public async Task RemoveCommentByUserIdAndAdId(string userId, int adId)
-        {
-            await commentServices.RemoveCommentByUserIdAndAdId(userId, adId);
-        }
-
         // Edit comment
         [Authorize]
         [HttpPut]

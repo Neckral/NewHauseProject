@@ -10,6 +10,5 @@ namespace DataAccesLayer.Interfaces
     public interface ICommentRepository : IGenericRepository<Comment>
     {
         public Task<IEnumerable<Comment>> GetCommentsByAdId(int adId);
-        public Task RemoveCommentByUserIdAndAdId(string userId,int adId);
     }
 }

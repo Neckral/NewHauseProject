@@ -19,12 +19,5 @@ namespace DataAccesLayer.Repositories
         {
             return await context.Comments.Where(coment => coment.AdId == adId).ToListAsync();
         }
-
-        public async Task RemoveCommentByUserIdAndAdId(string userId,int adId)
-        {
-            var commentToRemove = context.Comments.ToList().Where(coment => coment.UserID == userId && coment.AdId == adId).FirstOrDefault();
-            context.Comments.Remove(commentToRemove);
-            await context.SaveChangesAsync();
-        }
     }
 }

@@ -73,10 +73,5 @@ namespace BuisnesLogicLayer.Services
             }
             return mappedComments;
         }
-
-        public async Task RemoveCommentByUserIdAndAdId(string userId, int adId)
-        {
-            await Database.CommentRepository.RemoveCommentByUserIdAndAdId(userId, adId);
-        }
     }
 }
