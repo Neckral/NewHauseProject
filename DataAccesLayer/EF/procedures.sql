@@ -1,4 +1,4 @@
-﻿-- Execute those procedures befor first project launch to create them and have ability to call them when need
+﻿-- Execute those procedures before first project launch to create them and have ability to call them when need
 
 create proc GetImagesByAdId
 @adid int
