@@ -28,9 +28,6 @@ using BuisnesLogicLayer.MappersConfigurations;
 using BuisnesLogicLayer.Validation;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using BuisnesLogicLayer.JWTs;
 
 namespace HauseAPI
 {
@@ -87,28 +84,6 @@ namespace HauseAPI
                 .AddEntityFrameworkStores<AppDBContext>()
                 .AddDefaultTokenProviders();
 
-            // Adding Authentication
-            services.AddAuthentication(options => {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            // Adding JWT Bearer
-            .AddJwtBearer(options =>
-            {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidAudience = JwtOptions.AUDIENCE,
-                    ValidIssuer = JwtOptions.ISSUER,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtOptions.KEY)),
-                    ValidateLifetime = true,
-                    LifetimeValidator = JwtOptions.ValidateLifeTime
-                };
-            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HauseAPI", Version = "v1" });

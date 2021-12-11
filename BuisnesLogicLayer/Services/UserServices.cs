@@ -7,15 +7,9 @@ using DataAccesLayer;
 using DataAccesLayer.Interfaces;
 using DataAccesLayer.Enteties;
 using BuisnesLogicLayer.Converters;
-using DataAccesLayer.Repositories;
 using System.Linq;
-using DataAccesLayer.EF;
 using System.Threading.Tasks;
 using AutoMapper;
-using BuisnesLogicLayer.JWTs;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
 
 namespace BuisnesLogicLayer.Services
 {
@@ -58,15 +52,10 @@ namespace BuisnesLogicLayer.Services
             return await GetUserDTO(user);
         }
 
-        public async Task<UserTokenDTO> LogIn (UserLogInDTO userLogin)
+        public async Task<bool> LogIn (UserLogInDTO userLogin)
         {
             var user = await Database.UserRepository.LogIn(userLogin.Email, userLogin.Password);
-            if(user != null)
-            {
-                var mappedUser = mapper.Map<User, UserProfileDTO>(user);
-                return TokenManager.BuildToken(mappedUser);
-            }
-            return null;
+            return user != null ? true : false;
         }
 
         public void LogOut()
@@ -95,38 +84,6 @@ namespace BuisnesLogicLayer.Services
             mappedUser.AdsAmount = adsCount;
             mappedUser.ComentsAmount = commentsCount;
             return mappedUser;
-        }
-
-        public async Task<UserProfileDTO> GetUserByAccessToken(UserTokenDTO token)
-        {
-            try
-            {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(JwtOptions.KEY);
-
-                var tokenVakidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-
-                var principle = tokenHandler.ValidateToken(token.AccessToken, tokenVakidationParameters, out SecurityToken securityToken);
-
-                if(securityToken is JwtSecurityToken jwtSecurityToken && jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,StringComparison.InvariantCultureIgnoreCase))
-                {
-                    var email = principle.FindFirst(ClaimTypes.Email)?.Value;
-                    var user = await Database.UserRepository.GetByEmail(email);
-                    return await GetUserDTO(user);
-                }
-            }
-            catch(Exception)
-            {
-                return new UserProfileDTO();
-            }
-
-            return new UserProfileDTO();
         }
     }
 }
