@@ -24,7 +24,6 @@ namespace HauseAPI.Controllers
             return await imageServices.GetImagesByAdId(adId);
         }
 
-        [Authorize]
         [HttpDelete("DeleteById/{id}")]
         public async Task DeleteImageById(int id)
         {

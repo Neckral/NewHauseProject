@@ -38,7 +38,6 @@ namespace HauseAPI.Controllers
         }
 
         // Add new comment
-        [Authorize]
         [HttpPost]
         public async Task AddNewComment([FromBody] CommentCreateDTO commentDTO)
         {
@@ -46,7 +45,6 @@ namespace HauseAPI.Controllers
         }
 
         // Delete comment by ID
-        [Authorize]
         [HttpDelete("/Comment/{id}")]
         public async Task RemoveCommentById(int id)
         {
@@ -54,7 +52,6 @@ namespace HauseAPI.Controllers
         }
 
         // Edit comment
-        [Authorize]
         [HttpPut]
         public async Task UpdateComment([FromBody] CommentInfoAndEditIDTO commentEditDTO)
         {

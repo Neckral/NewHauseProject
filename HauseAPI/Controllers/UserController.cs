@@ -28,7 +28,6 @@ namespace HauseAPI.Controllers
         }
 
         // Get User Profile by id
-        [Authorize]
         [HttpGet("GetById/{id}")]
         public async Task<UserProfileDTO> GetUserProfileDTOById(string id)
         {
@@ -36,7 +35,6 @@ namespace HauseAPI.Controllers
         }
 
         // Get User Profile by id
-        [Authorize]
         [HttpGet("Email/{email}")]
         public async Task<UserProfileDTO> GetUserProfileDTOByEmail(string email)
         {
@@ -51,7 +49,6 @@ namespace HauseAPI.Controllers
         }
 
         // Delete user by id
-        [Authorize]
         [HttpDelete("{id}")]
         public async Task<bool> DeleteUserById(string id)
         {
@@ -59,7 +56,6 @@ namespace HauseAPI.Controllers
         }
 
         // Edit user
-        [Authorize]
         [HttpPut("UpdateUser")]
         public async Task<bool> EditUser([FromBody] UserEditDTO userEditDTO)
         {
@@ -72,7 +68,6 @@ namespace HauseAPI.Controllers
             return await userServices.LogIn(new UserLogInDTO() { Email = login.Email, Password = login.Password });
         }
         
-        //[Authorize]
         [HttpPost("GetByToken")]
         public async Task<UserProfileDTO> GetUserByAccessToken([FromBody] string token)
         {

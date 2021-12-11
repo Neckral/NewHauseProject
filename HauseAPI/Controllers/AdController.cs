@@ -61,7 +61,6 @@ namespace HauseAPI.Controllers
         }
 
         // get all ads by user id
-        [Authorize]
         [HttpGet("UserId/{userId}")]
         public async Task<IEnumerable<AdShortInfoDTO>> GetAllAdsByUserId(string userId)
         {
@@ -76,7 +75,6 @@ namespace HauseAPI.Controllers
         }
 
         // add new ad
-        [Authorize]
         [HttpPost]
         public async Task AddNewAdd([FromBody] AdCreateDTO createAdDTO)
         {
@@ -84,7 +82,6 @@ namespace HauseAPI.Controllers
         }
 
         // delete ad by id
-        [Authorize]
         [HttpDelete("{id}")]
         public async Task DeleteAdById(int id)
         {
@@ -92,7 +89,6 @@ namespace HauseAPI.Controllers
         }
 
         // edit ad by id
-        [Authorize]
         [HttpPut]
         public async Task EditAd([FromBody] AdEditDTO editAdDTO)
         {
@@ -100,7 +96,6 @@ namespace HauseAPI.Controllers
         }
 
         // get add to edit dto
-        [Authorize]
         [HttpGet("GetByIdToEdit/{id}")]
         public async Task<AdEditDTO> GetAdToEdit(int id)
         {
