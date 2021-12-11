@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccesLayer", "DataAcces
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuisnesLogicLayer", "BuisnesLogicLayer\BuisnesLogicLayer.csproj", "{CA8D8888-3F64-422E-8B38-87BD6E66A7CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HauseAPI", "HauseAPI\HauseAPI.csproj", "{23CEDF75-E90F-4479-8D82-24D919467D87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseProjectWpfApi", "HouseProjectWpfApi\HouseProjectWpfApi.csproj", "{939A5159-058B-4A90-B2E3-C5E9E3AF6CB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{CA8D8888-3F64-422E-8B38-87BD6E66A7CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA8D8888-3F64-422E-8B38-87BD6E66A7CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA8D8888-3F64-422E-8B38-87BD6E66A7CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{23CEDF75-E90F-4479-8D82-24D919467D87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23CEDF75-E90F-4479-8D82-24D919467D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23CEDF75-E90F-4479-8D82-24D919467D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23CEDF75-E90F-4479-8D82-24D919467D87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{939A5159-058B-4A90-B2E3-C5E9E3AF6CB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{939A5159-058B-4A90-B2E3-C5E9E3AF6CB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{939A5159-058B-4A90-B2E3-C5E9E3AF6CB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{939A5159-058B-4A90-B2E3-C5E9E3AF6CB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

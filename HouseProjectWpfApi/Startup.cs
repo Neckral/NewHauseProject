@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +28,7 @@ using BuisnesLogicLayer.Validation;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
-namespace HauseAPI
+namespace HouseProjectWpfApi
 {
     public class Startup
     {
@@ -42,7 +41,7 @@ namespace HauseAPI
         public IConfiguration Configuration { get; }
 
 
-        public void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services)
         {
             #region Repositories
             services.AddTransient<IAdRepository, AdRepository>();
@@ -72,7 +71,7 @@ namespace HauseAPI
             services.AddTransient<IValidator<CommentCreateDTO>, CommentValidator>();
             #endregion
 
-            services.AddDbContext<AppDBContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:connectDB"]));
+            services.AddDbContext<AppDBContext>(opts => opts.UseSqlServer("Server = (localdb)\\mssqllocaldb; Database = UAHP1; Trusted_Connection = True; MultipleActiveResultSets=true"));
 
             services.AddControllers();
                      
@@ -83,38 +82,6 @@ namespace HauseAPI
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppDBContext>()
                 .AddDefaultTokenProviders();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HauseAPI", Version = "v1" });
-            });
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-
-            if (env.IsDevelopment())
-            {
-                // то выводим информацию об ошибке, при наличии ошибки
-                app.UseDeveloperExceptionPage();
-
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HauseAPI v1"));
-            }
-
-            app.UseHttpsRedirection();
-            //// добавляем возможности маршрутизации
-            app.UseRouting();
-
-            app.UseAuthentication();    // подключение аутентификации
-            app.UseAuthorization();
-
-            // устанавливаем адреса, которые будут обрабатываться
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }
