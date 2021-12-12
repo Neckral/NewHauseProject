@@ -20,7 +20,7 @@ namespace HouseProjectWpfApi.ViewModel
         protected ICommentServices? commentServices;
         protected IImageServices? imageServices;
 
-        private Visibility logInFormState = Visibility.Collapsed;
+        private Visibility logInFormState = Visibility.Visible;
         public Visibility LogInFormState
         {
             get => logInFormState;
@@ -30,7 +30,7 @@ namespace HouseProjectWpfApi.ViewModel
                 NotifyPropertyChanged(nameof(LogInFormState));
             }
         }
-        private Visibility registrationFormState = Visibility.Visible;
+        private Visibility registrationFormState = Visibility.Collapsed;
         public Visibility RegistrationFormState
         {
             get => registrationFormState;

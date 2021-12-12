@@ -1,11 +1,13 @@
 ﻿using BuisnesLogicLayer.DTO;
 using BuisnesLogicLayer.Interfaces;
+using HouseProjectWpfApi.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace HouseProjectWpfApi.ViewModel
 {
@@ -47,6 +49,19 @@ namespace HouseProjectWpfApi.ViewModel
             MyAds = Task.Run(() => adServices?.GetAdsByUserId(UserProfile.Id)).Result;
             FavoritesAds = Task.Run(() => favoritesServices?.GetAllFavoritesByUserId(UserProfile.Id)).Result;
             ForCompares = Task.Run(() => forCompareServices?.GetAllComparesByUserId(UserProfile.Id)).Result;
+        }
+
+        private BaseCommand closeWindow;
+        public BaseCommand CloseWindow
+        {
+            get
+            {
+                return closeWindow ?? new BaseCommand(obj =>
+                {
+                    Window? window = obj as Window;
+                    window?.Close();
+                });
+            }
         }
     }
 }

@@ -14,7 +14,8 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Name="MainWnd">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -185,8 +186,8 @@
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal"
                     HorizontalAlignment="Right">
-            <Button Content="New Ad" Command="{Binding GetUserProfile}" Margin="0,0,5,0"/>
-            <Button Content="Exit" Command="{Binding OpenAddNewPositionWnd}" Margin="0,0,5,0"/>
+            <Button Content="New Ad" Margin="0,0,5,0"/>
+            <Button Content="Exit" Command="{Binding CloseWindow}" Margin="0,0,5,0" CommandParameter="{Binding ElementName=MainWnd}"/>
         </StackPanel>
     </Grid>
 </Window>
