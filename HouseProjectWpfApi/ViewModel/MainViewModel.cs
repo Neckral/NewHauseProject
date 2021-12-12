@@ -18,9 +18,9 @@ namespace HouseProjectWpfApi.ViewModel
         protected IForCompareServices? forCompareServices;
         protected ICommentServices? commentServices;
         protected IImageServices? imageServices;
-
+        protected string userEmail;
         public MainViewModel(IUserServices? userServices, IAdServices? adServices, IFavoritesServices? favoritesServices, 
-            IForCompareServices? forCompareServices, ICommentServices? commentServices, IImageServices? imageServices)
+            IForCompareServices? forCompareServices, ICommentServices? commentServices, IImageServices? imageServices, string userEmail)
         {
             this.userServices = userServices;
             this.adServices = adServices;
@@ -28,11 +28,12 @@ namespace HouseProjectWpfApi.ViewModel
             this.forCompareServices = forCompareServices;
             this.commentServices = commentServices;
             this.imageServices = imageServices;
+            this.userEmail = userEmail;
             UpdateData();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        private void NotifyPropertyChanged(String propertyName)
+        private void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
             {
@@ -42,9 +43,10 @@ namespace HouseProjectWpfApi.ViewModel
 
         public void UpdateData()
         {
-            MyAds = Task.Run(() => adServices?.GetAdsByUserId(UserId)).Result;
-            FavoritesAds = Task.Run(() => favoritesServices?.GetAllFavoritesByUserId(UserId)).Result;
-            ForCompares = Task.Run(() => forCompareServices?.GetAllComparesByUserId(UserId)).Result;
+            UserProfile = Task.Run(() => userServices?.GetUserProfileByEmail(userEmail)).Result;
+            MyAds = Task.Run(() => adServices?.GetAdsByUserId(UserProfile.Id)).Result;
+            FavoritesAds = Task.Run(() => favoritesServices?.GetAllFavoritesByUserId(UserProfile.Id)).Result;
+            ForCompares = Task.Run(() => forCompareServices?.GetAllComparesByUserId(UserProfile.Id)).Result;
         }
     }
 }

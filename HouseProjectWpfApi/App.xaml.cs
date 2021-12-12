@@ -36,10 +36,8 @@ namespace HouseProjectWpfApi
             IForCompareServices? forCompareServices = serviceProvider.GetService<IForCompareServices>();
             IImageServices? imageServices = serviceProvider.GetService<IImageServices>();
             ICommentServices? commentServices = serviceProvider.GetService<ICommentServices>();
-            Window window = new MainWindow();
-            window.DataContext = new MainViewModel(userServices, adServices, favoritesServices, forCompareServices, commentServices, imageServices);
             Window loginWindow = new LoginWindow();
-            loginWindow.DataContext = new LoginViewModel(userServices, window);
+            loginWindow.DataContext = new LoginViewModel(userServices, adServices, favoritesServices, forCompareServices, commentServices, imageServices);
             loginWindow.Show();
             base.OnStartup(e);
         }

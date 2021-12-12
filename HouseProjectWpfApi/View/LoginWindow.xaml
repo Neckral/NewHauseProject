@@ -3,10 +3,125 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HouseProjectWpfApi.View"
+        xmlns:local="clr-namespace:HouseProjectWpfApi.View" 
+        xmlns:viewmodel="clr-namespace:HouseProjectWpfApi.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:LoginViewModel}"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="450" Width="800">
-    <Grid>
+        Title="LoginWindow" Height="510" Width="800"
+        Name="LoginWnd">
+    
+    <Grid
+        MaxWidth="1000"
+        Margin="20"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            FontSize="28"
+            Text="Authorization" />
+
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="0 20 0 0" Visibility="{Binding RegistrationFormState}">
+
+            <!-- Registration Fields-->
+            <StackPanel Grid.Row="2" Margin="0 10 0 0">
+                <TextBlock Text="Name" />
+                <TextBox Text="{Binding UserRegister.Name}" />
+            </StackPanel>
+            
+            <StackPanel Grid.Row="2" Margin="0 10 0 0">
+                <TextBlock Text="Surname" />
+                <TextBox Text="{Binding UserRegister.Surname}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Margin="0 10 0 0">
+                <TextBlock Text="Phone Number" />
+                <TextBox Text="{Binding UserRegister.PhoneNumber}" />
+            </StackPanel>
+            
+            <StackPanel>
+                <TextBlock Text="Email" />
+                <TextBox Text="{Binding UserRegister.Email}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Margin="0 10 0 0">
+                <TextBlock Text="Password" />
+                <TextBox Text="{Binding UserRegister.PasswordHash}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Margin="0 10 0 0">
+                <TextBlock Text="Repeat Password" />
+                <TextBox Text="{Binding UserRegister.PasswordConfirmation}" />
+            </StackPanel>
+        </StackPanel>
         
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0 20 0 0" Visibility="{Binding LogInFormState}">
+            <!-- Login Fields-->
+            <StackPanel>
+                <TextBlock Text="Email" />
+                <TextBox Text="{Binding UserLogin.Email}" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Margin="0 10 0 0">
+                <TextBlock Text="Password" />
+                <TextBox Text="{Binding UserLogin.Password}" />
+            </StackPanel>
+        </StackPanel>
+
+        <Button
+            Visibility="{Binding LogInFormState}"
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="0 20 0 0"
+            Padding="5 2"
+            HorizontalAlignment="Center"
+            Content="Login"
+            Command="{Binding Login}"
+            CommandParameter="{Binding ElementName=LoginWnd}"/>
+
+        <Button
+            Visibility="{Binding RegistrationFormState}"
+            Grid.Column="1"
+            Grid.Row="2"
+            Margin="0 20 0 0"
+            Padding="5 2"
+            HorizontalAlignment="Center"
+            Command="{Binding Register}"
+            Content="Register"/>
+        
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button
+              Visibility="{Binding RegistrationFormState}"
+              Style="{StaticResource MaterialDesignFlatButton}"
+              Content="Go Login"
+              IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
+              Command="{Binding GoToLogin}"/>
+            <Button
+              Visibility="{Binding LogInFormState}"
+              Style="{StaticResource MaterialDesignFlatButton}"
+              Content="Go Register"
+              IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
+              Command="{Binding GoToRegistration}"/>
+        </StackPanel>
+
     </Grid>
+    
+    <!-- Registration -->
 </Window>
