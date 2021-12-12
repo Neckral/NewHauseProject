@@ -5,8 +5,139 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HouseProjectWpfApi"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:viewmodel="clr-namespace:HouseProjectWpfApi.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" SelectedItem="{Binding SelectedTabItem}">
+            <TabItem Name="ProfileTab">
+                <TabItem.Header>
+                    <TextBlock Text="Profile"/>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="8*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right"
+                               FontSize="25" FontWeight="Bold">YourProfile</TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="20">Name:</TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="2"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="20">Surname:</TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="3"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="20">Email:</TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="4"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="20">Phone:</TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="5"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="20" TextWrapping="Wrap" 
+                               TextAlignment="Center">Ads amount:</TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="6"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="20" TextWrapping="Wrap" 
+                               TextAlignment="Center">Comments amount:</TextBlock>
 
+                    <TextBlock Grid.Column="1" Grid.Row="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="20" Text="{Binding UserProfile.Name}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="20" Text="{Binding UserProfile.Surname}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="20" Text="{Binding UserProfile.Email}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="4"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="20" Text="{Binding UserProfile.PhoneNumber}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="5"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="20" Text="{Binding UserProfile.AdsAmount}"/>
+                    <TextBlock Grid.Column="1" Grid.Row="6"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               FontSize="20" Text="{Binding UserProfile.ComentsAmount}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Name="MyAdsTab">
+                <TabItem.Header>
+                    <TextBlock Text="My Ads"/>
+                </TabItem.Header>
+                <ListView x:Name="ViewMyAds" ItemsSource="{Binding MyAds}"
+                          SelectedItem="{Binding SelectedPosition}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Price"
+                                            DisplayMemberBinding="{Binding Path=Price}"/>
+                            <GridViewColumn Header="Region"
+                                            DisplayMemberBinding="{Binding Path=Region}"/>
+                            <GridViewColumn Header="Distrinc"
+                                            DisplayMemberBinding="{Binding Path=District}"/>
+                            <GridViewColumn Header="City"
+                                            DisplayMemberBinding="{Binding Path=City}"/>
+                            <GridViewColumn Header="Area of House"
+                                            DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
+                            <GridViewColumn Header="Floor Fount"
+                                            DisplayMemberBinding="{Binding Path=FloorAmount}"/>
+                            <GridViewColumn Header="House Year"
+                                            DisplayMemberBinding="{Binding Path=HouseYear}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Name="FavoriteAdsTab">
+                <TabItem.Header>
+                    <TextBlock Text="Favorite Ads"/>
+                </TabItem.Header>
+
+            </TabItem>
+            <TabItem Name="AdsToCompareTab">
+                <TabItem.Header>
+                    <TextBlock Text="Ads to Compare"/>
+                </TabItem.Header>
+
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="New Ad" Command="{Binding OpenAddNewUserWnd}" Margin="0,0,5,0"/>
+            <Button Content="Exit" Command="{Binding OpenAddNewPositionWnd}" Margin="0,0,5,0"/>
+        </StackPanel>
     </Grid>
 </Window>

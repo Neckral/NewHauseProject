@@ -55,7 +55,7 @@ namespace BuisnesLogicLayer.Services
         public async Task<bool> LogIn (UserLogInDTO userLogin)
         {
             var user = await Database.UserRepository.LogIn(userLogin.Email, userLogin.Password);
-            return user != null ? true : false;
+            return user != null;
         }
 
         public void LogOut()

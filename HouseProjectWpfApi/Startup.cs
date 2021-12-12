@@ -27,6 +27,7 @@ using BuisnesLogicLayer.MappersConfigurations;
 using BuisnesLogicLayer.Validation;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using HouseProjectWpfApi.Commands;
 
 namespace HouseProjectWpfApi
 {

@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
   </ItemGroup>
@@ -15,12 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BuisnesLogicLayer\BuisnesLogicLayer.csproj" />
     <ProjectReference Include="..\DataAccesLayer\DataAccesLayer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="Commands\" />
-    <Folder Include="ViewModel\" />
   </ItemGroup>
 
 </Project>
