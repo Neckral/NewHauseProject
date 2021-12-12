@@ -21,5 +21,7 @@ namespace HouseProjectWpfApi.ViewModel
                 NotifyPropertyChanged(nameof(UserProfile));
             }
         }
+
+        public void UpdateUser() => UserProfile = Task.Run(() => userServices?.GetUserProfileByEmail(userEmail)).Result;
     }
 }

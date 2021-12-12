@@ -46,10 +46,10 @@ namespace HouseProjectWpfApi.ViewModel
 
         public void UpdateData()
         {
-            UserProfile = Task.Run(() => userServices?.GetUserProfileByEmail(userEmail)).Result;
-            MyAds = Task.Run(() => adServices?.GetAdsByUserId(UserProfile.Id)).Result;
-            FavoritesAds = Task.Run(() => favoritesServices?.GetAllFavoritesByUserId(UserProfile.Id)).Result;
-            ForCompares = Task.Run(() => forCompareServices?.GetAllComparesByUserId(UserProfile.Id)).Result;
+            UpdateUser();
+            UpdateMyAds();
+            UpdateFavoriteAds();
+            UpdateForCompares();
         }
 
         private BaseCommand? closeWindow;

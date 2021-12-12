@@ -21,14 +21,30 @@ namespace HouseProjectWpfApi.ViewModel
             }
         }
 
+        public AdShortInfoDTO SelectedFavorite { get; set; }
+
+        private void UpdateFavoriteAds() => FavoritesAds = Task.Run(() => favoritesServices?.GetAllFavoritesByUserId(UserProfile?.Id)).Result;
 
         private BaseCommand refreshFavorites;
         public BaseCommand RefreshFavorites
         {
             get => refreshMyAds ?? new BaseCommand(obj => 
-            { 
-                FavoritesAds = Task.Run(() => favoritesServices?.GetAllFavoritesByUserId(UserProfile.Id)).Result; 
+            {
+                UpdateFavoriteAds();
             });
         }
+
+        private BaseCommand removeFromFavorites;
+        public BaseCommand RemoveFromFavorites
+        {
+            get
+            {
+                return removeFromFavorites ?? new BaseCommand(obj =>
+                {
+                    favoritesServices?.RemoveFavoriteByUserIdAndAdId(UserProfile?.Id, SelectedFavorite.Id);
+                });
+            }
+        }
+
     }
 }

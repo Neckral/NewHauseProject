@@ -21,13 +21,29 @@ namespace HouseProjectWpfApi.ViewModel
             }
         }
 
+        public ForCompareDTO SelectedForCompare { get; set; }
+
+        private void UpdateForCompares() => ForCompares = Task.Run(() => forCompareServices?.GetAllComparesByUserId(UserProfile.Id)).Result;
+
         private BaseCommand refreshForCompares;
         public BaseCommand RefreshForCompares
         {
             get => refreshMyAds ?? new BaseCommand(obj =>
             {
-                ForCompares = Task.Run(() => forCompareServices?.GetAllComparesByUserId(UserProfile.Id)).Result;
+                UpdateForCompares();
             });
+        }
+
+        private BaseCommand removeFromComparasion;
+        public BaseCommand RemoveFromComparasion
+        {
+            get
+            {
+                return removeFromComparasion ?? new BaseCommand(obj =>
+                {
+                    forCompareServices?.RemoveCopareByUserIdAndAdId(UserProfile?.Id, SelectedForCompare.Id);
+                });
+            }
         }
     }
 }

@@ -101,6 +101,13 @@
                 <TabItem.Header>
                     <TextBlock Text="My Ads"/>
                 </TabItem.Header>
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Delete" Command="{Binding DeleteMyAd}"/>
+                        <MenuItem Header="Add To Favorites" Command="{Binding AdToFavorite}" />
+                        <MenuItem Header="Add To Comparasions" Command="{Binding AdToComparasion}"/>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="12*" />
@@ -118,7 +125,7 @@
                     </Button>
                     </StackPanel>
                     <ListView Grid.Row="0" x:Name="ViewMyAds" ItemsSource="{Binding MyAds}"
-                          SelectedItem="{Binding SelectedPosition}">
+                          SelectedItem="{Binding SelectedMyAd}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Price"
@@ -145,6 +152,11 @@
                 <TabItem.Header>
                     <TextBlock Text="Favorite Ads"/>
                 </TabItem.Header>
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Remove From Favorites" Command="{Binding RemoveFromFavorites}"/>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="12*" />
@@ -162,7 +174,7 @@
                         </Button>
                     </StackPanel>
                     <ListView Grid.Row="0" x:Name="ViewFavoriteAds" ItemsSource="{Binding FavoritesAds}"
-                          SelectedItem="{Binding SelectedPosition}">
+                          SelectedItem="{Binding SelectedFavorite}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Price"
@@ -188,6 +200,11 @@
                 <TabItem.Header>
                     <TextBlock Text="Ads to Compare"/>
                 </TabItem.Header>
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Remove From Comparesion" Command="{Binding RemoveFromComparasion}"/>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="12*" />
@@ -205,7 +222,7 @@
                         </Button>
                     </StackPanel>
                     <ListView Grid.Row="0" x:Name="ViewForCompareAds" ItemsSource="{Binding ForCompares}"
-                          SelectedItem="{Binding SelectedPosition}">
+                          SelectedItem="{Binding SelectedForCompare}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Price"
