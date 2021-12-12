@@ -101,92 +101,144 @@
                 <TabItem.Header>
                     <TextBlock Text="My Ads"/>
                 </TabItem.Header>
-                <ListView x:Name="ViewMyAds" ItemsSource="{Binding MyAds}"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="12*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock Text="Refresh" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <Button
+                          Height="20" Width="20" HorizontalAlignment="Right" Margin="10 0 10 0"
+                          Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
+                          ToolTip="Refresh"
+                          Command="{Binding RefreshMyAds}"
+                          IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
+                        <materialDesign:PackIcon Kind="Refresh" />
+                    </Button>
+                    </StackPanel>
+                    <ListView Grid.Row="0" x:Name="ViewMyAds" ItemsSource="{Binding MyAds}"
                           SelectedItem="{Binding SelectedPosition}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Price"
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Price"
                                             DisplayMemberBinding="{Binding Path=Price}"/>
-                            <GridViewColumn Header="House Type"
+                                <GridViewColumn Header="House Type"
                                             DisplayMemberBinding="{Binding Path=HouseType}"/>
-                            <GridViewColumn Header="Area of House"
+                                <GridViewColumn Header="Area of House"
                                             DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
-                            <GridViewColumn Header="Room Number"
+                                <GridViewColumn Header="Room Number"
                                             DisplayMemberBinding="{Binding Path=RoomNumber}"/>
-                            <GridViewColumn Header="Area of House"
+                                <GridViewColumn Header="Area of House"
                                             DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
-                            <GridViewColumn Header="House Year"
+                                <GridViewColumn Header="House Year"
                                             DisplayMemberBinding="{Binding Path=HouseYear}"/>
-                            <GridViewColumn Header="Purchase Oportunity"
+                                <GridViewColumn Header="Purchase Oportunity"
                                             DisplayMemberBinding="{Binding Path=PurchaseOportunity}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+                
             </TabItem>
             <TabItem Name="FavoriteAdsTab">
                 <TabItem.Header>
                     <TextBlock Text="Favorite Ads"/>
                 </TabItem.Header>
-                <ListView x:Name="ViewFavoriteAds" ItemsSource="{Binding FavoritesAds}"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="12*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock Text="Refresh" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <Button
+                          Height="20" Width="20" HorizontalAlignment="Right" Margin="10 0 10 0"
+                          Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
+                          ToolTip="Refresh"
+                          Command="{Binding RefreshFavorites}"
+                          IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
+                            <materialDesign:PackIcon Kind="Refresh" />
+                        </Button>
+                    </StackPanel>
+                    <ListView Grid.Row="0" x:Name="ViewFavoriteAds" ItemsSource="{Binding FavoritesAds}"
                           SelectedItem="{Binding SelectedPosition}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Price"
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Price"
                                             DisplayMemberBinding="{Binding Path=Price}"/>
-                            <GridViewColumn Header="House Type"
+                                <GridViewColumn Header="House Type"
                                             DisplayMemberBinding="{Binding Path=HouseType}"/>
-                            <GridViewColumn Header="Area of House"
+                                <GridViewColumn Header="Area of House"
                                             DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
-                            <GridViewColumn Header="Room Number"
+                                <GridViewColumn Header="Room Number"
                                             DisplayMemberBinding="{Binding Path=RoomNumber}"/>
-                            <GridViewColumn Header="Area of House"
+                                <GridViewColumn Header="Area of House"
                                             DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
-                            <GridViewColumn Header="House Year"
+                                <GridViewColumn Header="House Year"
                                             DisplayMemberBinding="{Binding Path=HouseYear}"/>
-                            <GridViewColumn Header="Purchase Oportunity"
+                                <GridViewColumn Header="Purchase Oportunity"
                                             DisplayMemberBinding="{Binding Path=PurchaseOportunity}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
             </TabItem>
             <TabItem Name="AdsToCompareTab">
                 <TabItem.Header>
                     <TextBlock Text="Ads to Compare"/>
                 </TabItem.Header>
-                <ListView x:Name="ViewForCompareAds" ItemsSource="{Binding ForCompares}"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="12*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock Text="Refresh" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <Button
+                          Height="20" Width="20" HorizontalAlignment="Right" Margin="10 0 10 0"
+                          Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
+                          ToolTip="Refresh"
+                          Command="{Binding RefreshForCompares}"
+                          IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
+                            <materialDesign:PackIcon Kind="Refresh" />
+                        </Button>
+                    </StackPanel>
+                    <ListView Grid.Row="0" x:Name="ViewForCompareAds" ItemsSource="{Binding ForCompares}"
                           SelectedItem="{Binding SelectedPosition}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Price"
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Price"
                                             DisplayMemberBinding="{Binding Path=Price}"/>
-                            <GridViewColumn Header="House Type"
+                                <GridViewColumn Header="House Type"
                                             DisplayMemberBinding="{Binding Path=HouseType}"/>
-                            <GridViewColumn Header="Region"
+                                <GridViewColumn Header="Region"
                                             DisplayMemberBinding="{Binding Path=Region}"/>
-                            <GridViewColumn Header="Floor Amount"
+                                <GridViewColumn Header="Floor Amount"
                                             DisplayMemberBinding="{Binding Path=FloorAmount}"/>
-                            <GridViewColumn Header="Balkon"
+                                <GridViewColumn Header="Balkon"
                                             DisplayMemberBinding="{Binding Path=Balkon}"/>
-                            <GridViewColumn Header="Pool"
+                                <GridViewColumn Header="Pool"
                                             DisplayMemberBinding="{Binding Path=Pool}"/>
-                            <GridViewColumn Header="Area of House"
+                                <GridViewColumn Header="Area of House"
                                             DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
-                            <GridViewColumn Header="Room Number"
+                                <GridViewColumn Header="Room Number"
                                             DisplayMemberBinding="{Binding Path=RoomNumber}"/>
-                            <GridViewColumn Header="Area of House"
+                                <GridViewColumn Header="Area of House"
                                             DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
-                            <GridViewColumn Header="House Year"
+                                <GridViewColumn Header="House Year"
                                             DisplayMemberBinding="{Binding Path=HouseYear}"/>
-                            <GridViewColumn Header="Purchase Oportunity"
+                                <GridViewColumn Header="Purchase Oportunity"
                                             DisplayMemberBinding="{Binding Path=PurchaseOportunity}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
             </TabItem>
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal"
                     HorizontalAlignment="Right">
-            <Button Content="New Ad" Margin="0,0,5,0"/>
+            <Button Content="New Ad" Margin="0,0,5,0" Command="{Binding OpenCreateAdWindow}"/>
             <Button Content="Exit" Command="{Binding CloseWindow}" Margin="0,0,5,0" CommandParameter="{Binding ElementName=MainWnd}"/>
         </StackPanel>
     </Grid>

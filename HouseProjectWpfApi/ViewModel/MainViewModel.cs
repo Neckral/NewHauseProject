@@ -1,6 +1,7 @@
 ﻿using BuisnesLogicLayer.DTO;
 using BuisnesLogicLayer.Interfaces;
 using HouseProjectWpfApi.Commands;
+using HouseProjectWpfApi.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -51,7 +52,7 @@ namespace HouseProjectWpfApi.ViewModel
             ForCompares = Task.Run(() => forCompareServices?.GetAllComparesByUserId(UserProfile.Id)).Result;
         }
 
-        private BaseCommand closeWindow;
+        private BaseCommand? closeWindow;
         public BaseCommand CloseWindow
         {
             get
@@ -60,6 +61,20 @@ namespace HouseProjectWpfApi.ViewModel
                 {
                     Window? window = obj as Window;
                     window?.Close();
+                });
+            }
+        }
+
+        private BaseCommand? openCreateAdWindow;
+        public BaseCommand OpenCreateAdWindow
+        {
+            get
+            {
+                return openCreateAdWindow ?? new BaseCommand(obj =>
+                {
+                    Window addAdWindow = new AddAdWindow();
+                    addAdWindow.DataContext = new AddAdViewModel(adServices, UserProfile?.Id);
+                    addAdWindow.Show();
                 });
             }
         }

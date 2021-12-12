@@ -3,10 +3,74 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HouseProjectWpfApi.View"
+        xmlns:local="clr-namespace:HouseProjectWpfApi.View" xmlns:viewmodel="clr-namespace:HouseProjectWpfApi.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:AddAdViewModel}"
         mc:Ignorable="d"
-        Title="AddAdWindow" Height="450" Width="800">
+        Title="AddAdWindow" Height="600" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Width" Value="150"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Price"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Region"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Distrinct"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="City"/>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Street"/>
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="HouseNumber"/>
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Area"/>
+        <TextBlock Grid.Row="7" Grid.Column="0" Text="FloorAmount"/>
+
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="RoomNumber"/>
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="House Year"/>
+        <TextBlock Grid.Row="2" Grid.Column="2" Text="House Type"/>
+        <TextBlock Grid.Row="3" Grid.Column="2" Text="Pool"/>
+        <TextBlock Grid.Row="4" Grid.Column="2" Text="Balkon"/>
+        <TextBlock Grid.Row="5" Grid.Column="2" Text="Purchase"/>
+        <TextBlock Grid.Row="6" Grid.Column="2" Text="Status"/>
+
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding AdCreateDTO.Price}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding AdCreateDTO.Region}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding AdCreateDTO.District}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding AdCreateDTO.City}"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding AdCreateDTO.Street}"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding AdCreateDTO.HouseNumber}"/>
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding AdCreateDTO.AreaOfHouse}"/>
+        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding AdCreateDTO.FloorAmount}"/>
+        <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding AdCreateDTO.RoomNumber}"/>
+        <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding AdCreateDTO.HouseYear}"/>
+
+        <TextBlock Grid.Row="8" Grid.Column="0" Text="Description"/>
+        <TextBox Grid.Row="8" Grid.Column="1" Text="" Grid.ColumnSpan="3" 
+                 TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" Width="570"/>
+        <Button Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="4"
+                Margin="300 0 300 0" Content="Publish" FontSize="20" Height="40"
+                Command="{Binding AddAd}"/>
     </Grid>
 </Window>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BuisnesLogicLayer.DTO;
+using HouseProjectWpfApi.Commands;
 
 namespace HouseProjectWpfApi.ViewModel
 {
@@ -18,6 +19,15 @@ namespace HouseProjectWpfApi.ViewModel
                 forCompares = value;
                 NotifyPropertyChanged(nameof(ForCompares));
             }
+        }
+
+        private BaseCommand refreshForCompares;
+        public BaseCommand RefreshForCompares
+        {
+            get => refreshMyAds ?? new BaseCommand(obj =>
+            {
+                ForCompares = Task.Run(() => forCompareServices?.GetAllComparesByUserId(UserProfile.Id)).Result;
+            });
         }
     }
 }

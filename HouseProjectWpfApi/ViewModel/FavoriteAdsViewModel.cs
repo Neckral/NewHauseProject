@@ -1,4 +1,5 @@
 ﻿using BuisnesLogicLayer.DTO;
+using HouseProjectWpfApi.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,16 @@ namespace HouseProjectWpfApi.ViewModel
                 favoritesAds = value;
                 NotifyPropertyChanged(nameof(FavoritesAds));
             }
+        }
+
+
+        private BaseCommand refreshFavorites;
+        public BaseCommand RefreshFavorites
+        {
+            get => refreshMyAds ?? new BaseCommand(obj => 
+            { 
+                FavoritesAds = Task.Run(() => favoritesServices?.GetAllFavoritesByUserId(UserProfile.Id)).Result; 
+            });
         }
     }
 }

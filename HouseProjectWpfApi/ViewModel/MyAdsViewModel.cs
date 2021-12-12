@@ -1,4 +1,5 @@
 ﻿using BuisnesLogicLayer.DTO;
+using HouseProjectWpfApi.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,12 @@ namespace HouseProjectWpfApi.ViewModel
                 myAds = value;
                 NotifyPropertyChanged(nameof(MyAds));
             }
+        }
+
+        private BaseCommand refreshMyAds;
+        public BaseCommand RefreshMyAds
+        {
+            get => refreshMyAds ?? new BaseCommand(obj => { MyAds = Task.Run(() => adServices?.GetAdsByUserId(UserProfile.Id)).Result; });
         }
     }
 }
