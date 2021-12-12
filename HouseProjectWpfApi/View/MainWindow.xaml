@@ -6,14 +6,15 @@
         xmlns:local="clr-namespace:HouseProjectWpfApi"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:viewmodel="clr-namespace:HouseProjectWpfApi.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
+        xmlns:viewmodel="clr-namespace:HouseProjectWpfApi.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-     TextElement.FontWeight="Regular"
-     TextElement.FontSize="13"
-     TextOptions.TextFormattingMode="Ideal"
-     TextOptions.TextRenderingMode="Auto"
-     Background="{DynamicResource MaterialDesignPaper}"
-     FontFamily="{DynamicResource MaterialDesignFont}">
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -105,18 +106,18 @@
                         <GridView>
                             <GridViewColumn Header="Price"
                                             DisplayMemberBinding="{Binding Path=Price}"/>
-                            <GridViewColumn Header="Region"
-                                            DisplayMemberBinding="{Binding Path=Region}"/>
-                            <GridViewColumn Header="Distrinc"
-                                            DisplayMemberBinding="{Binding Path=District}"/>
-                            <GridViewColumn Header="City"
-                                            DisplayMemberBinding="{Binding Path=City}"/>
+                            <GridViewColumn Header="House Type"
+                                            DisplayMemberBinding="{Binding Path=HouseType}"/>
                             <GridViewColumn Header="Area of House"
                                             DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
-                            <GridViewColumn Header="Floor Fount"
-                                            DisplayMemberBinding="{Binding Path=FloorAmount}"/>
+                            <GridViewColumn Header="Room Number"
+                                            DisplayMemberBinding="{Binding Path=RoomNumber}"/>
+                            <GridViewColumn Header="Area of House"
+                                            DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
                             <GridViewColumn Header="House Year"
                                             DisplayMemberBinding="{Binding Path=HouseYear}"/>
+                            <GridViewColumn Header="Purchase Oportunity"
+                                            DisplayMemberBinding="{Binding Path=PurchaseOportunity}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -125,18 +126,66 @@
                 <TabItem.Header>
                     <TextBlock Text="Favorite Ads"/>
                 </TabItem.Header>
-
+                <ListView x:Name="ViewFavoriteAds" ItemsSource="{Binding FavoritesAds}"
+                          SelectedItem="{Binding SelectedPosition}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Price"
+                                            DisplayMemberBinding="{Binding Path=Price}"/>
+                            <GridViewColumn Header="House Type"
+                                            DisplayMemberBinding="{Binding Path=HouseType}"/>
+                            <GridViewColumn Header="Area of House"
+                                            DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
+                            <GridViewColumn Header="Room Number"
+                                            DisplayMemberBinding="{Binding Path=RoomNumber}"/>
+                            <GridViewColumn Header="Area of House"
+                                            DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
+                            <GridViewColumn Header="House Year"
+                                            DisplayMemberBinding="{Binding Path=HouseYear}"/>
+                            <GridViewColumn Header="Purchase Oportunity"
+                                            DisplayMemberBinding="{Binding Path=PurchaseOportunity}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </TabItem>
             <TabItem Name="AdsToCompareTab">
                 <TabItem.Header>
                     <TextBlock Text="Ads to Compare"/>
                 </TabItem.Header>
-
+                <ListView x:Name="ViewForCompareAds" ItemsSource="{Binding ForCompares}"
+                          SelectedItem="{Binding SelectedPosition}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Price"
+                                            DisplayMemberBinding="{Binding Path=Price}"/>
+                            <GridViewColumn Header="House Type"
+                                            DisplayMemberBinding="{Binding Path=HouseType}"/>
+                            <GridViewColumn Header="Region"
+                                            DisplayMemberBinding="{Binding Path=Region}"/>
+                            <GridViewColumn Header="Floor Amount"
+                                            DisplayMemberBinding="{Binding Path=FloorAmount}"/>
+                            <GridViewColumn Header="Balkon"
+                                            DisplayMemberBinding="{Binding Path=Balkon}"/>
+                            <GridViewColumn Header="Pool"
+                                            DisplayMemberBinding="{Binding Path=Pool}"/>
+                            <GridViewColumn Header="Area of House"
+                                            DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
+                            <GridViewColumn Header="Room Number"
+                                            DisplayMemberBinding="{Binding Path=RoomNumber}"/>
+                            <GridViewColumn Header="Area of House"
+                                            DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
+                            <GridViewColumn Header="House Year"
+                                            DisplayMemberBinding="{Binding Path=HouseYear}"/>
+                            <GridViewColumn Header="Purchase Oportunity"
+                                            DisplayMemberBinding="{Binding Path=PurchaseOportunity}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </TabItem>
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal"
                     HorizontalAlignment="Right">
-            <Button Content="New Ad" Command="{Binding OpenAddNewUserWnd}" Margin="0,0,5,0"/>
+            <Button Content="New Ad" Command="{Binding GetUserProfile}" Margin="0,0,5,0"/>
             <Button Content="Exit" Command="{Binding OpenAddNewPositionWnd}" Margin="0,0,5,0"/>
         </StackPanel>
     </Grid>

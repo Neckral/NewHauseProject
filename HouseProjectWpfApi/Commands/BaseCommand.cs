@@ -7,11 +7,11 @@ using System.Windows.Input;
 
 namespace HouseProjectWpfApi.Commands
 {
-    public class BaseCommand
+    public class BaseCommand : ICommand
     {
-        private readonly Action<object> _execute;
-        private readonly Func<object, bool>? _canExecute;
-        public static event EventHandler CanExecuteChanged
+        private Action<object> _execute;
+        private Func<object, bool>? _canExecute;
+        public event EventHandler? CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
