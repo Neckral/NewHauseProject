@@ -141,5 +141,18 @@ namespace BuisnesLogicLayer.Services
             var ad = await Database.AdRepository.GetById(id);
             return mapper.Map<Ad, AdEditDTO>(ad);
         }
+
+        public async Task<IEnumerable<AdShortInfoDTO>> GetAllAds()
+        {
+            var allAds = await Database.AdRepository.GetAll();
+            List<AdShortInfoDTO> adShortInfoDTOs = new();
+            foreach (var ad in allAds)
+            {
+                var mappedAd = mapper.Map<Ad, AdShortInfoDTO>(ad);
+                mappedAd.images = mapper.Map<IEnumerable<Image>, List<ImageEditInfoDTO>>(ad.images);
+                adShortInfoDTOs.Add(mappedAd);
+            }
+            return adShortInfoDTOs;
+        }
     }
 }

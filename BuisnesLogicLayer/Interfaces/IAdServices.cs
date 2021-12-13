@@ -15,6 +15,7 @@ namespace BuisnesLogicLayer.Interfaces
         /*--------------------Common Methods from Generic repository--------------------*/
         public Task<PagedList<AdShortInfoDTO>> GetAllAds(QueryStringParameters parameters);
 
+        public Task<IEnumerable<AdShortInfoDTO>> GetAllAds();
         public Task<AdInfoDTO> GetAdById(int id);
 
         public Task<AdEditDTO> GetAdToEdit(int id);

@@ -255,7 +255,63 @@
                     </ListView>
                 </Grid>
             </TabItem>
+
+            <TabItem Name="FindAdsTab">
+                <TabItem.Header>
+                    <TextBlock Text="Find Ad"/>
+                </TabItem.Header>
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add To Favorites" />
+                        <MenuItem Header="Add To Comparasions"/>
+                        <MenuItem Header="View Details"/>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="12*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button
+                          Style="{StaticResource MaterialDesignFlatButton}"
+                          Content="Get All Ads"
+                          Command="{Binding GetAllAds}"
+                          IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" />
+                    </StackPanel>
+                    <ListView Grid.Row="0" x:Name="ViewFindAds" ItemsSource="{Binding AllAds}"
+                          SelectedItem="{Binding SelectedAdFromAll}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Price"
+                                            DisplayMemberBinding="{Binding Path=Price}"/>
+                                <GridViewColumn Header="House Type"
+                                            DisplayMemberBinding="{Binding Path=HouseType}"/>
+                                <GridViewColumn Header="Region"
+                                            DisplayMemberBinding="{Binding Path=Region}"/>
+                                <GridViewColumn Header="Floor Amount"
+                                            DisplayMemberBinding="{Binding Path=FloorAmount}"/>
+                                <GridViewColumn Header="Balkon"
+                                            DisplayMemberBinding="{Binding Path=Balkon}"/>
+                                <GridViewColumn Header="Pool"
+                                            DisplayMemberBinding="{Binding Path=Pool}"/>
+                                <GridViewColumn Header="Area of House"
+                                            DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
+                                <GridViewColumn Header="Room Number"
+                                            DisplayMemberBinding="{Binding Path=RoomNumber}"/>
+                                <GridViewColumn Header="Area of House"
+                                            DisplayMemberBinding="{Binding Path=AreaOfHouse}"/>
+                                <GridViewColumn Header="House Year"
+                                            DisplayMemberBinding="{Binding Path=HouseYear}"/>
+                                <GridViewColumn Header="Purchase Oportunity"
+                                            DisplayMemberBinding="{Binding Path=PurchaseOportunity}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
         </TabControl>
+        
         <StackPanel Grid.Row="1" Orientation="Horizontal"
                     HorizontalAlignment="Right">
             <Button Content="New Ad" Margin="0,0,5,0" Command="{Binding OpenCreateAdWindow}"/>
