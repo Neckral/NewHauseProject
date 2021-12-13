@@ -7,6 +7,7 @@
         xmlns:viewmodel="clr-namespace:HouseProjectWpfApi.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:LoginViewModel}"
         mc:Ignorable="d"
         Title="LoginWindow" Height="510" Width="800"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         Name="LoginWnd">
     
     <Grid
@@ -111,13 +112,11 @@
               Visibility="{Binding RegistrationFormState}"
               Style="{StaticResource MaterialDesignFlatButton}"
               Content="Go Login"
-              IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
               Command="{Binding GoToLogin}"/>
             <Button
               Visibility="{Binding LogInFormState}"
               Style="{StaticResource MaterialDesignFlatButton}"
               Content="Go Register"
-              IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
               Command="{Binding GoToRegistration}"/>
         </StackPanel>
 

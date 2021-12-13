@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HouseProjectWpfApi.View"
         mc:Ignorable="d"
-         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:viewmodel="clr-namespace:HouseProjectWpfApi.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:AdInfoViewModel}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
      TextElement.FontWeight="Regular"
      TextElement.FontSize="13"
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto"
      Background="{DynamicResource MaterialDesignPaper}"
      FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="AdInfoWindow" Height="500" Width="800">
+        Title="AdInfoWindow" Height="500" Width="800"
+        Name="AdInfoWnd">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="20" />
@@ -23,5 +24,92 @@
         </Style>
     </Window.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Price"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Region"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Distrinct"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="City"/>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Street"/>
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="House Number"/>
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Area"/>
+        <TextBlock Grid.Row="7" Grid.Column="0" Text="Floor Amount"/>
+
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="Room Number"/>
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="House Year"/>
+        <TextBlock Grid.Row="2" Grid.Column="2" Text="House Type"/>
+        <TextBlock Grid.Row="4" Grid.Column="2" Text="Pool"/>
+        <TextBlock Grid.Row="5" Grid.Column="2" Text="Balkon"/>
+        <TextBlock Grid.Row="6" Grid.Column="2" Text="Purchase"/>
+        <TextBlock Grid.Row="7" Grid.Column="2" Text="Status"/>
+        <TextBlock Grid.Row="3" Grid.Column="2" Text="Owner Email"/>
+
+        <TextBox IsReadOnly="True" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="1" Text="{Binding AdInfoDTO.Price}"/>
+        <TextBox IsReadOnly="True" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="1" Text="{Binding AdInfoDTO.Region}"/>
+        <TextBox IsReadOnly="True" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="1" Text="{Binding AdInfoDTO.District}"/>
+        <TextBox IsReadOnly="True" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="1" Text="{Binding AdInfoDTO.City}"/>
+        <TextBox IsReadOnly="True" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="1" Text="{Binding AdInfoDTO.Street}"/>
+        <TextBox IsReadOnly="True" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="1" Text="{Binding AdInfoDTO.HouseNumber}"/>
+        <TextBox IsReadOnly="True" VerticalContentAlignment="Center" Grid.Row="6" Grid.Column="1" Text="{Binding AdInfoDTO.AreaOfHouse}"/>
+        <TextBox IsReadOnly="True" VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="1" Text="{Binding AdInfoDTO.FloorAmount}"/>
+        <TextBox IsReadOnly="True" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="3" Text="{Binding AdInfoDTO.OwnerEmail}"/>
+        <TextBox IsReadOnly="True" Margin="0 0 10 0" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="3" Text="{Binding AdInfoDTO.RoomNumber}"/>
+        <TextBox IsReadOnly="True" Margin="0 0 10 0" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="4" Text="{Binding AdInfoDTO.HouseYear}"/>
+        <TextBox IsReadOnly="True" Margin="0 0 10 0" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="3" Text="{Binding AdInfoDTO.HouseType}"/>
+        <CheckBox
+            IsHitTestVisible="False"
+            HorizontalAlignment="Center"
+            FontSize="20"
+            Grid.Column="3" Grid.Row="4"
+            Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+            IsChecked="{Binding AdInfoDTO.Pool}"
+            Content="Has Pool" />
+        <CheckBox
+            IsHitTestVisible="False"
+            HorizontalAlignment="Center"
+            FontSize="20"
+            Grid.Column="3" Grid.Row="5"
+            Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+            IsChecked="{Binding AdInfoDTO.Balkon}"
+            Content="Has Balkon" />
+        <CheckBox
+            IsHitTestVisible="False"
+            HorizontalAlignment="Center"
+            FontSize="20"
+            Grid.Column="3" Grid.Row="6"
+            Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+            IsChecked="{Binding AdInfoDTO.PurchaseOportunity}"
+            Content="Can Purchase" />
+        <CheckBox
+            IsHitTestVisible="False"
+            HorizontalAlignment="Center"
+            FontSize="20"
+            Grid.Column="3" Grid.Row="7"
+            Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+            IsChecked="{Binding AdInfoDTO.Status}"
+            Content="Is free" />
+        <TextBlock Grid.Row="8" Grid.Column="0" Text="Description"/>
+        <TextBox IsReadOnly="True" Grid.Row="8" Grid.Column="1" Text="{Binding AdInfoDTO.Description}" Grid.ColumnSpan="3" Margin="0 0 0 0"
+                 TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" />
+        <Button Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="4"
+                Margin="300 0 300 0" Content="Close" FontSize="20" Height="40"
+                Command="{Binding CloseWindow}"
+                CommandParameter="{Binding ElementName=AdInfoWnd}"/>
     </Grid>
 </Window>

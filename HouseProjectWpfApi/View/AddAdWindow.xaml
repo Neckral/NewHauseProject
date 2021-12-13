@@ -99,7 +99,7 @@
             IsChecked="{Binding AdCreateDTO.Status}"
             Content="Is free" />
         <TextBlock Grid.Row="8" Grid.Column="0" Text="Description"/>
-        <TextBox Grid.Row="8" Grid.Column="1" Text="" Grid.ColumnSpan="3" Margin="0 0 0 0"
+        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding AdCreateDTO.Description}" Grid.ColumnSpan="3" Margin="0 0 0 0"
                  TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" />
         <Button Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="4"
                 Margin="300 0 300 0" Content="Publish" FontSize="20" Height="40"

@@ -78,5 +78,12 @@ namespace HouseProjectWpfApi.ViewModel
                 });
             }
         }
+
+        private void OpenAdInfoWindow(int adId)
+        {
+            Window window = new AdInfoWindow();
+            window.DataContext = new AdInfoViewModel(adServices, adId);
+            window.Show();
+        }
     }
 }

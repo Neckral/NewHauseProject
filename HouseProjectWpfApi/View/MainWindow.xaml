@@ -43,7 +43,7 @@
                     <TextBlock Grid.Column="0" Grid.Row="0"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Right"
-                               FontSize="25" FontWeight="Bold">YourProfile</TextBlock>
+                               FontSize="25" FontWeight="Bold">Your Profile</TextBlock>
                     <TextBlock Grid.Column="0" Grid.Row="1"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
@@ -106,6 +106,7 @@
                         <MenuItem Header="Delete" Command="{Binding DeleteMyAd}"/>
                         <MenuItem Header="Add To Favorites" Command="{Binding AdToFavorite}" />
                         <MenuItem Header="Add To Comparasions" Command="{Binding AdToComparasion}"/>
+                        <MenuItem Header="View Details" Command="{Binding ViewDetailMyAdInfo}"/>
                     </ContextMenu>
                 </TabItem.ContextMenu>
                 <Grid>
@@ -155,6 +156,7 @@
                 <TabItem.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Remove From Favorites" Command="{Binding RemoveFromFavorites}"/>
+                        <MenuItem Header="View Details" Command="{Binding ViewDetailFavAdInfo}"/>
                     </ContextMenu>
                 </TabItem.ContextMenu>
                 <Grid>
@@ -203,6 +205,7 @@
                 <TabItem.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Remove From Comparesion" Command="{Binding RemoveFromComparasion}"/>
+                        <MenuItem Header="View Details" Command="{Binding ViewDetailCompareAdInfo}"/>
                     </ContextMenu>
                 </TabItem.ContextMenu>
                 <Grid>

@@ -85,6 +85,18 @@ namespace HouseProjectWpfApi.ViewModel
                 }); 
             }
         }
+
+        private BaseCommand viewDetailMyAdInfo;
+        public BaseCommand ViewDetailMyAdInfo
+        {
+            get
+            {
+                return viewDetailMyAdInfo ?? new BaseCommand(obj =>
+                {
+                    OpenAdInfoWindow(SelectedMyAd.Id);
+                });
+            }
+        }
         #endregion
     }
 }

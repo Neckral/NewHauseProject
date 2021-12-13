@@ -45,5 +45,17 @@ namespace HouseProjectWpfApi.ViewModel
                 });
             }
         }
+
+        private BaseCommand viewDetailCompareAdInfo;
+        public BaseCommand ViewDetailCompareAdInfo
+        {
+            get
+            {
+                return viewDetailCompareAdInfo ?? new BaseCommand(obj =>
+                {
+                    OpenAdInfoWindow(SelectedForCompare.Id);
+                });
+            }
+        }
     }
 }
