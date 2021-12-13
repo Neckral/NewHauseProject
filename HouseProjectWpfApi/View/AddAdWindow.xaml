@@ -5,18 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HouseProjectWpfApi.View" xmlns:viewmodel="clr-namespace:HouseProjectWpfApi.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:AddAdViewModel}"
         mc:Ignorable="d"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}"
+     FontSize="20"
         Title="AddAdWindow" Height="600" Width="800">
     <Window.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontSize" Value="20" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="FontSize" Value="30" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Width" Value="150"/>
+            <Setter Property="Margin" Value="30 0 0 0"/>
         </Style>
     </Window.Resources>
     <Grid>
@@ -55,20 +59,48 @@
         <TextBlock Grid.Row="5" Grid.Column="2" Text="Purchase"/>
         <TextBlock Grid.Row="6" Grid.Column="2" Text="Status"/>
 
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding AdCreateDTO.Price}"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding AdCreateDTO.Region}"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding AdCreateDTO.District}"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding AdCreateDTO.City}"/>
-        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding AdCreateDTO.Street}"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding AdCreateDTO.HouseNumber}"/>
-        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding AdCreateDTO.AreaOfHouse}"/>
-        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding AdCreateDTO.FloorAmount}"/>
-        <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding AdCreateDTO.RoomNumber}"/>
-        <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding AdCreateDTO.HouseYear}"/>
-
+        <TextBox VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="1" Text="{Binding AdCreateDTO.Price}"/>
+        <TextBox VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="1" Text="{Binding AdCreateDTO.Region}"/>
+        <TextBox VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="1" Text="{Binding AdCreateDTO.District}"/>
+        <TextBox VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="1" Text="{Binding AdCreateDTO.City}"/>
+        <TextBox VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="1" Text="{Binding AdCreateDTO.Street}"/>
+        <TextBox VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="1" Text="{Binding AdCreateDTO.HouseNumber}"/>
+        <TextBox VerticalContentAlignment="Center" Grid.Row="6" Grid.Column="1" Text="{Binding AdCreateDTO.AreaOfHouse}"/>
+        <TextBox VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="1" Text="{Binding AdCreateDTO.FloorAmount}"/>
+        <TextBox Margin="0 0 10 0" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="3" Text="{Binding AdCreateDTO.RoomNumber}"/>
+        <TextBox Margin="0 0 10 0" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="4" Text="{Binding AdCreateDTO.HouseYear}"/>
+        <TextBox Margin="0 0 10 0" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="3" Text="{Binding AdCreateDTO.HouseType}"/>
+        <CheckBox
+            HorizontalAlignment="Center"
+            FontSize="20"
+            Grid.Column="3" Grid.Row="3"
+            Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+            IsChecked="{Binding AdCreateDTO.Pool}"
+            Content="Has Pool" />
+        <CheckBox
+            HorizontalAlignment="Center"
+            FontSize="20"
+            Grid.Column="3" Grid.Row="4"
+            Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+            IsChecked="{Binding AdCreateDTO.Balkon}"
+            Content="Has Balkon" />
+        <CheckBox
+            HorizontalAlignment="Center"
+            FontSize="20"
+            Grid.Column="3" Grid.Row="5"
+            Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+            IsChecked="{Binding AdCreateDTO.PurchaseOportunity}"
+            Content="Can Purchase" />
+        <CheckBox
+            HorizontalAlignment="Center"
+            FontSize="20"
+            Grid.Column="3" Grid.Row="6"
+            Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineCheckBox}"
+            IsChecked="{Binding AdCreateDTO.Status}"
+            Content="Is free" />
         <TextBlock Grid.Row="8" Grid.Column="0" Text="Description"/>
-        <TextBox Grid.Row="8" Grid.Column="1" Text="" Grid.ColumnSpan="3" 
-                 TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" Width="570"/>
+        <TextBox Grid.Row="8" Grid.Column="1" Text="" Grid.ColumnSpan="3" Margin="0 0 0 0"
+                 TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" />
         <Button Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="4"
                 Margin="300 0 300 0" Content="Publish" FontSize="20" Height="40"
                 Command="{Binding AddAd}"/>
