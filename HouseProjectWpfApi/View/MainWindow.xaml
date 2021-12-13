@@ -262,9 +262,9 @@
                 </TabItem.Header>
                 <TabItem.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Add To Favorites" />
-                        <MenuItem Header="Add To Comparasions"/>
-                        <MenuItem Header="View Details"/>
+                        <MenuItem Header="Add To Favorites" Command="{Binding AdToFavoriteFromAll}"/>
+                        <MenuItem Header="Add To Comparasions" Command="{Binding AdToComparasionFromAll}"/>
+                        <MenuItem Header="View Details" Command="{Binding ViewDetailOneFromAllAdInfo}"/>
                     </ContextMenu>
                 </TabItem.ContextMenu>
                 <Grid>
